@@ -1,6 +1,6 @@
 from uuid import uuid4
 from app.db.database import Base
-from sqlalchemy import Column, String, ForeignKey, Date, Integer
+from sqlalchemy import Column, String, ForeignKey, Date, Float
 
 
 class RecordLabel(Base):
@@ -9,7 +9,7 @@ class RecordLabel(Base):
     name = Column(String(50))
     address = Column(String(50))
     date_founded = Column(Date)
-    ratings = Column(Integer)
+    ratings = Column(Float)
     biography = Column(String(500))
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)

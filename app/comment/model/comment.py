@@ -1,6 +1,6 @@
 from uuid import uuid4
 from app.db.database import Base
-from sqlalchemy import Column, String, ForeignKey, DateTime, Integer
+from sqlalchemy import Column, String, ForeignKey, DateTime, Float
 
 
 class Comment(Base):
@@ -9,7 +9,7 @@ class Comment(Base):
     header = Column(String(25))
     text = Column(String(1000))
     datetime = Column(DateTime)
-    ratings = Column(Integer)
+    ratings = Column(Float)
 
     user_username = Column(String(50), ForeignKey("user.username"), nullable=False)
     song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
