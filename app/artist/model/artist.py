@@ -18,9 +18,9 @@ class Artist(Base):
     engineer = Column(Boolean, default=True)
     biography = Column(String(500), nullable=True)
 
-    album_id = Column(String(50), ForeignKey("album.id"), nullable=False)
-    song_id = Column(String(50), ForeignKey("song.id"), nullable=False)
-    genre_name = Column(String(25), ForeignKey("genre.name"), nullable=False)
+    album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
+    song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
+    genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True)
     award_name = Column(String(25), ForeignKey("award.name"), nullable=True)
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
     user_username = Column(String(50), ForeignKey("user.username"), nullable=True)

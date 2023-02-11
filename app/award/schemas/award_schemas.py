@@ -16,7 +16,6 @@ class AwardSchema(BaseModel):
 
 class AwardSchemaIn(BaseModel):
     name: str
-    award_date: date
 
     class Config:
         orm_mode = True

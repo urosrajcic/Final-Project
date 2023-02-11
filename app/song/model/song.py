@@ -15,9 +15,9 @@ class Song(Base):
     ratings = Column(Float, nullable=True)
     explicit = Column(Boolean, default=False)
 
-    album_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
-    genre_name = Column(String(50), ForeignKey("genre.name"), nullable=False)
+    album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    genre_name = Column(String(50), ForeignKey("genre.name"), nullable=True)
     award_id = Column(String(50), ForeignKey("award.name"), nullable=True)
     user_username = Column(String(50), ForeignKey("user.username"), nullable=True)
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
