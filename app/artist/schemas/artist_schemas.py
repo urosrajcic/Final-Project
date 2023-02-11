@@ -30,19 +30,8 @@ class ArtistSchema(BaseModel):
 class ArtistSchemaIn(BaseModel):
     name: str
     date_of_birth: date
-    date_of_death: date
-    ratings: float
-    vocalist: bool
-    musician: bool
-    producer: bool
-    writer: bool
-    engineer: bool
-    biography: str
 
-    genre_name: str
-    award_name: str
     country_name: str
-    user_username: str
 
     class Config:
         orm_mode = True

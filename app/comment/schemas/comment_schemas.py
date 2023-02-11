@@ -23,7 +23,6 @@ class CommentSchemasIn(BaseModel):
     header: str
     text: str
     datetime: datetime
-    ratings: float
 
     user_username: str
 

@@ -26,15 +26,9 @@ class SongSchemas(BaseModel):
 class SongSchemasIn(BaseModel):
     name: str
     length: int
-    items_sold: int
-    lyrics: str
     date_of_release: date
-    ratings: float
-    explicit: bool
 
-    genre_name: str
-    award_name: str
-    user_username: str
+    artist_id: UUID4
 
     class Config:
         orm_mode = True

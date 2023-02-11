@@ -30,17 +30,11 @@ class AlbumSchemaIn(BaseModel):
     name: str
     length: int
     date_of_release: date
-    items_sold: int
-    ratings: int
     explicit: bool
-    lp: bool
-    ep: bool
-    single: bool
-    mixtape: bool
 
+    song_id: UUID4
+    artist_id: UUID4
     genre_name: str
-    award_name: str
-    user_username: str
 
     class Config:
         orm_mode = True

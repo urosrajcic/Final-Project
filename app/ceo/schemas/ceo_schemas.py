@@ -20,8 +20,6 @@ class CEOSchemasIn(BaseModel):
     surname: str
     date_of_birth: date
     from_date: date
-    too_date: date
-    active: bool
 
     class Config:
         orm_mode = True

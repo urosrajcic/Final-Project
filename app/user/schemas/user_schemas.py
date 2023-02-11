@@ -28,8 +28,6 @@ class UserSchemasIn(BaseModel):
     name: str
     surname: str
     date_of_birth: date
-    critic: bool
-    writer: bool
 
     country_name: str
 

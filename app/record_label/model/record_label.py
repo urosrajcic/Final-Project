@@ -10,7 +10,7 @@ class RecordLabel(Base):
     address = Column(String(50))
     date_founded = Column(Date)
     ratings = Column(Float)
-    biography = Column(String(500))
+    biography = Column(String(500), nullable=True)
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
     ceo_id = Column(String(50), ForeignKey("ceo.id"), nullable=False)

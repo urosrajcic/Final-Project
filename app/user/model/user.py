@@ -14,9 +14,9 @@ class User(Base):
     writer = Column(Boolean, default=False)
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
-    song_id = Column(String(50), ForeignKey("song.id"), nullable=False)
-    artist_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
-    album_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
+    song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
+    artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
 
     def __init__(self, email, password, name, surname, date_of_birth, critic, writer,
                  country_name, song_id, artist_id, album_id):
