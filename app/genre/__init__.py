@@ -1,1 +1,1 @@
-from .model import Genre
+from .genre_schemas import GenreSchemas, GenreSchemasIn
