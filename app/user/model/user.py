@@ -18,8 +18,9 @@ class User(Base):
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
 
-    def __init__(self, email, password, name, surname, date_of_birth, critic, writer,
-                 country_name, song_id, artist_id, album_id):
+    def __init__(self, username, email, password, name, surname, date_of_birth, critic=False, writer=False,
+                 country_name=country_name, song_id=None, artist_id=None, album_id=None):
+        self.username = username
         self.email = email
         self.password = password
         self.name = name
