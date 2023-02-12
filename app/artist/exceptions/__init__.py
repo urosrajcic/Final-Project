@@ -1,0 +1,1 @@
+from .artist_exceptions import ArtistNotFoundException

@@ -17,8 +17,8 @@ class Comment(Base):
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
 
-    def __init__(self, header, text, datetime, ratings, user_username, song_id,
-                 artist_id, album_id, record_label_id):
+    def __init__(self, header, text, datetime, ratings=None, user_username=user_username, song_id=None,
+                 artist_id=None, album_id=None, record_label_id=None):
         self.header = header
         self.text = text
         self.datetime = datetime

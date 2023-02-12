@@ -56,7 +56,7 @@ class SongRepository:
             raise e
 
     def update_song(self, id: str, name=None, length=None, items_sold=None, lyrics=None, date_of_release=None,
-                    ratings=None, explicit=False, album_id=None, artist_id=None, genre_name=None,
+                    ratings=None, explicit=None, album_id=None, artist_id=None, genre_name=None,
                     award_name=None, user_username=None, record_label_id=None):
         try:
             song = self.db.query(Song).filter(Song.id == id).first()
@@ -74,8 +74,8 @@ class SongRepository:
                 song.date_of_release = date_of_release
             if ratings is not None:
                 song.ratings = ratings
-            if explicit is False:
-                song.explicit = True
+            if explicit is not None:
+                song.explicit = explicit
             if album_id is not None:
                 song.album_id = album_id
             if artist_id is not None:
