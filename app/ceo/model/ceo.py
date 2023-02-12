@@ -13,7 +13,7 @@ class CEO(Base):
     too_date = Column(Date, nullable=True)
     active = Column(Boolean, default=True)
 
-    def __init__(self, name, surname, date_of_birth, from_date, too_date, active):
+    def __init__(self, name, surname, date_of_birth, from_date, too_date=None, active=True):
         self.name = name
         self.surname = surname
         self.date_of_birth = date_of_birth

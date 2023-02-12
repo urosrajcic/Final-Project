@@ -9,13 +9,14 @@ class RecordLabel(Base):
     name = Column(String(50))
     address = Column(String(50))
     date_founded = Column(Date)
-    ratings = Column(Float)
+    ratings = Column(Float, nullable=True)
     biography = Column(String(500), nullable=True)
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
     ceo_id = Column(String(50), ForeignKey("ceo.id"), nullable=False)
 
-    def __init__(self, name, address, date_founded, ratings, biography, country_name, ceo_id):
+    def __init__(self, name, address, date_founded, ratings=None, biography=None,
+                 country_name=country_name, ceo_id=ceo_id):
         self.name = name
         self.address = address
         self.date_founded = date_founded

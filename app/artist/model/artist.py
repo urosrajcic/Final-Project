@@ -21,13 +21,14 @@ class Artist(Base):
     album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
     song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
     genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True)
-    award_name = Column(String(25), ForeignKey("award.name"), nullable=True)
+    award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
     user_username = Column(String(50), ForeignKey("user.username"), nullable=True)
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
 
-    def __init__(self, name, date_of_birth, date_of_death, ratings, vocalist, musician, producer, writer, engineer,
-                 biography, album_id, song_id, genre_name, award_name, country_name, user_username, record_label_id):
+    def __init__(self, name, date_of_birth=None, date_of_death=None, ratings=None, vocalist=False, musician=False,
+                 producer=False, writer=False, engineer=False, biography=None, album_id=None, song_id=None,
+                 genre_name=None, award_id=None, country_name=None, user_username=None, record_label_id=None):
         self.name = name
         self.date_of_birth = date_of_birth
         self.date_of_death = date_of_death
@@ -41,7 +42,7 @@ class Artist(Base):
         self.album_id = album_id
         self.song_id = song_id
         self.genre_name = genre_name
-        self.award_name = award_name
+        self.award_id = award_id
         self.country_name = country_name
         self.user_username = user_username
         self.record_label_id = record_label_id

@@ -10,7 +10,8 @@ class Genre(Base):
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
 
-    def __init__(self, song_id, artist_id, album_id):
+    def __init__(self, name, song_id=None, artist_id=None, album_id=None):
+        self.name = name
         self.song_id = song_id
         self.artist_id = artist_id
         self.album_id = album_id
