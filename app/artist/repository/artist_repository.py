@@ -8,7 +8,7 @@ class ArtistRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_artist(self, name):
+    def create_artist(self, name: str):
         try:
             artist = Artist(name)
             self.db.add(artist)
