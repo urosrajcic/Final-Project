@@ -8,7 +8,7 @@ class GenreRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_genre(self, name):
+    def create_genre(self, name: str):
         try:
             genre = Genre(name)
             self.db.add(genre)

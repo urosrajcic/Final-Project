@@ -1,3 +1,4 @@
+from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.song.exceptions import SongNotFoundException
@@ -8,7 +9,7 @@ class SongRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_song(self, name, length, date_of_release, artist_id):
+    def create_song(self, name: str, length: int, date_of_release: date, artist_id: str):
         try:
             song = Song(name, length, date_of_release, artist_id)
             self.db.add(song)
@@ -18,7 +19,7 @@ class SongRepository:
         except IntegrityError as e:
             raise e
 
-    def create_explicit_song(self, name, length, date_of_release, artist_id):
+    def create_explicit_song(self, name: str, length: int, date_of_release: date, artist_id: str):
         try:
             song = Song(name, length, date_of_release, artist_id, explicit=True)
             self.db.add(song)

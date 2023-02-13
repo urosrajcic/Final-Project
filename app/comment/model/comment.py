@@ -8,7 +8,7 @@ class Comment(Base):
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     header = Column(String(25))
     text = Column(String(1000))
-    datetime = Column(DateTime)
+    date_time = Column(DateTime)
     ratings = Column(Float)
 
     user_username = Column(String(50), ForeignKey("user.username"), nullable=False)
@@ -17,11 +17,11 @@ class Comment(Base):
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
 
-    def __init__(self, header, text, datetime, ratings=None, user_username=user_username, song_id=None,
+    def __init__(self, header, text, date_time, ratings=None, user_username=user_username, song_id=None,
                  artist_id=None, album_id=None, record_label_id=None):
         self.header = header
         self.text = text
-        self.datetime = datetime
+        self.date_time = date_time
         self.ratings = ratings
         self.user_username = user_username
         self.song_id = song_id

@@ -1,3 +1,4 @@
+from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.award.model import Award
@@ -8,7 +9,7 @@ class AwardRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_award(self, name, award_date):
+    def create_award(self, name: str, award_date: date):
         try:
             award = Award(name, award_date)
             self.db.add(award)
@@ -18,7 +19,7 @@ class AwardRepository:
         except IntegrityError as e:
             raise e
 
-    def get_awards_by_id(self, id: str):
+    def get_award_by_id(self, id: str):
         award = self.db.query(Award).filter(Award.id == id).first()
         if award is None:
             raise AwardNotFoundException(f"Award with provided id: {id} not found.", 400)
@@ -34,11 +35,11 @@ class AwardRepository:
         awards = self.db.query(Award).all()
         return awards
 
-    def delete_award_by_id(self, name: str):
+    def delete_award_by_id(self, id: str):
         try:
             award = self.db.query(Award).filter(Award.id == id).first()
             if award is None:
-                raise AwardNotFoundException(f"Award with provided name: {name} not found.", 400)
+                raise AwardNotFoundException(f"Award with provided name: {id} not found.", 400)
             self.db.delete(award)
             self.db.commit()
             return True

@@ -1,3 +1,4 @@
+from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.album.exceptions import AlbumNotFoundException
@@ -8,7 +9,7 @@ class AlbumRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_album(self, name, date_of_release, song_id, artist_id):
+    def create_album(self, name: str, date_of_release: date, song_id: str, artist_id: str):
         try:
             album = Album(name, date_of_release, song_id, artist_id)
             self.db.add(album)

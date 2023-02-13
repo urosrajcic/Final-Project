@@ -1,3 +1,4 @@
+from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.ceo.exceptions import CEONotFoundException
@@ -8,7 +9,7 @@ class CEORepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_ceo(self, name, surname, date_of_birth, from_date):
+    def create_ceo(self, name: str, surname: str, date_of_birth: date, from_date: date):
         try:
             ceo = CEO(name, surname, date_of_birth, from_date)
             self.db.add(ceo)

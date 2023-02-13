@@ -6,7 +6,7 @@ class CommentSchemas(BaseModel):
     id: UUID4
     header: str
     text: str
-    datetime: datetime
+    date_time: datetime
     ratings: float
 
     user_username: str
@@ -22,7 +22,7 @@ class CommentSchemas(BaseModel):
 class CommentSchemasIn(BaseModel):
     header: str
     text: str
-    datetime: datetime
+    date_time: datetime
 
     user_username: str
 

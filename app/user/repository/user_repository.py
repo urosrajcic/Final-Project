@@ -1,3 +1,4 @@
+from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.user.exceptions import UserNotFoundException
@@ -8,7 +9,8 @@ class UserRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_user(self, username, email, password, name, surname, date_of_birth, country_name):
+    def create_user(self, username: str, email: str, password: str, name: str, surname: str,
+                    date_of_birth: date, country_name: str):
         try:
             user = User(username, email, password, name, surname, date_of_birth, country_name)
             self.db.add(user)
@@ -18,7 +20,8 @@ class UserRepository:
         except IntegrityError as e:
             raise e
 
-    def create_critic(self, username, email, password, name, surname, date_of_birth, country_name):
+    def create_critic(self, username: str, email: str, password: str, name: str, surname: str,
+                      date_of_birth: date, country_name: str):
         try:
             critic = User(username=username, email=email, password=password, name=name, surname=surname,
                           date_of_birth=date_of_birth, country_name=country_name, critic=True)
@@ -29,7 +32,8 @@ class UserRepository:
         except IntegrityError as e:
             raise e
 
-    def create_writer(self, username, email, password, name, surname, date_of_birth, country_name):
+    def create_writer(self, username: str, email: str, password: str, name: str, surname: str,
+                      date_of_birth: date, country_name: str):
         try:
             writer = User(username=username, email=email, password=password, name=name, surname=surname,
                           date_of_birth=date_of_birth, country_name=country_name, writer=True)
@@ -40,7 +44,8 @@ class UserRepository:
         except IntegrityError as e:
             raise e
 
-    def create_writer_and_critic(self, username, email, password, name, surname, date_of_birth, country_name):
+    def create_writer_and_critic(self, username: str, email: str, password: str, name: str, surname: str,
+                                 date_of_birth: date, country_name: str):
         try:
             user = User(username=username, email=email, password=password, name=name, surname=surname,
                         date_of_birth=date_of_birth, country_name=country_name, critic=True, writer=True)

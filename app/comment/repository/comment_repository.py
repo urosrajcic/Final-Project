@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.comment.exceptions import CommentNotFoundException
@@ -8,9 +9,9 @@ class CommentRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_comment(self, header, text, datetime, user_username):
+    def create_comment(self, header: str, text: str, date_time: datetime, user_username: str):
         try:
-            comment = Comment(header, text, datetime, user_username)
+            comment = Comment(header, text, date_time, user_username)
             self.db.add(comment)
             self.db.commit()
             self.db.refresh(comment)
@@ -28,27 +29,27 @@ class CommentRepository:
         comments = self.db.query(Comment).all()
         return comments
 
-    def get_all_comments_about_artist(self, artist_id):
+    def get_all_comments_about_artist(self, artist_id: str):
         comments = self.db.query(Comment).filter(Comment.artist_id.like(artist_id)).all()
         if comments is None:
             raise CommentNotFoundException(f"Comments with provided artist id: {artist_id} not found.", 400)
 
-    def get_all_comments_about_album(self, album_id):
+    def get_all_comments_about_album(self, album_id: str):
         comments = self.db.query(Comment).filter(Comment.album_id.like(album_id)).all()
         if comments is None:
             raise CommentNotFoundException(f"Comments with provided artist id: {album_id} not found.", 400)
 
-    def get_all_comments_about_song(self, song_id):
+    def get_all_comments_about_song(self, song_id: str):
         comments = self.db.query(Comment).filter(Comment.song_id.like(song_id)).all()
         if comments is None:
             raise CommentNotFoundException(f"Comments with provided song id: {song_id} not found.", 400)
 
-    def get_all_comments_about_user(self, user_username):
+    def get_all_comments_about_user(self, user_username: str):
         comments = self.db.query(Comment).filter(Comment.user_username.like(user_username)).all()
         if comments is None:
             raise CommentNotFoundException(f"Comments with provided artist id: {user_username} not found.", 400)
 
-    def get_all_comments_about_record_label(self, record_label_id):
+    def get_all_comments_about_record_label(self, record_label_id: str):
         comments = self.db.query(Comment).filter(Comment.record_label_id.like(record_label_id)).all()
         if comments is None:
             raise CommentNotFoundException(f"Comments with provided artist id: {record_label_id} not found.", 400)
@@ -64,7 +65,7 @@ class CommentRepository:
         except Exception as e:
             raise e
 
-    def update_comment(self, id: str, header=None, text=None, datetime=None, ratings=None, user_username=None,
+    def update_comment(self, id: str, header=None, text=None, date_time=None, ratings=None, user_username=None,
                        song_id=None, artist_id=None, album_id=None, record_label_id=None):
         try:
             comment = self.db.query(Comment).filter(Comment.id == id).first()
@@ -74,8 +75,8 @@ class CommentRepository:
                 comment.header = header
             if text is not None:
                 comment.text = text
-            if datetime is not None:
-                comment.datetime = datetime
+            if date_time is not None:
+                comment.date_time = date_time
             if ratings is not None:
                 comment.ratings = ratings
             if user_username is not None:

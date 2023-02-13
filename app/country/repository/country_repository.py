@@ -8,7 +8,7 @@ class CountryRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_country(self, name):
+    def create_country(self, name: str):
         try:
             country = Country(name)
             self.db.add(country)
@@ -18,11 +18,11 @@ class CountryRepository:
         except IntegrityError as e:
             raise e
 
-    def get_country_by_characters(self, characters: str):
-        country = self.db.query(Country).filter(Country.name.like(characters + "%")).all()
-        if country is None:
+    def get_countries_by_characters(self, characters: str):
+        countries = self.db.query(Country).filter(Country.name.like(characters + "%")).all()
+        if countries is None:
             raise CountryNotFoundException(f"Country with provided characters: {characters} not found.", 400)
-        return country
+        return countries
 
     def get_all_countries(self):
         countries = self.db.query(Country).all()
