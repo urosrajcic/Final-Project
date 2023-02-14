@@ -32,11 +32,11 @@ class SongServices:
             raise e
 
     @staticmethod
-    def get_song_by_characters(characters: str):
+    def get_songs_by_characters(characters: str):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.get_song_by_characters(characters)
+                return song_repository.get_songs_by_characters(characters)
         except Exception as e:
             raise e
 

@@ -35,7 +35,7 @@ class SongRepository:
             raise SongNotFoundException(f"Song with provided id: {id} not found.", 400)
         return song
 
-    def get_song_by_characters(self, characters: str):
+    def get_songs_by_characters(self, characters: str):
         songs = self.db.query(Song).filter(Song.name.like(characters + "%")).all()
         if songs is None:
             raise SongNotFoundException(f"Song with provided characters: {characters} not found.", 400)

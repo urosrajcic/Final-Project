@@ -59,11 +59,11 @@ class CommentServices:
             raise e
 
     @staticmethod
-    def get_all_comments_about_user(user_username: str):
+    def get_all_comments_from_user(user_username: str):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
-                return comment_repository.get_all_comments_about_user(user_username)
+                return comment_repository.get_all_comments_from_user(user_username)
         except Exception as e:
             raise e
 
