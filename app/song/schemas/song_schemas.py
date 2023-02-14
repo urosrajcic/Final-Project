@@ -2,7 +2,7 @@ from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
 
-class SongSchemas(BaseModel):
+class SongSchema(BaseModel):
     id: UUID4
     name: str
     length: int
@@ -23,7 +23,7 @@ class SongSchemas(BaseModel):
         orm_mode = True
 
 
-class SongSchemasIn(BaseModel):
+class SongSchemaIn(BaseModel):
     name: str
     length: int
     date_of_release: date

@@ -1,1 +1,1 @@
-from .song_schemas import SongSchemas, SongSchemasIn
+from .song_schemas import SongSchema, SongSchemaIn

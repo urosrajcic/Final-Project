@@ -1,14 +1,14 @@
 from pydantic import BaseModel
 
 
-class CountrySchemas(BaseModel):
+class CountrySchema(BaseModel):
     name: str
 
     class Config:
         orm_mode = True
 
 
-class CountrySchemasIn(BaseModel):
+class CountrySchemaIn(BaseModel):
     name: str
 
     class Config:

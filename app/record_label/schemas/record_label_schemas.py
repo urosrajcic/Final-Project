@@ -2,7 +2,7 @@ from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
 
-class RecordLabelSchemas(BaseModel):
+class RecordLabelSchema(BaseModel):
     id: UUID4
     name: str
     address: str
@@ -17,7 +17,7 @@ class RecordLabelSchemas(BaseModel):
         orm_mode = True
 
 
-class RecordLabelSchemasIn(BaseModel):
+class RecordLabelSchemaIn(BaseModel):
     name: str
     address: str
     date_founded: date
