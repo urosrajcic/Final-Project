@@ -1,1 +1,1 @@
-from .ceo_schemas import CEOSchemas, CEOSchemasIn
+from .ceo_schemas import CEOSchema, CEOSchemaIn
