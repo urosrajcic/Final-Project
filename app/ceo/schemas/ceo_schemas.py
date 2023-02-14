@@ -2,7 +2,7 @@ from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
 
-class CEOSchemas(BaseModel):
+class CEOSchema(BaseModel):
     id: UUID4
     name: str
     surname: str
@@ -15,7 +15,7 @@ class CEOSchemas(BaseModel):
         orm_mode = True
 
 
-class CEOSchemasIn(BaseModel):
+class CEOSchemaIn(BaseModel):
     name: str
     surname: str
     date_of_birth: date
