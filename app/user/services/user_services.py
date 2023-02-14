@@ -58,11 +58,11 @@ class UserServices:
             raise e
 
     @staticmethod
-    def get_user_by_characters(characters: str):
+    def get_users_by_characters(characters: str):
         try:
             with SessionLocal() as db:
                 user_repository = UserRepository(db)
-                return user_repository.get_user_by_characters(characters)
+                return user_repository.get_users_by_characters(characters)
         except Exception as e:
             raise e
 

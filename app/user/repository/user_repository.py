@@ -62,7 +62,7 @@ class UserRepository:
             raise UserNotFoundException(f"User with provided username: {username} not found.", 400)
         return user
 
-    def get_user_by_characters(self, characters: str):
+    def get_users_by_characters(self, characters: str):
         users = self.db.query(User).filter(User.username.like(characters + "%")).all()
         if users is None:
             raise UserNotFoundException(f"User with provided characters: {characters} not found.", 400)
