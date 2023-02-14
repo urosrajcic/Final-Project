@@ -2,7 +2,7 @@ from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import datetime
 
 
-class CommentSchemas(BaseModel):
+class CommentSchema(BaseModel):
     id: UUID4
     header: str
     text: str
@@ -19,7 +19,7 @@ class CommentSchemas(BaseModel):
         orm_mode = True
 
 
-class CommentSchemasIn(BaseModel):
+class CommentSchemaIn(BaseModel):
     header: str
     text: str
     date_time: datetime

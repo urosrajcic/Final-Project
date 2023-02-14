@@ -2,7 +2,7 @@ from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
 
-class UserSchemas(BaseModel):
+class UserSchema(BaseModel):
     username: str
     email: str
     password: str
@@ -21,7 +21,7 @@ class UserSchemas(BaseModel):
         orm_mode = True
 
 
-class UserSchemasIn(BaseModel):
+class UserSchemaIn(BaseModel):
     username: str
     email: str
     password: str

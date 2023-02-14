@@ -1,1 +1,1 @@
-from .country_schemas import CountrySchemas, CountrySchemasIn
+from .country_schemas import CountrySchema, CountrySchemaIn

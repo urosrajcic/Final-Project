@@ -1,1 +1,1 @@
-from .comment_schemas import CommentSchemas, CommentSchemasIn
+from .comment_schemas import CommentSchema, CommentSchemaIn

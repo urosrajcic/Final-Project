@@ -1,7 +1,7 @@
 from pydantic import BaseModel, UUID4
 
 
-class GenreSchemas(BaseModel):
+class GenreSchema(BaseModel):
     name: str
 
     song_id: UUID4
@@ -12,7 +12,7 @@ class GenreSchemas(BaseModel):
         orm_mode = True
 
 
-class GenreSchemasIn(BaseModel):
+class GenreSchemaIn(BaseModel):
     name: str
 
     class Config:
