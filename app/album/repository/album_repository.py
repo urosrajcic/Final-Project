@@ -31,6 +31,12 @@ class AlbumRepository:
             raise Album(f"Album with provided name: {name} not found.", 400)
         return albums
 
+    def get_albums_by_artist(self, artist_id: str):
+        albums = self.db.query(Album).filter(Album.artist_id == artist_id).all()
+        if albums is None:
+            raise Album(f"Album with provided artist id: {artist_id} not found.", 400)
+        return albums
+
     def get_all_albums(self):
         albums = self.db.query(Album).all()
         return albums

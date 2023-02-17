@@ -39,6 +39,18 @@ class AlbumController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
+    def get_albums_by_artist(artist_id: str):
+        try:
+            albums = AlbumServices.get_albums_by_artist(artist_id)
+            if albums:
+                return albums
+        except AlbumNotFoundException as _e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album from provided artist id: "
+                                                                                f"{artist_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
     def get_all_albums():
         albums = AlbumServices.get_all_albums()
         return albums

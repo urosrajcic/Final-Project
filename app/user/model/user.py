@@ -1,9 +1,11 @@
+from sqlalchemy.orm import relationship
+
 from app.db.database import Base
 from sqlalchemy import Column, String, Boolean, Date, ForeignKey
 
 
 class User(Base):
-    __table_name__ = "user"
+    __tablename__ = "user"
     username = Column(String(50), primary_key=True, autoincrement=False)
     email = Column(String(100), unique=True)
     password = Column(String(100))
@@ -14,9 +16,13 @@ class User(Base):
     writer = Column(Boolean, default=False)
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
+    country = relationship("Country", lazy="subquery")
     song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
+    song = relationship("Song", lazy="subquery")
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    artist = relationship("Artist", lazy="subquery")
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    album = relationship("Album", lazy="subquery")
 
     def __init__(self, username, email, password, name, surname, date_of_birth, critic=False, writer=False,
                  country_name=country_name, song_id=None, artist_id=None, album_id=None):

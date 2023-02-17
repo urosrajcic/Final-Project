@@ -8,7 +8,7 @@ record_label_router = APIRouter(tags=["record labels"], prefix="/mdb/record labe
 @record_label_router.post("/add-new-record-label", response_model=RecordLabelSchema)
 def create_record_label(record_label: RecordLabelSchemaIn):
     return RecordLabelController.create_record_label(record_label.name, record_label.address, record_label.date_founded,
-                                                     record_label.country_name, record_label.ceo_id)
+                                                     record_label.ceo, record_label.country_name)
 
 
 @record_label_router.get("/get-record-label-by-id", response_model=RecordLabelSchema)
@@ -32,7 +32,7 @@ def delete_record_label_by_id(id: str):
 
 
 @record_label_router.put("/update-record-label-by-id", response_model=RecordLabelSchema)
-def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None,
-                        country_name=None, ceo_id=None):
-    return RecordLabelController.update_record_label(id, name, address, date_founded, ratings, biography,
-                                                     country_name, ceo_id)
+def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None, ceo=None,
+                        country_name=None):
+    return RecordLabelController.update_record_label(id, name, address, date_founded, ratings, biography, ceo,
+                                                     country_name)

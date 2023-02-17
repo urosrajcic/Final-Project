@@ -6,9 +6,9 @@ from app.record_label.services import RecordLabelServices
 
 class RecordLabelController:
     @staticmethod
-    def create_record_label(name: str, address: str, date_founded: date, country_name: str, ceo_id: str):
+    def create_record_label(name: str, address: str, date_founded: date, ceo: str, country_name: str):
         try:
-            record_label = RecordLabelServices.create_record_label(name, address, date_founded, country_name, ceo_id)
+            record_label = RecordLabelServices.create_record_label(name, address, date_founded, ceo, country_name)
             return record_label
         except RecordLabelNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -55,11 +55,11 @@ class RecordLabelController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None,
-                            country_name=None, ceo_id=None):
+    def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None, ceo=None,
+                            country_name=None):
         try:
             record_label = RecordLabelServices.update_record_label(id, name, address, date_founded, ratings, biography,
-                                                                   country_name, ceo_id)
+                                                                   ceo, country_name)
             return record_label
         except RecordLabelNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

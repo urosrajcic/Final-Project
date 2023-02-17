@@ -9,9 +9,9 @@ class RecordLabelRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_record_label(self, name: str, address: str, date_founded: date, country_name: str, ceo_id: str):
+    def create_record_label(self, name: str, address: str, date_founded: date, ceo: str, country_name: str):
         try:
-            record_label = RecordLabel(name, address, date_founded, country_name, ceo_id)
+            record_label = RecordLabel(name, address, date_founded, ceo, country_name)
             self.db.add(record_label)
             self.db.commit()
             self.db.refresh(record_label)
@@ -47,7 +47,7 @@ class RecordLabelRepository:
             raise e
 
     def update_record_label(self, id: str, name=None, address=None, date_founded=None, ratings=None, biography=None,
-                            country_name=None, ceo_id=None):
+                            ceo=None, country_name=None):
         try:
             record_label = self.db.query(RecordLabel).filter(RecordLabel.id == id).first()
             if record_label is None:
@@ -62,10 +62,10 @@ class RecordLabelRepository:
                 record_label.ratings = ratings
             if biography is not None:
                 record_label.biography = biography
+            if ceo is not None:
+                record_label.ceo = ceo
             if country_name is not None:
                 record_label.country_name = country_name
-            if ceo_id is False:
-                record_label.ceo_id = ceo_id
             self.db.add(record_label)
             self.db.commit()
             self.db.refresh(record_label)

@@ -32,6 +32,15 @@ class AlbumServices:
             raise e
 
     @staticmethod
+    def get_albums_by_artist(artist_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.get_albums_by_artist(artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def get_all_albums():
         try:
             with SessionLocal() as db:

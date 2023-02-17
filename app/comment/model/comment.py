@@ -1,10 +1,13 @@
 from uuid import uuid4
+
+from sqlalchemy.orm import relationship
+
 from app.db.database import Base
 from sqlalchemy import Column, String, ForeignKey, DateTime, Float
 
 
 class Comment(Base):
-    __table_name__ = "comment"
+    __tablename__ = "comment"
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     header = Column(String(25))
     text = Column(String(1000))
@@ -12,10 +15,15 @@ class Comment(Base):
     ratings = Column(Float)
 
     user_username = Column(String(50), ForeignKey("user.username"), nullable=False)
+    user = relationship("User", lazy="subquery")
     song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
+    song = relationship("Song", lazy="subquery")
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    artist = relationship("Artist", lazy="subquery")
     album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    album = relationship("Album", lazy="subquery")
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
+    record_label = relationship("Record Label", lazy="subquery")
 
     def __init__(self, header, text, date_time, ratings=None, user_username=user_username, song_id=None,
                  artist_id=None, album_id=None, record_label_id=None):

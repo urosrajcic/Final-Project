@@ -1,10 +1,11 @@
 mysql-connector-python
 SQLAlchemy==2.0.3
 sqlalchemy-utils
-fastapi[all]==0.91.0
+fastapi[all]==0.92.0
+mysqlclient
 fastapi-utils
 PYMYSQL
 uvicorn~=0.20.0
-pydantic~=1.10.4
+pydantic==1.10.5
 cryptography
 pylint

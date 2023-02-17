@@ -6,7 +6,6 @@ from app.db.database import Base, engine
 from app.album.routes import album_router
 from app.artist.routes import artist_router
 from app.award.routes import award_router
-from app.ceo.routes import ceo_router
 from app.comment.routes import comment_router
 from app.country.routes import country_router
 from app.genre.routes import genre_router
@@ -23,7 +22,6 @@ def init_app():
     _app.include_router(album_router)
     _app.include_router(artist_router)
     _app.include_router(award_router)
-    _app.include_router(ceo_router)
     _app.include_router(comment_router)
     _app.include_router(country_router)
     _app.include_router(genre_router)
@@ -38,7 +36,7 @@ app = init_app()
 
 
 @app.get("/", include_in_schema=False)
-def hello_world():
+def open_music_db():
     return RedirectResponse("/docs")
 
 
