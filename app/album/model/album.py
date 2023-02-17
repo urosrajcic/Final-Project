@@ -1,10 +1,11 @@
 from app.db.database import Base
 from sqlalchemy import Column, String, Integer, Date, Float, Boolean, ForeignKey
 from uuid import uuid4
+from sqlalchemy.orm import relationship
 
 
 class Album(Base):
-    __table_name__ = "album"
+    __tablename__ = "album"
 
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     name = Column(String(50))
@@ -19,11 +20,17 @@ class Album(Base):
     mixtape = Column(Boolean, default=False)
 
     song_id = Column(String(50), ForeignKey("song.id"), nullable=False)
+    song = relationship("Song", lazy="subquery")
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
+    artist = relationship("Artist", lazy="subquery")
     genre_name = Column(String(25), ForeignKey("genre.name"), nullable=False)
+    genre = relationship("Genre", lazy="subquery")
     award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
+    award = relationship("Award", lazy="subquery")
     user_username = Column(String(50), ForeignKey("user.username"), nullable=True)
+    user = relationship("User", lazy="subquery")
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
+    record_label = relationship("Record Label", lazy="subquery")
 
     def __init__(self, name=name, length=None, date_of_release=date_of_release, items_sold=None, ratings=None,
                  explicit=False, lp=False, ep=False, single=False, mixtape=False, song_id=song_id, artis_id=artist_id,

@@ -1,10 +1,11 @@
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 from sqlalchemy import Column, String, Date, Float, Boolean, ForeignKey
 from uuid import uuid4
 
 
 class Artist(Base):
-    __table_name__ = "artist"
+    __tablename__ = "artist"
 
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     name = Column(String(50))
@@ -19,12 +20,19 @@ class Artist(Base):
     biography = Column(String(500), nullable=True)
 
     album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
+    album = relationship("Album", lazy="subquery")
     song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
+    song = relationship("Song", lazy="subquery")
     genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True)
+    genre = relationship("Genre", lazy="subquery")
     award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
+    award = relationship("Award", lazy="subquery")
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
+    country = relationship("Country", lazy="subquery")
     user_username = Column(String(50), ForeignKey("user.username"), nullable=True)
+    user = relationship("User", lazy="subquery")
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
+    record_label = relationship("Record Label", lazy="subquery")
 
     def __init__(self, name, date_of_birth=None, date_of_death=None, ratings=None, vocalist=False, musician=False,
                  producer=False, writer=False, engineer=False, biography=None, album_id=None, song_id=None,

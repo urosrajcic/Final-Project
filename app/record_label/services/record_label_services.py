@@ -5,11 +5,11 @@ from app.record_label.repository.record_label_repository import RecordLabelRepos
 
 class RecordLabelServices:
     @staticmethod
-    def create_record_label(name: str, address: str, date_founded: date, country_name: str, ceo_id: str):
+    def create_record_label(name: str, address: str, date_founded: date, ceo: str, country_name: str):
         try:
             with SessionLocal() as db:
                 record_label_repository = RecordLabelRepository(db)
-                return record_label_repository.create_record_label(name, address, date_founded, country_name, ceo_id)
+                return record_label_repository.create_record_label(name, address, date_founded, ceo, country_name)
         except Exception as e:
             raise e
 
@@ -50,13 +50,13 @@ class RecordLabelServices:
             raise e
 
     @staticmethod
-    def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None,
-                            country_name=None, ceo_id=None):
+    def update_record_label(id: str, name=None, address=None, date_founded=None, ratings=None, biography=None, ceo=None,
+                            country_name=None):
         try:
             with SessionLocal() as db:
                 record_label_repository = RecordLabelRepository(db)
                 return record_label_repository.update_record_label(id, name, address, date_founded, ratings, biography,
-                                                                   country_name, ceo_id)
+                                                                   ceo, country_name)
         except Exception as e:
             raise e
         

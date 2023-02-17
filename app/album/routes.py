@@ -20,6 +20,11 @@ def get_albums_by_name(name: str):
     return AlbumController.get_album_by_name(name)
 
 
+@album_router.get("/get-albums-by-artist", response_model=list[AlbumSchema])
+def get_albums_by_name(artist_id: str):
+    return AlbumController.get_albums_by_artist(artist_id)
+
+
 @album_router.get("/get-all-albums", response_model=list[AlbumSchema])
 def get_all_albums():
     return AlbumController.get_all_albums()

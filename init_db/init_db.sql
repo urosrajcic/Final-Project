@@ -1,6 +1,6 @@
 CREATE USER 'music_nerd'@'localhost' IDENTIFIED BY 'music_nerd_pass';
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD
-on *.* TO 'music_db'@'localhost' WITH GRANT OPTION;
+on *.* TO 'music_nerd'@'localhost' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 

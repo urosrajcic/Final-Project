@@ -1,6 +1,13 @@
 from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
+from app.artist.schemas import ArtistSchema
+from app.award.schemas import AwardSchema
+from app.genre import GenreSchema
+from app.record_label.schemas import RecordLabelSchema
+from app.song.schemas import SongSchema
+from app.user.schemas import UserSchema
+
 
 class AlbumSchema(BaseModel):
     id: UUID4
@@ -16,11 +23,17 @@ class AlbumSchema(BaseModel):
     mixtape: bool
 
     song_id: UUID4
+    song: SongSchema
     artist_id: UUID4
+    artist: ArtistSchema
     genre_name: str
+    genre: GenreSchema
     award_name: str
+    award: AwardSchema
     user_username: str
+    user: UserSchema
     record_label_id: UUID4
+    record_label: RecordLabelSchema
 
     class Config:
         orm_mode = True
