@@ -46,21 +46,15 @@ class AwardRepository:
         except Exception as e:
             raise e
 
-    def update_award(self, id: str, name=None,  award_date=None, song_id=None, artist_id=None, album_id=None):
+    def update_award(self, id: str, name=None,  award_date=None):
         try:
             award = self.db.query(Award).filter(Award.id == id).first()
             if award is None:
-                raise AwardNotFoundException(f"Genre with provided id: {id} not found.", 400)
+                raise AwardNotFoundException(f"Award with provided id: {id} not found.", 400)
             if name is not None:
                 award.name = name
             if award_date is not None:
                 award.award_date = award_date
-            if song_id is not None:
-                award.song_id = song_id
-            if artist_id is not None:
-                award.artist_id = artist_id
-            if album_id is False:
-                award.album_id = album_id
             self.db.add(award)
             self.db.commit()
             self.db.refresh(award)

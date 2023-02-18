@@ -31,5 +31,5 @@ def delete_award_by_id(id: str):
 
 
 @award_router.put("/update-award-by-id", response_model=AwardSchema)
-def update_award(iid: str, name=None, award_date=None, song_id=None, artist_id=None, album_id=None):
-    return AwardController.update_award(id, name, award_date, song_id, artist_id, album_id)
+def update_award(id: str, name=None, award_date=None):
+    return AwardController.update_award(id, name, award_date)

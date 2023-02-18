@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 from app.country.controller import CountryController
-from app.country.schemas import *
+from app.country.schemas import CountrySchema
 
 country_router = APIRouter(tags=["countries"], prefix="/mdb/countries")
 
 
 @country_router.post("/add-new-country", response_model=CountrySchema)
-def create_country(country: CountrySchemaIn):
+def create_country(country: CountrySchema):
     return CountryController.create_country(country.name)
 
 

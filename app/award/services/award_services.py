@@ -50,10 +50,10 @@ class AwardServices:
             raise e
 
     @staticmethod
-    def update_award(id: str, name=None, award_date=None, song_id=None, artist_id=None, album_id=None):
+    def update_award(id: str, name=None, award_date=None):
         try:
             with SessionLocal() as db:
                 award_repository = AwardRepository(db)
-                return award_repository.update_award(id, name, award_date, song_id, artist_id, album_id)
+                return award_repository.update_award(id, name, award_date)
         except Exception as e:
             raise e

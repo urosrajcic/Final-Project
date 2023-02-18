@@ -7,9 +7,3 @@ class CountrySchema(BaseModel):
     class Config:
         orm_mode = True
 
-
-class CountrySchemaIn(BaseModel):
-    name: str
-
-    class Config:
-        orm_mode = True

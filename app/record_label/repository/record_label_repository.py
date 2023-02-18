@@ -1,4 +1,3 @@
-from datetime import date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.record_label.model import RecordLabel
@@ -9,9 +8,10 @@ class RecordLabelRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_record_label(self, name: str, address: str, date_founded: date, ceo: str, country_name: str):
+    def create_record_label(self, name: str, address: str, date_founded: str, ratings: float, biography: str,
+                            ceo: str, country_name: str):
         try:
-            record_label = RecordLabel(name, address, date_founded, ceo, country_name)
+            record_label = RecordLabel(name, address, date_founded, ratings, biography, ceo, country_name)
             self.db.add(record_label)
             self.db.commit()
             self.db.refresh(record_label)

@@ -21,11 +21,22 @@ class User(Base):
     song = relationship("Song", lazy="subquery")
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     artist = relationship("Artist", lazy="subquery")
-    album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
     album = relationship("Album", lazy="subquery")
 
-    def __init__(self, username, email, password, name, surname, date_of_birth, critic=False, writer=False,
-                 country_name=country_name, song_id=None, artist_id=None, album_id=None):
+    def __init__(self, username: str = username,
+                 email: str = username,
+                 password: str = password,
+                 name: str = name,
+                 surname: str = surname,
+                 date_of_birth: str = date_of_birth,
+                 critic: bool = False,
+                 writer: bool = False,
+                 country_name: str = country_name,
+                 song_id: str = None,
+                 artist_id: str = None,
+                 album_id: str = None
+                 ):
         self.username = username
         self.email = email
         self.password = password

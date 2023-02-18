@@ -54,7 +54,7 @@ class AlbumRepository:
 
     def update_album(self, id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
                      explicit=None, lp=None, ep=None, single=None, mixtape=None, song_id=None, artis_id=None,
-                     genre_name=None, award_id=None, user_username=None, record_label_id=None):
+                     genre_name=None, award_id=None):
         try:
             album = self.db.query(Album).filter(Album.id == id).first()
             if album is None:
@@ -87,10 +87,6 @@ class AlbumRepository:
                 album.genre_name = genre_name
             if award_id is not None:
                 album.award_id = award_id
-            if user_username is not None:
-                album.user_username = user_username
-            if record_label_id is not None:
-                album.record_label_id = record_label_id
             self.db.add(album)
             self.db.commit()
             self.db.refresh(album)

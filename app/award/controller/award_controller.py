@@ -54,9 +54,9 @@ class AwardController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_award(id: str, name=None, award_date=None, song_id=None, artist_id=None, album_id=None):
+    def update_award(id: str, name=None, award_date=None):
         try:
-            award = AwardServices.update_award(id, name, award_date, song_id, artist_id, album_id)
+            award = AwardServices.update_award(id, name, award_date)
             return award
         except AwardNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

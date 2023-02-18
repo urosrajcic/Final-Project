@@ -8,9 +8,9 @@ class ArtistRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_artist(self, name: str):
+    def create_artist(self, name: str, country_name: str, date_of_birth: str):
         try:
-            artist = Artist(name)
+            artist = Artist(name, country_name, date_of_birth)
             self.db.add(artist)
             self.db.commit()
             self.db.refresh(artist)
@@ -46,9 +46,8 @@ class ArtistRepository:
             raise e
 
     def update_artist(self, id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
-                      musician=None, producer=None, writer=None, engineer=None, biography=None, album_id=None,
-                      song_id=None, genre_name=None, award_id=None, country_name=None, user_username=None,
-                      record_label_id=None):
+                      musician=None, producer=None, writer=None, engineer=None, biography=None,
+                      genre_name=None, award_id=None, country_name=None, record_label_id=None):
         try:
             artist = self.db.query(Artist).filter(Artist.id == id).first()
             if artist is None:
@@ -73,18 +72,12 @@ class ArtistRepository:
                 artist.engineer = engineer
             if biography is False:
                 artist.biography = biography
-            if song_id is False:
-                artist.song_id = song_id
             if genre_name is False:
                 artist.genre_name = genre_name
-            if album_id is not None:
-                artist.album_id = album_id
             if country_name is False:
                 artist.country_name = country_name
             if award_id is not None:
                 artist.award_name = award_id
-            if user_username is not None:
-                artist.user_username = user_username
             if record_label_id is not None:
                 artist.record_label_id = record_label_id
             self.db.add(artist)

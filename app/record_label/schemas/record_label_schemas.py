@@ -23,7 +23,9 @@ class RecordLabelSchema(BaseModel):
 class RecordLabelSchemaIn(BaseModel):
     name: str
     address: str
-    date_founded: date
+    date_founded: str
+    ratings: float
+    biography: str
     ceo: str
 
     country_name: str

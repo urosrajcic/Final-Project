@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException, Response, status
 from app.record_label.exceptions import *
 from app.record_label.services import RecordLabelServices
@@ -6,9 +5,11 @@ from app.record_label.services import RecordLabelServices
 
 class RecordLabelController:
     @staticmethod
-    def create_record_label(name: str, address: str, date_founded: date, ceo: str, country_name: str):
+    def create_record_label(name: str, address: str, date_founded: str, ratings: float, biography: str,
+                            ceo: str, country_name: str):
         try:
-            record_label = RecordLabelServices.create_record_label(name, address, date_founded, ceo, country_name)
+            record_label = RecordLabelServices.create_record_label(name, address, date_founded, ratings, biography,
+                                                                   ceo, country_name)
             return record_label
         except RecordLabelNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

@@ -1,7 +1,5 @@
 from uuid import uuid4
-
-from sqlalchemy.orm import relationship
-
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.database import Base
 from sqlalchemy import Column, String, ForeignKey, DateTime, Float
 
@@ -20,10 +18,10 @@ class Comment(Base):
     song = relationship("Song", lazy="subquery")
     artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
     artist = relationship("Artist", lazy="subquery")
-    album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
+    album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
     album = relationship("Album", lazy="subquery")
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
-    record_label = relationship("Record Label", lazy="subquery")
+    record_label = relationship("RecordLabel", lazy="subquery")
 
     def __init__(self, header, text, date_time, ratings=None, user_username=user_username, song_id=None,
                  artist_id=None, album_id=None, record_label_id=None):

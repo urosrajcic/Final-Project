@@ -1,4 +1,4 @@
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel, UUID4, EmailStr
 from pydantic.datetime_parse import date
 
 from app.album.schemas import AlbumSchema
@@ -32,7 +32,7 @@ class UserSchema(BaseModel):
 
 class UserSchemaIn(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     password: str
     name: str
     surname: str

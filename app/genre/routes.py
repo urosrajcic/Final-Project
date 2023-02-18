@@ -6,7 +6,7 @@ genre_router = APIRouter(tags=["genres"], prefix="/mdb/genres")
 
 
 @genre_router.post("/add-new-genre", response_model=GenreSchema)
-def create_genre(genre: GenreSchemaIn):
+def create_genre(genre: GenreSchema):
     return GenreController.create_genre(genre.name)
 
 
@@ -23,8 +23,3 @@ def get_all_genres():
 @genre_router.delete("/delete-genre-by-name")
 def delete_genre_by_name(name: str):
     return GenreController.delete_genre_by_name(name)
-
-
-@genre_router.put("/update-genre-by-name", response_model=GenreSchema)
-def update_genre(name: str, song_id=None, artist_id=None, album_id=None):
-    return GenreController.update_genre(name, song_id, artist_id, album_id)

@@ -17,9 +17,14 @@ class RecordLabel(Base):
     ceo = Column(String(50))
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
-    country = relationship("Country", lazy="subquery")
+    country = relationship("Country")
 
-    def __init__(self, name, address, date_founded, ratings=None, biography=None, ceo=ceo,
+    def __init__(self, name,
+                 address,
+                 date_founded,
+                 ratings=0,
+                 biography="",
+                 ceo=ceo,
                  country_name=country_name):
         self.name = name
         self.address = address
