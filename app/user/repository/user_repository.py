@@ -1,4 +1,5 @@
 from datetime import date
+from pydantic import EmailStr
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.user.exceptions import UserNotFoundException

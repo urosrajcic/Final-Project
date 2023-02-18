@@ -4,11 +4,11 @@ from app.artist.repository.artist_repository import ArtistRepository
 
 class ArtistServices:
     @staticmethod
-    def create_artist(name: str):
+    def create_artist(name: str, country_name: str, date_of_birth: str):
         try:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
-                return artist_repository.create_artist(name)
+                return artist_repository.create_artist(name, country_name, date_of_birth)
         except Exception as e:
             raise e
 
@@ -50,15 +50,13 @@ class ArtistServices:
 
     @staticmethod
     def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
-                      musician=None, producer=None, writer=None, engineer=None, biography=None, album_id=None,
-                      song_id=None, genre_name=None, award_id=None, country_name=None, user_username=None,
-                      record_label_id=None):
+                      musician=None, producer=None, writer=None, engineer=None, biography=None,
+                      genre_name=None, award_id=None, country_name=None, record_label_id=None):
         try:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
                 return artist_repository.update_artist(id, name, date_of_birth, date_of_death, ratings, vocalist,
-                                                       musician, producer, writer, engineer, biography, album_id,
-                                                       song_id, genre_name, award_id, country_name, user_username,
-                                                       record_label_id)
+                                                       musician, producer, writer, engineer, biography,
+                                                       genre_name, award_id, country_name, record_label_id)
         except Exception as e:
             raise e

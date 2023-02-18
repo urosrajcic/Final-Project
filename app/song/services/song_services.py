@@ -60,13 +60,12 @@ class SongServices:
 
     @staticmethod
     def update_song(id: str, name=None, length=None, items_sold=None, lyrics=None, date_of_release=None,
-                    ratings=None, explicit=None, album_id=None, artist_id=None, genre_name=None,
-                    award_name=None, user_username=None, record_label_id=None):
+                    ratings=None, explicit=None, artist_id=None, genre_name=None,
+                    award_name=None):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
                 return song_repository.update_song(id, name, length, items_sold, lyrics, date_of_release, ratings,
-                                                   explicit, album_id, artist_id, genre_name,
-                                                   award_name, user_username, record_label_id)
+                                                   explicit, artist_id, genre_name, award_name)
         except Exception as e:
             raise e

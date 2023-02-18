@@ -1,15 +1,16 @@
-from datetime import date
 from app.db.database import SessionLocal
 from app.record_label.repository.record_label_repository import RecordLabelRepository
 
 
 class RecordLabelServices:
     @staticmethod
-    def create_record_label(name: str, address: str, date_founded: date, ceo: str, country_name: str):
+    def create_record_label(name: str, address: str, date_founded: str, ratings: float, biography: str,
+                            ceo: str, country_name: str):
         try:
             with SessionLocal() as db:
                 record_label_repository = RecordLabelRepository(db)
-                return record_label_repository.create_record_label(name, address, date_founded, ceo, country_name)
+                return record_label_repository.create_record_label(name, address, date_founded, ratings, biography,
+                                                                   ceo, country_name)
         except Exception as e:
             raise e
 

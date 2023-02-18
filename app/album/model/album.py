@@ -27,14 +27,10 @@ class Album(Base):
     genre = relationship("Genre", lazy="subquery")
     award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
     award = relationship("Award", lazy="subquery")
-    user_username = Column(String(50), ForeignKey("user.username"), nullable=True)
-    user = relationship("User", lazy="subquery")
-    record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
-    record_label = relationship("Record Label", lazy="subquery")
 
     def __init__(self, name=name, length=None, date_of_release=date_of_release, items_sold=None, ratings=None,
                  explicit=False, lp=False, ep=False, single=False, mixtape=False, song_id=song_id, artis_id=artist_id,
-                 genre_name=None, award_id=None, user_username=None, record_label_id=None):
+                 genre_name=None, award_id=None):
         self.name = name
         self.length = length
         self.date_of_release = date_of_release
@@ -49,5 +45,3 @@ class Album(Base):
         self.artist_id = artis_id
         self.genre_name = genre_name
         self.award_id = award_id
-        self.user_username = user_username
-        self.record_label_id = record_label_id

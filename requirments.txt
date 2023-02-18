@@ -1,11 +1,13 @@
 mysql-connector-python
-SQLAlchemy==2.0.3
+SQLAlchemy==2.0.4
 sqlalchemy-utils
 fastapi[all]==0.92.0
 mysqlclient
 fastapi-utils
 PYMYSQL
 uvicorn~=0.20.0
-pydantic==1.10.5
+pydantic[email]==1.10.5
 cryptography
 pylint
+dnspython
+email-validator

@@ -38,7 +38,6 @@ def delete_album_by_id(id: str):
 @album_router.put("/update-album-by-id", response_model=AlbumSchema)
 def update_album(id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
                  explicit=None, lp=None, ep=None, single=None, mixtape=None, song_id=None, artis_id=None,
-                 genre_name=None, award_id=None, user_username=None, record_label_id=None):
+                 genre_name=None, award_id=None):
     return AlbumController.update_album(id, name, length, date_of_release, items_sold, ratings, explicit, lp, ep,
-                                        single, mixtape, song_id, artis_id, genre_name, award_id, user_username,
-                                        record_label_id)
+                                        single, mixtape, song_id, artis_id, genre_name, award_id)

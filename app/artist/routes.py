@@ -7,7 +7,8 @@ artist_router = APIRouter(tags=["artists"], prefix="/mdb/artists")
 
 @artist_router.post("/add-new-artist", response_model=ArtistSchema)
 def create_artist(artist: ArtistSchemaIn):
-    return ArtistController.create_artist(artist.name)
+    return ArtistController.create_artist(name=artist.name, country_name=artist.country_name,
+                                          date_of_birth=artist.date_of_birth)
 
 
 @artist_router.get("/get-artist-by-id", response_model=ArtistSchema)
@@ -32,10 +33,8 @@ def delete_artist_by_id(id: str):
 
 @artist_router.put("/update-artist-by-id", response_model=ArtistSchema)
 def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
-                  musician=None, producer=None, writer=None, engineer=None, biography=None, album_id=None,
-                  song_id=None, genre_name=None, award_id=None, country_name=None, user_username=None,
-                  record_label_id=None):
+                  musician=None, producer=None, writer=None, engineer=None, biography=None,
+                  genre_name=None, award_id=None, country_name=None, record_label_id=None):
     return ArtistController.update_artist(id, name, date_of_birth, date_of_death, ratings, vocalist,
-                                          musician, producer, writer, engineer, biography, album_id,
-                                          song_id, genre_name, award_id, country_name, user_username,
-                                          record_label_id)
+                                          musician, producer, writer, engineer, biography,
+                                          genre_name, award_id, country_name, record_label_id)

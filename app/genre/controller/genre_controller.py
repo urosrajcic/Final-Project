@@ -40,13 +40,3 @@ class GenreController:
             raise HTTPException(status_code=_e.code, detail=_e.message)
         except Exception as _e:
             raise HTTPException(status_code=500, detail=str(_e))
-
-    @staticmethod
-    def update_genre(name: str, song_id=None, artist_id=None, album_id=None):
-        try:
-            genre = GenreServices.update_genre(name, song_id, artist_id, album_id)
-            return genre
-        except GenreNotFoundException as _e:
-            raise HTTPException(status_code=_e.code, detail=_e.message)
-        except Exception as _e:
-            raise _e

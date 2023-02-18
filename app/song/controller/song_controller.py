@@ -66,12 +66,11 @@ class SongController:
 
     @staticmethod
     def update_song(id: str, name=None, length=None, items_sold=None, lyrics=None, date_of_release=None,
-                    ratings=None, explicit=None, album_id=None, artist_id=None, genre_name=None,
-                    award_name=None, user_username=None, record_label_id=None):
+                    ratings=None, explicit=None, artist_id=None, genre_name=None,
+                    award_name=None):
         try:
             song = SongServices.update_song(id, name, length, items_sold, lyrics, date_of_release, ratings,
-                                            explicit, album_id, artist_id, genre_name,
-                                            award_name, user_username, record_label_id)
+                                            explicit, artist_id, genre_name, award_name)
             return song
         except SongNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

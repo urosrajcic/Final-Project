@@ -8,6 +8,7 @@ record_label_router = APIRouter(tags=["record labels"], prefix="/mdb/record labe
 @record_label_router.post("/add-new-record-label", response_model=RecordLabelSchema)
 def create_record_label(record_label: RecordLabelSchemaIn):
     return RecordLabelController.create_record_label(record_label.name, record_label.address, record_label.date_founded,
+                                                     record_label.ratings, record_label.biography,
                                                      record_label.ceo, record_label.country_name)
 
 
