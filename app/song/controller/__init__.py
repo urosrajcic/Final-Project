@@ -1,1 +1,1 @@
-from .song_controller import SongController
+from .song_controller import *

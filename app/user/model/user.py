@@ -15,37 +15,26 @@ class User(Base):
     critic = Column(Boolean, default=False)
     writer = Column(Boolean, default=False)
 
-    country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
+    country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
     country = relationship("Country", lazy="subquery")
-    song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
-    song = relationship("Song", lazy="subquery")
-    artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
-    artist = relationship("Artist", lazy="subquery")
-    album_id = Column(String(50), ForeignKey("album.id"), nullable=True)
-    album = relationship("Album", lazy="subquery")
 
-    def __init__(self, username: str = username,
-                 email: str = username,
-                 password: str = password,
-                 name: str = name,
-                 surname: str = surname,
-                 date_of_birth: str = date_of_birth,
+    def __init__(self, username: str,
+                 email: str,
+                 password: str,
+                 name: str,
+                 surname: str,
+                 date_of_birth: str,
+                 country_name: str,
                  critic: bool = False,
                  writer: bool = False,
-                 country_name: str = country_name,
-                 song_id: str = None,
-                 artist_id: str = None,
-                 album_id: str = None
+
                  ):
         self.username = username
         self.email = email
         self.password = password
         self.name = name
         self.surname = surname
-        self.date_of_birth = date_of_birth
+        self.date_of_birth = date_of_birth.strftime("%Y-%m-%d")
+        self.country_name = country_name
         self.critic = critic
         self.writer = writer
-        self.country_name = country_name
-        self.song_id = song_id
-        self.artist_id = artist_id
-        self.album_id = album_id

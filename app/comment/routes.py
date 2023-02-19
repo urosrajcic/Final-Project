@@ -7,7 +7,8 @@ comment_router = APIRouter(tags=["comments"], prefix="/mdb/comments")
 
 @comment_router.post("/add-new-comment", response_model=CommentSchema)
 def create_comment(comment: CommentSchemaIn):
-    return CommentController.create_comment(comment.header, comment.text, comment.date_time, comment.user_username)
+    return CommentController.create_comment(header=comment.header, text=comment.text,
+                                            user_username=comment.user_username)
 
 
 @comment_router.get("/get-comment-by-id", response_model=CommentSchema)
@@ -51,7 +52,7 @@ def delete_comment_by_id(id: str):
 
 
 @comment_router.put("/update-comment-by-id", response_model=CommentSchema)
-def update_comment(id: str, header=None, text=None, date_time=None, ratings=None, user_username=None,
+def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
                    song_id=None, artist_id=None, album_id=None, record_label_id=None):
-    return CommentController.update_comment(id, header, text, date_time, ratings, user_username, song_id,
+    return CommentController.update_comment(id, header, text, ratings, user_username, song_id,
                                             artist_id, album_id, record_label_id)

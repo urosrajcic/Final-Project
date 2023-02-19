@@ -1,24 +1,23 @@
-from datetime import date
 from app.db.database import SessionLocal
 from app.song.repository.song_repository import SongRepository
 
 
 class SongServices:
     @staticmethod
-    def create_song(name: str, length: int, date_of_release: date, artist_id: str):
+    def create_song(name: str, length: int, date_of_release: str):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.create_song(name, length, date_of_release, artist_id)
+                return song_repository.create_song(name, length, date_of_release)
         except Exception as e:
             raise e
 
     @staticmethod
-    def create_explicit_song(name: str, length: int, date_of_release: date, artist_id: str):
+    def create_explicit_song(name: str, length: int, date_of_release: str):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.create_song(name, length, date_of_release, artist_id)
+                return song_repository.create_song(name, length, date_of_release)
         except Exception as e:
             raise e
 
@@ -59,13 +58,21 @@ class SongServices:
             raise e
 
     @staticmethod
-    def update_song(id: str, name=None, length=None, items_sold=None, lyrics=None, date_of_release=None,
-                    ratings=None, explicit=None, artist_id=None, genre_name=None,
-                    award_name=None):
+    def update_song(id: str, name=None, length=None, date_of_release=None, items_sold=None, lyrics=None,
+                    ratings=None, explicit=None, genre_name=None, award_name=None):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.update_song(id, name, length, items_sold, lyrics, date_of_release, ratings,
-                                                   explicit, artist_id, genre_name, award_name)
+                return song_repository.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings,
+                                                   explicit, genre_name, award_name)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_artist_to_song(song_id: str, artist_id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.add_artist_to_song(song_id, artist_id)
         except Exception as e:
             raise e

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import date
 
@@ -12,21 +14,17 @@ class AlbumSchema(BaseModel):
     name: str
     length: int
     date_of_release: date
-    items_sold: int
-    ratings: int
-    explicit: bool
-    lp: bool
-    ep: bool
-    single: bool
-    mixtape: bool
+    items_sold: Optional[int] = None
+    ratings: Optional[float] = None
+    explicit: Optional[bool] = False
+    lp: Optional[bool] = False
+    ep: Optional[bool] = False
+    single: Optional[bool] = False
+    mixtape: Optional[bool] = False
 
-    song_id: UUID4
-    song: SongSchema
-    artist_id: UUID4
-    artist: ArtistSchema
-    genre_name: str
+    genre_name: Optional[str] = None
     genre: GenreSchema
-    award_name: str
+    award_id: Optional[str] = None
     award: AwardSchema
 
     class Config:
@@ -36,12 +34,7 @@ class AlbumSchema(BaseModel):
 class AlbumSchemaIn(BaseModel):
     name: str
     length: int
-    date_of_release: date
-    explicit: bool
-
-    song_id: UUID4
-    artist_id: UUID4
-    genre_name: str
+    date_of_release: str
 
     class Config:
         orm_mode = True

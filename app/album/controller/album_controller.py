@@ -1,14 +1,13 @@
 from fastapi import HTTPException, Response, status
-from pydantic.datetime_parse import date
 from app.album.exceptions import *
 from app.album.services import AlbumServices
 
 
 class AlbumController:
     @staticmethod
-    def create_album(name: str, date_of_release: date, song_id: str, artist_id: str):
+    def create_album(name: str, length: int, date_of_release: str):
         try:
-            album = AlbumServices.create_album(name, date_of_release, song_id, artist_id)
+            album = AlbumServices.create_album(name, length, date_of_release)
             return album
         except AlbumNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -39,18 +38,6 @@ class AlbumController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def get_albums_by_artist(artist_id: str):
-        try:
-            albums = AlbumServices.get_albums_by_artist(artist_id)
-            if albums:
-                return albums
-        except AlbumNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album from provided artist id: "
-                                                                                f"{artist_id}, does not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
-
-    @staticmethod
     def get_all_albums():
         albums = AlbumServices.get_all_albums()
         return albums
@@ -67,11 +54,10 @@ class AlbumController:
 
     @staticmethod
     def update_album(id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
-                     explicit=None, lp=None, ep=None, single=None, mixtape=None, song_id=None, artis_id=None,
-                     genre_name=None, award_id=None):
+                     explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
         try:
             album = AlbumServices.update_album(id, name, length, date_of_release, items_sold, ratings, explicit, lp, ep,
-                                               single, mixtape, song_id, artis_id, genre_name, award_id)
+                                               single, mixtape, genre_name, award_id)
             return album
         except AlbumNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

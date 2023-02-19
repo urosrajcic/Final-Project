@@ -5,11 +5,11 @@ from app.award.repository.award_repository import AwardRepository
 
 class AwardServices:
     @staticmethod
-    def create_award(name: str, award_date: date):
+    def create_award(name: str, category: str, award_date: str):
         try:
             with SessionLocal() as db:
                 award_repository = AwardRepository(db)
-                return award_repository.create_award(name, award_date)
+                return award_repository.create_award(name, category, award_date)
         except Exception as e:
             raise e
 
@@ -50,10 +50,10 @@ class AwardServices:
             raise e
 
     @staticmethod
-    def update_award(id: str, name=None, award_date=None):
+    def update_award(id: str, name=None, category=None, award_date=None):
         try:
             with SessionLocal() as db:
                 award_repository = AwardRepository(db)
-                return award_repository.update_award(id, name, award_date)
+                return award_repository.update_award(id, name, category, award_date)
         except Exception as e:
             raise e

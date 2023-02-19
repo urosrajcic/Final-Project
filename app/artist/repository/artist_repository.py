@@ -1,8 +1,10 @@
-
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
 from app.artist.exceptions import ArtistNotFoundException
 from app.artist.model import Artist
+from app.song import Song
+from app.song.exceptions import SongNotFoundException
 
 
 class ArtistRepository:
@@ -96,4 +98,21 @@ class ArtistRepository:
             self.db.refresh(artist)
             return artist
         except Exception as e:
+            raise e
+
+    def add_song_to_artist(self, artist_id: str, song_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            song = self.db.query(Song).filter(Song.id == song_id).first()
+            if not song:
+                raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
+
+            artist.songs.append(song)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
             raise e

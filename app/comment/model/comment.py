@@ -1,7 +1,9 @@
+from typing import Optional
 from uuid import uuid4
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 from sqlalchemy import Column, String, ForeignKey, DateTime, Float
+from datetime import datetime
 
 
 class Comment(Base):
@@ -23,11 +25,18 @@ class Comment(Base):
     record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
     record_label = relationship("RecordLabel", lazy="subquery")
 
-    def __init__(self, header, text, date_time, ratings=None, user_username=user_username, song_id=None,
-                 artist_id=None, album_id=None, record_label_id=None):
+    def __init__(self, header: str,
+                 text: str,
+                 date_time: date_time,
+                 ratings: Optional[float] = None,
+                 user_username: str = user_username,
+                 song_id: Optional[str] = None,
+                 artist_id: Optional[str] = None,
+                 album_id: Optional[str] = None,
+                 record_label_id: Optional[str] = None):
         self.header = header
         self.text = text
-        self.date_time = date_time
+        self.date_time = datetime.now()
         self.ratings = ratings
         self.user_username = user_username
         self.song_id = song_id

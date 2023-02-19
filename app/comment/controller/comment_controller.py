@@ -6,9 +6,9 @@ from app.comment.services import CommentServices
 
 class CommentController:
     @staticmethod
-    def create_comment(header: str, text: str, date_time: datetime, user_username: str):
+    def create_comment(header: str, text: str, user_username: str):
         try:
-            comment = CommentServices.create_comment(header, text, date_time, user_username)
+            comment = CommentServices.create_comment(header, text, user_username)
             return comment
         except CommentNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -103,10 +103,10 @@ class CommentController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_comment(id: str, header=None, text=None, date_time=None, ratings=None, user_username=None,
+    def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
                        song_id=None, artist_id=None, album_id=None, record_label_id=None):
         try:
-            comment = CommentServices.update_comment(id, header, text, date_time, ratings, user_username, song_id,
+            comment = CommentServices.update_comment(id, header, text, ratings, user_username, song_id,
                                                      artist_id, album_id, record_label_id)
             return comment
         except CommentNotFoundException as _e:

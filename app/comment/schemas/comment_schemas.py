@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, UUID4
 from pydantic.datetime_parse import datetime
 
@@ -13,17 +15,17 @@ class CommentSchema(BaseModel):
     header: str
     text: str
     date_time: datetime
-    ratings: float
+    ratings: Optional[float]
 
     user_username: str
     user: UserSchema
-    song_id: UUID4
+    song_id: Optional[UUID4]
     song: SongSchema
-    artist_id: UUID4
+    artist_id: Optional[UUID4]
     artist: ArtistSchema
-    album_id: UUID4
+    album_id: Optional[UUID4]
     album: AlbumSchema
-    record_label_id: UUID4
+    record_label_id: Optional[UUID4]
     record_label: RecordLabelSchema
 
     class Config:
@@ -34,7 +36,6 @@ class CommentSchemaIn(BaseModel):
     header: str
     text: str
     date_time: datetime
-
     user_username: str
 
     class Config:

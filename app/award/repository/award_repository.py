@@ -9,9 +9,9 @@ class AwardRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_award(self, name: str, award_date: date):
+    def create_award(self, name: str, category: str, award_date: str):
         try:
-            award = Award(name, award_date)
+            award = Award(name, category, award_date)
             self.db.add(award)
             self.db.commit()
             self.db.refresh(award)
@@ -46,13 +46,15 @@ class AwardRepository:
         except Exception as e:
             raise e
 
-    def update_award(self, id: str, name=None,  award_date=None):
+    def update_award(self, id: str, name=None, category=None,  award_date=None):
         try:
             award = self.db.query(Award).filter(Award.id == id).first()
             if award is None:
                 raise AwardNotFoundException(f"Award with provided id: {id} not found.", 400)
             if name is not None:
                 award.name = name
+            if category is not None:
+                award.category = category
             if award_date is not None:
                 award.award_date = award_date
             self.db.add(award)

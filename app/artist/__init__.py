@@ -1,1 +1,1 @@
-from .model import Artist
+from .model import *

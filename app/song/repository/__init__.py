@@ -1,1 +1,1 @@
-from .song_repository import SongRepository
+from .song_repository import *

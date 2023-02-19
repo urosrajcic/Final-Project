@@ -1,30 +1,21 @@
-from pydantic import BaseModel, UUID4, EmailStr
+from pydantic import BaseModel, EmailStr
 from pydantic.datetime_parse import date
 
-from app.album.schemas import AlbumSchema
-from app.artist.schemas import ArtistSchema
 from app.country.schemas import CountrySchema
-from app.song.schemas import SongSchema
 
 
 class UserSchema(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     password: str
     name: str
     surname: str
     date_of_birth: date
-    critic: bool
-    writer: bool
+    critic: bool = False
+    writer: bool = False
 
     country_name: str
     country: CountrySchema
-    song_id: UUID4
-    song: SongSchema
-    artist_id: UUID4
-    artist: ArtistSchema
-    album_id: UUID4
-    album: AlbumSchema
 
     class Config:
         orm_mode = True
@@ -32,12 +23,11 @@ class UserSchema(BaseModel):
 
 class UserSchemaIn(BaseModel):
     username: str
-    email: EmailStr
+    email: str
     password: str
     name: str
     surname: str
-    date_of_birth: date
-
+    date_of_birth: str
     country_name: str
 
     class Config:
