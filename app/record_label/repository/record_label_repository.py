@@ -8,10 +8,9 @@ class RecordLabelRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_record_label(self, name: str, address: str, date_founded: str, ratings: float, biography: str,
-                            ceo: str, country_name: str):
+    def create_record_label(self, name: str, address: str, date_founded: str, ceo: str, country_name: str):
         try:
-            record_label = RecordLabel(name, address, date_founded, ratings, biography, ceo, country_name)
+            record_label = RecordLabel(name, address, date_founded, ceo, country_name)
             self.db.add(record_label)
             self.db.commit()
             self.db.refresh(record_label)
@@ -46,8 +45,8 @@ class RecordLabelRepository:
         except Exception as e:
             raise e
 
-    def update_record_label(self, id: str, name=None, address=None, date_founded=None, ratings=None, biography=None,
-                            ceo=None, country_name=None):
+    def update_record_label(self, id: str, name=None, address=None, date_founded=None,
+                            ceo=None, country_name=None, ratings=None, biography=None):
         try:
             record_label = self.db.query(RecordLabel).filter(RecordLabel.id == id).first()
             if record_label is None:
@@ -58,14 +57,14 @@ class RecordLabelRepository:
                 record_label.address = address
             if date_founded is not None:
                 record_label.date_founded = date_founded
-            if ratings is not None:
-                record_label.ratings = ratings
-            if biography is not None:
-                record_label.biography = biography
             if ceo is not None:
                 record_label.ceo = ceo
             if country_name is not None:
                 record_label.country_name = country_name
+            if ratings is not None:
+                record_label.ratings = ratings
+            if biography is not None:
+                record_label.biography = biography
             self.db.add(record_label)
             self.db.commit()
             self.db.refresh(record_label)

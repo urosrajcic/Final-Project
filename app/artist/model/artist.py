@@ -1,6 +1,9 @@
+from datetime import date
+from typing import Optional
+
 from sqlalchemy.orm import relationship
 from app.db.database import Base
-from sqlalchemy import Column, String, Date, Float, Boolean, ForeignKey
+from sqlalchemy import Column, String, Date, Float, Boolean, ForeignKey, Text
 from uuid import uuid4
 
 
@@ -12,16 +15,16 @@ class Artist(Base):
     date_of_birth = Column(Date, nullable=True)
     date_of_death = Column(Date, nullable=True)
     ratings = Column(Float, nullable=True)
-    vocalist = Column(Boolean, default=True)
-    musician = Column(Boolean, default=True)
-    producer = Column(Boolean, default=True)
-    writer = Column(Boolean, default=True)
-    engineer = Column(Boolean, default=True)
-    biography = Column(String(500), nullable=True)
+    vocalist = Column(Boolean, default=False, nullable=True)
+    musician = Column(Boolean, default=False, nullable=True)
+    producer = Column(Boolean, default=False, nullable=True)
+    writer = Column(Boolean, default=False, nullable=True)
+    engineer = Column(Boolean, default=False, nullable=True)
+    biography = Column(Text, nullable=True)
 
-    country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
+    country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
     country = relationship("Country", lazy="subquery")
-    genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True)
+    genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True, index=True)
     genre = relationship("Genre", lazy="subquery")
     award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
     award = relationship("Award", lazy="subquery")
@@ -31,21 +34,21 @@ class Artist(Base):
     def __init__(self, name: str,
                  country_name: str,
                  date_of_birth: str,
-                 date_of_death: str = "0000-00-00",
-                 ratings: float = 0,
-                 vocalist: bool = False,
-                 musician: bool = False,
-                 producer: bool = False,
-                 writer: bool = False,
-                 engineer: bool = False,
-                 biography: str = "",
-                 genre_name: str = "",
-                 award_id: str = "",
-                 record_label_id: str = ""
+                 date_of_death: Optional[date] = None,
+                 ratings: Optional[float] = None,
+                 vocalist: Optional[bool] = False,
+                 musician: Optional[bool] = False,
+                 producer: Optional[bool] = False,
+                 writer: Optional[bool] = False,
+                 engineer: Optional[bool] = False,
+                 biography: Optional[str] = None,
+                 genre_name: Optional[str] = None,
+                 award_id: Optional[str] = None,
+                 record_label_id: Optional[str] = None,
                  ):
         self.name = name
         self.country_name = country_name
-        self.date_of_birth = date_of_birth
+        self.date_of_birth = date_of_birth.strftime("%Y-%m-%d")
         self.date_of_death = date_of_death
         self.ratings = ratings
         self.vocalist = vocalist
