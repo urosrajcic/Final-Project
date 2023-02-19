@@ -1,3 +1,4 @@
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.artist.exceptions import ArtistNotFoundException
@@ -60,21 +61,31 @@ class ArtistRepository:
                 artist.date_of_death = date_of_death
             if ratings is not None:
                 artist.ratings = ratings
-            if vocalist is False:
-                artist.vocalist = vocalist
-            if musician is False:
-                artist.musician = musician
-            if producer is False:
-                artist.producer = producer
-            if writer is False:
-                artist.writer = writer
-            if engineer is False:
-                artist.engineer = engineer
-            if biography is False:
+            if vocalist is None:
+                artist.vocalist = False
+            else:
+                artist.vocalist = True
+            if musician is None:
+                artist.musician = False
+            else:
+                artist.musician = True
+            if producer is None:
+                artist.producer = False
+            else:
+                artist.producer = True
+            if writer is None:
+                artist.writer = False
+            else:
+                artist.writer = True
+            if engineer is None:
+                artist.engineer = False
+            else:
+                artist.engineer = True
+            if biography is not None:
                 artist.biography = biography
-            if genre_name is False:
+            if genre_name is not None:
                 artist.genre_name = genre_name
-            if country_name is False:
+            if country_name is not None:
                 artist.country_name = country_name
             if award_id is not None:
                 artist.award_name = award_id
