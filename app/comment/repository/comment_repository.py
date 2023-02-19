@@ -9,9 +9,9 @@ class CommentRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_comment(self, header: str, text: str, date_time: datetime, user_username: str):
+    def create_comment(self, header: str, text: str, user_username: str):
         try:
-            comment = Comment(header, text, date_time, user_username)
+            comment = Comment(header, text, user_username)
             self.db.add(comment)
             self.db.commit()
             self.db.refresh(comment)
@@ -65,7 +65,7 @@ class CommentRepository:
         except Exception as e:
             raise e
 
-    def update_comment(self, id: str, header=None, text=None, date_time=None, ratings=None, user_username=None,
+    def update_comment(self, id: str, header=None, text=None, ratings=None, user_username=None,
                        song_id=None, artist_id=None, album_id=None, record_label_id=None):
         try:
             comment = self.db.query(Comment).filter(Comment.id == id).first()
@@ -75,8 +75,6 @@ class CommentRepository:
                 comment.header = header
             if text is not None:
                 comment.text = text
-            if date_time is not None:
-                comment.date_time = date_time
             if ratings is not None:
                 comment.ratings = ratings
             if user_username is not None:

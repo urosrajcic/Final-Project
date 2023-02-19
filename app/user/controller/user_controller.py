@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException, Response, status
 from app.user.exceptions import *
 from app.user.services import UserServices
@@ -7,7 +6,7 @@ from app.user.services import UserServices
 class UserController:
     @staticmethod
     def create_user(username: str, email: str, password: str, name: str, surname: str,
-                    date_of_birth: date, country_name: str):
+                    date_of_birth: str, country_name: str):
         try:
             user = UserServices.create_user(username, email, password, name, surname, date_of_birth,
                                             country_name)
@@ -19,7 +18,7 @@ class UserController:
 
     @staticmethod
     def create_critic(username: str, email: str, password: str, name: str, surname: str,
-                      date_of_birth: date, country_name: str):
+                      date_of_birth: str, country_name: str):
         try:
             critic = UserServices.create_critic(username, email, password, name, surname, date_of_birth,
                                                 country_name)
@@ -31,7 +30,7 @@ class UserController:
 
     @staticmethod
     def create_writer(username: str, email: str, password: str, name: str, surname: str,
-                      date_of_birth: date, country_name: str):
+                      date_of_birth: str, country_name: str):
         try:
             writer = UserServices.create_writer(username, email, password, name, surname, date_of_birth,
                                                 country_name)
@@ -43,7 +42,7 @@ class UserController:
 
     @staticmethod
     def create_writer_and_critic(username: str, email: str, password: str, name: str, surname: str,
-                                 date_of_birth: date, country_name: str):
+                                 date_of_birth: str, country_name: str):
         try:
             user = UserServices.create_writer_and_critic(username, email, password, name, surname, date_of_birth,
                                                          country_name)
@@ -105,9 +104,9 @@ class UserController:
 
     @staticmethod
     def update_user(username: str, password: str = None, name: str = None,
-                    surname: str = None, country_name: str = None):
+                    surname: str = None, date_of_birth: str = None, country_name: str = None):
         try:
-            user = UserServices.update_user(username, password, name, surname, country_name)
+            user = UserServices.update_user(username, password, name, surname, date_of_birth, country_name)
             return user
         except UserNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

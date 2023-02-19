@@ -5,11 +5,11 @@ from app.comment.repository.comment_repository import CommentRepository
 
 class CommentServices:
     @staticmethod
-    def create_comment(header: str, text: str, date_time: datetime, user_username: str):
+    def create_comment(header: str, text: str, user_username: str):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
-                return comment_repository.create_comment(header, text, date_time, user_username)
+                return comment_repository.create_comment(header, text, user_username)
         except Exception as e:
             raise e
 
@@ -86,12 +86,12 @@ class CommentServices:
             raise e
 
     @staticmethod
-    def update_comment(id: str, header=None, text=None, date_time=None, ratings=None, user_username=None,
+    def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
                        song_id=None, artist_id=None, album_id=None, record_label_id=None):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
-                return comment_repository.update_comment(id, header, text, date_time, ratings, user_username, song_id,
+                return comment_repository.update_comment(id, header, text, ratings, user_username, song_id,
                                                          artist_id, album_id, record_label_id)
         except Exception as e:
             raise e

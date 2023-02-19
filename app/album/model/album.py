@@ -19,21 +19,26 @@ class Album(Base):
     single = Column(Boolean, default=False)
     mixtape = Column(Boolean, default=False)
 
-    song_id = Column(String(50), ForeignKey("song.id"), nullable=False)
-    song = relationship("Song", lazy="subquery")
-    artist_id = Column(String(50), ForeignKey("artist.id"), nullable=False)
-    artist = relationship("Artist", lazy="subquery")
     genre_name = Column(String(25), ForeignKey("genre.name"), nullable=False)
     genre = relationship("Genre", lazy="subquery")
     award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
     award = relationship("Award", lazy="subquery")
 
-    def __init__(self, name=name, length=None, date_of_release=date_of_release, items_sold=None, ratings=None,
-                 explicit=False, lp=False, ep=False, single=False, mixtape=False, song_id=song_id, artis_id=artist_id,
-                 genre_name=None, award_id=None):
+    def __init__(self, name=name,
+                 length=length,
+                 date_of_release=date_of_release,
+                 items_sold=None,
+                 ratings=None,
+                 explicit=False,
+                 lp=False,
+                 ep=False,
+                 single=False,
+                 mixtape=False,
+                 genre_name=None,
+                 award_id=None):
         self.name = name
         self.length = length
-        self.date_of_release = date_of_release
+        self.date_of_release = date_of_release.strftime("%Y-%m-%d")
         self.items_sold = items_sold
         self.ratings = ratings
         self.explicit = explicit
@@ -41,7 +46,5 @@ class Album(Base):
         self.ep = ep
         self.single = single
         self.mixtape = mixtape
-        self.song_id = song_id
-        self.artist_id = artis_id
         self.genre_name = genre_name
         self.award_id = award_id

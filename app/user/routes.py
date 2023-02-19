@@ -56,5 +56,5 @@ def delete_user_by_username(username: str):
 
 @user_router.put("/update-user-by-username", response_model=UserSchema)
 def update_user(username: str, password: str = None, name: str = None,
-                surname: str = None, country_name: str = None):
-    return UserController.update_user(username, password, name, surname, country_name)
+                surname: str = None, date_of_birth: str = None, country_name: str = None):
+    return UserController.update_user(username, password, name, surname, date_of_birth, country_name)

@@ -32,4 +32,3 @@ class RecordLabel(Base):
         self.country_name = country_name
         self.ratings = ratings
         self.biography = biography
-

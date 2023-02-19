@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException, Response, status
 from app.award.exceptions import *
 from app.award.services import AwardServices
@@ -6,9 +5,9 @@ from app.award.services import AwardServices
 
 class AwardController:
     @staticmethod
-    def create_award(name: str, award_date: date):
+    def create_award(name: str, category: str, award_date: str):
         try:
-            award = AwardServices.create_award(name, award_date)
+            award = AwardServices.create_award(name, category, award_date)
             return award
         except AwardNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -54,9 +53,9 @@ class AwardController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_award(id: str, name=None, award_date=None):
+    def update_award(id: str, name=None, category=None, award_date=None):
         try:
-            award = AwardServices.update_award(id, name, award_date)
+            award = AwardServices.update_award(id, name, category, award_date)
             return award
         except AwardNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

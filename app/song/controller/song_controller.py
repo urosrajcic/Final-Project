@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException, Response, status
 from app.song.exceptions import *
 from app.song.services import SongServices
@@ -6,9 +5,9 @@ from app.song.services import SongServices
 
 class SongController:
     @staticmethod
-    def create_song(name: str, length: int, date_of_release: date, artist_id: str):
+    def create_song(name: str, length: int, date_of_release: str):
         try:
-            song = SongServices.create_song(name, length, date_of_release, artist_id)
+            song = SongServices.create_song(name, length, date_of_release)
             return song
         except SongNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -16,9 +15,9 @@ class SongController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def create_explicit_song(name: str, length: int, date_of_release: date, artist_id: str):
+    def create_explicit_song(name: str, length: int, date_of_release: str):
         try:
-            song = SongServices.create_song(name, length, date_of_release, artist_id)
+            song = SongServices.create_song(name, length, date_of_release)
             return song
         except SongNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -65,14 +64,24 @@ class SongController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_song(id: str, name=None, length=None, items_sold=None, lyrics=None, date_of_release=None,
-                    ratings=None, explicit=None, artist_id=None, genre_name=None,
-                    award_name=None):
+    def update_song(id: str, name=None, length=None, date_of_release=None, items_sold=None, lyrics=None,
+                    ratings=None, explicit=None, genre_name=None, award_name=None):
         try:
-            song = SongServices.update_song(id, name, length, items_sold, lyrics, date_of_release, ratings,
-                                            explicit, artist_id, genre_name, award_name)
+            song = SongServices.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings,
+                                            explicit, genre_name, award_name)
             return song
         except SongNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
         except Exception as _e:
             raise _e
+
+    @staticmethod
+    def add_artist_to_song(song_id: str, artist_id: str):
+        try:
+            song = SongServices.add_artist_to_song(song_id, artist_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))

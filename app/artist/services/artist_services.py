@@ -60,3 +60,12 @@ class ArtistServices:
                                                        genre_name, award_id, country_name, record_label_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def add_song_to_artist(artist_id: str, song_id: str):
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.add_song_to_artist(artist_id, song_id)
+        except Exception as e:
+            raise e
