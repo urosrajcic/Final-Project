@@ -1,4 +1,5 @@
-from datetime import datetime
+import uuid
+
 from fastapi import HTTPException, Response, status
 from app.comment.exceptions import *
 from app.comment.services import CommentServices
@@ -6,9 +7,29 @@ from app.comment.services import CommentServices
 
 class CommentController:
     @staticmethod
-    def create_comment(header: str, text: str, user_username: str):
+    def create_comment_about_artist(header: str, text: str, user_username: str, artist_id: uuid):
         try:
-            comment = CommentServices.create_comment(header, text, user_username)
+            comment = CommentServices.create_comment_about_artist(header, text, user_username, artist_id)
+            return comment
+        except CommentNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def create_comment_about_album(header: str, text: str, user_username: str, album_id: uuid):
+        try:
+            comment = CommentServices.create_comment_about_album(header, text, user_username, album_id)
+            return comment
+        except CommentNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def create_comment_about_song(header: str, text: str, user_username: str, song_id: uuid):
+        try:
+            comment = CommentServices.create_comment_about_song(header, text, user_username, song_id)
             return comment
         except CommentNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -30,55 +51,6 @@ class CommentController:
     def get_all_comment():
         comments = CommentServices.get_all_comments()
         return comments
-
-    @staticmethod
-    def get_all_comments_about_artist(artist_id: str):
-        try:
-            comments = CommentServices.get_all_comments_about_artist(artist_id)
-            if comments:
-                return comments
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Comments about this artist - id: "
-                                                                                f"{artist_id}, does not exist.")
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_album(album_id: str):
-        try:
-            comments = CommentServices.get_all_comments_about_album(album_id)
-            if comments:
-                return comments
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Comments about this album - id: "
-                                                                                f"{album_id}, does not exist.")
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_song(song_id: str):
-        try:
-            comments = CommentServices.get_all_comments_about_song(song_id)
-            if comments:
-                return comments
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Comments about this song - id: "
-                                                                                f"{song_id}, does not exist.")
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_record_label(record_label_id: str):
-        try:
-            comments = CommentServices.get_all_comments_about_record_label(record_label_id)
-            if comments:
-                return comments
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Comments about this record label - "
-                                                                                f"id: {record_label_id}, "
-                                                                                f"does not exist.")
-        except Exception as e:
-            raise e
 
     @staticmethod
     def get_all_comments_from_user(user_username: str):
@@ -103,11 +75,9 @@ class CommentController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
-                       song_id=None, artist_id=None, album_id=None, record_label_id=None):
+    def update_comment(id: str, header=None, text=None):
         try:
-            comment = CommentServices.update_comment(id, header, text, ratings, user_username, song_id,
-                                                     artist_id, album_id, record_label_id)
+            comment = CommentServices.update_comment(id, header, text)
             return comment
         except CommentNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

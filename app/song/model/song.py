@@ -23,6 +23,8 @@ class Song(Base):
     award = relationship("Award", lazy="subquery")
 
     artists = relationship("Artist", secondary="artist_song_association", lazy="subquery")
+    albums = relationship("Album", secondary="album_song_association", lazy="subquery")
+    comments = relationship("Comment", secondary="song_comments", lazy="subquery")
 
     def __init__(self, name: str,
                  length: int,

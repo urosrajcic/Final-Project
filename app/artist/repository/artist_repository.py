@@ -1,6 +1,8 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.album import Album
+from app.album.exceptions import AlbumNotFoundException
 from app.artist.exceptions import ArtistNotFoundException
 from app.artist.model import Artist
 from app.song import Song
@@ -48,7 +50,7 @@ class ArtistRepository:
         except Exception as e:
             raise e
 
-    def update_artist(self, id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
+    def update_artist(self, id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
                       musician=None, producer=None, writer=None, engineer=None, biography=None,
                       genre_name=None, award_id=None, country_name=None, record_label_id=None):
         try:
@@ -61,8 +63,6 @@ class ArtistRepository:
                 artist.date_of_birth = date_of_birth
             if date_of_death is not None:
                 artist.date_of_death = date_of_death
-            if ratings is not None:
-                artist.ratings = ratings
             if vocalist is None:
                 artist.vocalist = False
             else:
@@ -110,6 +110,23 @@ class ArtistRepository:
                 raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
 
             artist.songs.append(song)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def add_album_to_artist(self, artist_id: str, album_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+
+            artist.albums.append(album)
             self.db.add(artist)
             self.db.commit()
             self.db.refresh(artist)

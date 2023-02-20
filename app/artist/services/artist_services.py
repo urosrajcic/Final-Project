@@ -49,13 +49,13 @@ class ArtistServices:
             raise e
 
     @staticmethod
-    def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
+    def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
                       musician=None, producer=None, writer=None, engineer=None, biography=None,
                       genre_name=None, award_id=None, country_name=None, record_label_id=None):
         try:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
-                return artist_repository.update_artist(id, name, date_of_birth, date_of_death, ratings, vocalist,
+                return artist_repository.update_artist(id, name, date_of_birth, date_of_death,vocalist,
                                                        musician, producer, writer, engineer, biography,
                                                        genre_name, award_id, country_name, record_label_id)
         except Exception as e:
@@ -67,5 +67,14 @@ class ArtistServices:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
                 return artist_repository.add_song_to_artist(artist_id, song_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_album_to_artist(artist_id: str, album_id: str):
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.add_album_to_artist(artist_id, album_id)
         except Exception as e:
             raise e

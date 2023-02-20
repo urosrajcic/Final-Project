@@ -13,15 +13,6 @@ class SongServices:
             raise e
 
     @staticmethod
-    def create_explicit_song(name: str, length: int, date_of_release: str):
-        try:
-            with SessionLocal() as db:
-                song_repository = SongRepository(db)
-                return song_repository.create_song(name, length, date_of_release)
-        except Exception as e:
-            raise e
-
-    @staticmethod
     def get_song_by_id(id: str):
         try:
             with SessionLocal() as db:
@@ -74,5 +65,14 @@ class SongServices:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
                 return song_repository.add_artist_to_song(song_id, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_album_to_song(song_id: str, album_id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.add_album_to_song(song_id, album_id)
         except Exception as e:
             raise e

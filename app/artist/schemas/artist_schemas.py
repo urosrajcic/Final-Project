@@ -26,6 +26,8 @@ class ArtistSchema(BaseModel):
     country: CountrySchema
 
     songs = []
+    albums = []
+    comments = []
 
     class Config:
         orm_mode = True

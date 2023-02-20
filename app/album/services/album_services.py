@@ -58,3 +58,21 @@ class AlbumServices:
                                                      explicit, lp, ep, single, mixtape, genre_name, award_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def add_artist_to_album(album_id: str, artist_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.add_artist_to_album(album_id, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_song_to_album(album_id: str, song_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.add_song_to_album(album_id, song_id)
+        except Exception as e:
+            raise e

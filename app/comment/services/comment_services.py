@@ -1,15 +1,33 @@
-from datetime import datetime
+import uuid
 from app.db.database import SessionLocal
 from app.comment.repository.comment_repository import CommentRepository
 
 
 class CommentServices:
     @staticmethod
-    def create_comment(header: str, text: str, user_username: str):
+    def create_comment_about_artist(header: str, text: str, user_username: str, artist_id: uuid):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
-                return comment_repository.create_comment(header, text, user_username)
+                return comment_repository.create_comment_about_artist(header, text, user_username, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def create_comment_about_album(header: str, text: str, user_username: str, album_id: uuid):
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.create_comment_about_album(header, text, user_username, album_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def create_comment_about_song(header: str, text: str, user_username: str, song_id: uuid):
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.create_comment_about_song(header, text, user_username, song_id)
         except Exception as e:
             raise e
 
@@ -32,47 +50,11 @@ class CommentServices:
             raise e
 
     @staticmethod
-    def get_all_comments_about_artist(artist_id: str):
-        try:
-            with SessionLocal() as db:
-                comment_repository = CommentRepository(db)
-                return comment_repository.get_all_comments_about_artist(artist_id)
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_album(album_id: str):
-        try:
-            with SessionLocal() as db:
-                comment_repository = CommentRepository(db)
-                return comment_repository.get_all_comments_about_album(album_id)
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_song(song_id: str):
-        try:
-            with SessionLocal() as db:
-                comment_repository = CommentRepository(db)
-                return comment_repository.get_all_comments_about_song(song_id)
-        except Exception as e:
-            raise e
-
-    @staticmethod
     def get_all_comments_from_user(user_username: str):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
                 return comment_repository.get_all_comments_from_user(user_username)
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def get_all_comments_about_record_label(record_label_id: str):
-        try:
-            with SessionLocal() as db:
-                comment_repository = CommentRepository(db)
-                return comment_repository.get_all_comments_about_record_label(record_label_id)
         except Exception as e:
             raise e
 
@@ -86,12 +68,10 @@ class CommentServices:
             raise e
 
     @staticmethod
-    def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
-                       song_id=None, artist_id=None, album_id=None, record_label_id=None):
+    def update_comment(id: str, header=None, text=None):
         try:
             with SessionLocal() as db:
                 comment_repository = CommentRepository(db)
-                return comment_repository.update_comment(id, header, text, ratings, user_username, song_id,
-                                                         artist_id, album_id, record_label_id)
+                return comment_repository.update_comment(id, header, text)
         except Exception as e:
             raise e

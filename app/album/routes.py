@@ -35,3 +35,13 @@ def update_album(id: str, name=None, length=None, date_of_release=None, items_so
                  explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
     return AlbumController.update_album(id, name, length, date_of_release, items_sold, ratings, explicit, lp, ep,
                                         single, mixtape, genre_name, award_id)
+
+
+@album_router.put("/add-artist-to-album", response_model=AlbumSchema)
+def add_artist_to_album(album_id: str, artist_id: str):
+    return AlbumController.add_artist_to_album(album_id, artist_id)
+
+
+@album_router.put("/add-song-to-album", response_model=AlbumSchema)
+def add_song_to_album(album_id: str, song_id: str):
+    return AlbumController.add_song_to_album(album_id, song_id)
