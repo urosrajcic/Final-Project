@@ -32,9 +32,9 @@ def delete_album_by_id(id: str):
 
 @album_router.put("/update-album-by-id", response_model=AlbumSchema)
 def update_album(id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
-                 explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
+                 explicit=None, lp=None, ep=None, single=None, mixtape=None):
     return AlbumController.update_album(id, name, length, date_of_release, items_sold, ratings, explicit, lp, ep,
-                                        single, mixtape, genre_name, award_id)
+                                        single, mixtape)
 
 
 @album_router.put("/add-artist-to-album", response_model=AlbumSchema)
@@ -45,3 +45,13 @@ def add_artist_to_album(album_id: str, artist_id: str):
 @album_router.put("/add-song-to-album", response_model=AlbumSchema)
 def add_song_to_album(album_id: str, song_id: str):
     return AlbumController.add_song_to_album(album_id, song_id)
+
+
+@album_router.put("/add-award-to-album", response_model=AlbumSchema)
+def add_award_to_album(album_id: str, award_id: str):
+    return AlbumController.add_award_to_album(album_id, award_id)
+
+
+@album_router.put("/add-genre-to-album", response_model=AlbumSchema)
+def add_genre_to_album(album_id: str, genre_name: str):
+    return AlbumController.add_genre_to_album(album_id, genre_name)

@@ -55,10 +55,10 @@ class SongController:
 
     @staticmethod
     def update_song(id: str, name=None, length=None, date_of_release=None, items_sold=None, lyrics=None,
-                    ratings=None, explicit=None, genre_name=None, award_name=None):
+                    ratings=None, explicit=None):
         try:
             song = SongServices.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings,
-                                            explicit, genre_name, award_name)
+                                            explicit)
             return song
         except SongNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -80,6 +80,28 @@ class SongController:
     def add_album_to_song(song_id: str, album_id: str):
         try:
             song = SongServices.add_album_to_song(song_id, album_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_award_to_song(song_id: str, award_id: str):
+        try:
+            song = SongServices.add_award_to_song(song_id, award_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_genre_to_song(song_id: str, genre_name: str):
+        try:
+            song = SongServices.add_genre_to_song(song_id, genre_name)
             if song:
                 return song
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "

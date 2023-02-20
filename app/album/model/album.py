@@ -21,12 +21,12 @@ class Album(Base):
 
     genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True)
     genre = relationship("Genre", lazy="subquery")
-    award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
-    award = relationship("Award", lazy="subquery")
 
     artists = relationship("Artist", secondary="artist_album_association", lazy="subquery")
     songs = relationship("Song", secondary="album_song_association", lazy="subquery")
     comments = relationship("Comment", secondary="album_comments", lazy="subquery")
+    awards = relationship("Award", secondary="album_awards", lazy="subquery")
+    genres = relationship("Genre", secondary="album_genres", lazy="subquery")
 
     def __init__(self, name: str,
                  length: int,

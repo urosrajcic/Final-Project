@@ -16,10 +16,6 @@ class CommentSchema(BaseModel):
     user_username: str
     user: UserSchema
 
-    artist: str
-    album: str
-    song: str
-
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True

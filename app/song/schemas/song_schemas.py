@@ -14,12 +14,12 @@ class SongSchema(BaseModel):
     lyrics: Optional[str]
     ratings: Optional[float]
     explicit: Optional[bool]
-    genre_name: Optional[str]
-    award_id: Optional[str]
 
     artists = []
     albums = []
     comments = []
+    awards = []
+    genres = []
 
     class Config:
         orm_mode = True

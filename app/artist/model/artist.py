@@ -23,16 +23,14 @@ class Artist(Base):
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
     country = relationship("Country", lazy="subquery")
-    genre_name = Column(String(25), ForeignKey("genre.name"), nullable=True, index=True)
-    genre = relationship("Genre", lazy="subquery")
-    award_id = Column(String(25), ForeignKey("award.id"), nullable=True)
-    award = relationship("Award", lazy="subquery")
     record_label_id = Column(String(25), ForeignKey("record_label.id"), nullable=True)
     record_label = relationship("RecordLabel", lazy="subquery")
 
     songs = relationship("Song", secondary="artist_song_association", lazy="subquery")
     albums = relationship("Album", secondary="artist_album_association", lazy="subquery")
     comments = relationship("Comment", secondary="artist_comments", lazy="subquery")
+    awards = relationship("Award", secondary="artist_awards", lazy="subquery")
+    genres = relationship("Genre", secondary="artist_genres", lazy="subquery")
 
     def __init__(self, name: str,
                  country_name: str,

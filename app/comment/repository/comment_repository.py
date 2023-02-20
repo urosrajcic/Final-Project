@@ -19,12 +19,9 @@ class CommentRepository:
     def create_comment_about_artist(self, header: str, text: str, user_username: str, artist_id: uuid):
         try:
             comment = Comment(header, text, user_username)
-            self.db.add(comment)
-            self.db.commit()
-            self.db.refresh(comment)
             artist = self.db.query(Artist).filter(Artist.id is artist_id).first()
             if not artist:
-                raise ArtistNotFoundException(f"Artist with provided id: {artist_id} not found.", 400)
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
             artist.comments.append(comment)
             self.db.add(artist)
             self.db.commit()

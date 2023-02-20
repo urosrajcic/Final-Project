@@ -17,14 +17,11 @@ class Song(Base):
     ratings = Column(Float, nullable=True)
     explicit = Column(Boolean, default=False)
 
-    genre_name = Column(String(50), ForeignKey("genre.name"), nullable=True)
-    genre = relationship("Genre", lazy="subquery")
-    award_id = Column(String(50), ForeignKey("award.id"), nullable=True)
-    award = relationship("Award", lazy="subquery")
-
     artists = relationship("Artist", secondary="artist_song_association", lazy="subquery")
     albums = relationship("Album", secondary="album_song_association", lazy="subquery")
     comments = relationship("Comment", secondary="song_comments", lazy="subquery")
+    awards = relationship("Award", secondary="song_awards", lazy="subquery")
+    genres = relationship("Genre", secondary="song_genres", lazy="subquery")
 
     def __init__(self, name: str,
                  length: int,

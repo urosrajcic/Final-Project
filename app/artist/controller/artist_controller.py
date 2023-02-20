@@ -55,11 +55,11 @@ class ArtistController:
     @staticmethod
     def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
                       musician=None, producer=None, writer=None, engineer=None, biography=None,
-                      genre_name=None, award_id=None, country_name=None, record_label_id=None):
+                      country_name=None, record_label_id=None):
         try:
             artist = ArtistServices.update_artist(id, name, date_of_birth, date_of_death, vocalist,
                                                   musician, producer, writer, engineer, biography,
-                                                  genre_name, award_id, country_name, record_label_id)
+                                                  country_name, record_label_id)
             return artist
         except ArtistNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -81,6 +81,28 @@ class ArtistController:
     def add_album_to_artist(artist_id: str, album_id: str):
         try:
             artist = ArtistServices.add_album_to_artist(artist_id, album_id)
+            if artist:
+                return artist
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
+                                                                                f"{artist_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_award_to_artist(artist_id: str, award_id: str):
+        try:
+            artist = ArtistServices.add_award_to_artist(artist_id, award_id)
+            if artist:
+                return artist
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
+                                                                                f"{artist_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_genre_to_artist(artist_id: str, genre_name: str):
+        try:
+            artist = ArtistServices.add_genre_to_artist(artist_id, genre_name)
             if artist:
                 return artist
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
