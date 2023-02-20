@@ -1,37 +1,31 @@
-from datetime import datetime, date
-from typing import Optional, List
+from datetime import date, datetime
+from typing import Optional
+
 from pydantic import BaseModel, UUID4, validator
 
-from app.award.schemas import AwardSchema
 from app.country.schemas import CountrySchema
-from app.genre import GenreSchema
-from app.record_label.schemas import RecordLabelSchema
-from app.song.schemas import SongSchema
 
 
 class ArtistSchema(BaseModel):
     id: UUID4
     name: str
     date_of_birth: date
-    date_of_death: Optional[date] = None
-    ratings: Optional[float] = None
-    vocalist: Optional[bool] = False
-    musician: Optional[bool] = False
-    producer: Optional[bool] = False
-    writer: Optional[bool] = False
-    engineer: Optional[bool] = False
-    biography: Optional[str] = None
+    date_of_death: Optional[date]
+    ratings: Optional[float]
+    vocalist: Optional[bool]
+    musician: Optional[bool]
+    producer: Optional[bool]
+    writer: Optional[bool]
+    engineer: Optional[bool]
+    biography: Optional[str]
     country_name: str
-    genre_name: Optional[str] = None
-    award_id: Optional[str] = None
-    record_label_id: Optional[str] = None
+    genre_name: Optional[str]
+    award_id: Optional[UUID4]
+    record_label_id: Optional[UUID4]
 
     country: CountrySchema
-    genre: GenreSchema
-    award: AwardSchema
-    record_label: RecordLabelSchema
 
-    songs: Optional[List[SongSchema]] = []
+    songs = []
 
     class Config:
         orm_mode = True
