@@ -4,6 +4,10 @@ from app.album.exceptions import AlbumNotFoundException
 from app.album.model import Album
 from app.artist import Artist
 from app.artist.exceptions import ArtistNotFoundException
+from app.award import Award
+from app.award.exceptions import AwardNotFoundException
+from app.genre.exceptions import GenreNotFoundException
+from app.genre.model import Genre
 from app.song import Song
 from app.song.exceptions import SongNotFoundException
 
@@ -31,7 +35,7 @@ class AlbumRepository:
     def get_album_by_name(self, name: str):
         albums = self.db.query(Album).filter(Album.name.like(name + "%")).all()
         if albums is None:
-            raise Album(f"Album with provided name: {name} not found.", 400)
+            raise AlbumNotFoundException(f"Album with provided name: {name} not found.", 400)
         return albums
 
     def get_all_albums(self):
@@ -50,7 +54,7 @@ class AlbumRepository:
             raise e
 
     def update_album(self, id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
-                     explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
+                     explicit=None, lp=None, ep=None, single=None, mixtape=None):
         try:
             album = self.db.query(Album).filter(Album.id == id).first()
             if album is None:
@@ -85,10 +89,6 @@ class AlbumRepository:
                 album.mixtape = False
             else:
                 album.mixtape = True
-            if genre_name is not None:
-                album.genre_name = genre_name
-            if award_id is not None:
-                album.award_id = award_id
             self.db.add(album)
             self.db.commit()
             self.db.refresh(album)
@@ -123,6 +123,39 @@ class AlbumRepository:
                 raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
 
             album.artists.append(song)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
+            raise e
+
+    def add_award_to_album(self, album_id: str, award_id: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            award = self.db.query(Award).filter(Award.id == award_id).first()
+            if not award:
+                raise AwardNotFoundException(f"Award with provided id: {award_id} not found.", 400)
+
+            album.awards.append(award)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
+            raise e
+
+    def add_genre_to_album(self, album_id: str, genre_name: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            genre = self.db.query(Genre).filter(Genre.name == genre_name).first()
+            if not genre:
+                raise GenreNotFoundException(f"Genre with provided name: {genre_name} not found.", 400)
+            album.genres.append(genre)
             self.db.add(album)
             self.db.commit()
             self.db.refresh(album)

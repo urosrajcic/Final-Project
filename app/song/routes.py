@@ -32,9 +32,8 @@ def delete_song_by_id(id: str):
 
 @song_router.put("/update-song-by-id", response_model=SongSchema)
 def update_song(id: str, name=None, length=None, date_of_release=None, items_sold=None, lyrics=None,
-                ratings=None, explicit=None, genre_name=None, award_name=None):
-    return SongController.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings,
-                                      explicit, genre_name, award_name)
+                ratings=None, explicit=None):
+    return SongController.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings, explicit)
 
 
 @song_router.put("/add-artist-to-song", response_model=SongSchema)
@@ -45,3 +44,13 @@ def add_artist_to_song(song_id: str, artist_id: str):
 @song_router.put("/add-album-to-song", response_model=SongSchema)
 def add_album_to_song(song_id: str, album_id: str):
     return SongController.add_album_to_song(song_id, album_id)
+
+
+@song_router.put("/add-award-to-song", response_model=SongSchema)
+def add_award_to_song(song_id: str, award_id: str):
+    return SongController.add_award_to_song(song_id, award_id)
+
+
+@song_router.put("/add-genre-to-song", response_model=SongSchema)
+def add_genre_to_song(song_id: str, genre_name: str):
+    return SongController.add_genre_to_song(song_id, genre_name)

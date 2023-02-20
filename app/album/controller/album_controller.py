@@ -54,10 +54,10 @@ class AlbumController:
 
     @staticmethod
     def update_album(id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
-                     explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
+                     explicit=None, lp=None, ep=None, single=None, mixtape=None):
         try:
             album = AlbumServices.update_album(id, name, length, date_of_release, items_sold, ratings, explicit, lp, ep,
-                                               single, mixtape, genre_name, award_id)
+                                               single, mixtape)
             return album
         except AlbumNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)
@@ -86,3 +86,24 @@ class AlbumController:
         except Exception as _e:
             raise HTTPException(status_code=500, detail=str(_e))
 
+    @staticmethod
+    def add_award_to_album(album_id: str, award_id: str):
+        try:
+            album = AlbumServices.add_award_to_album(album_id, award_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_genre_to_album(album_id: str, genre_name: str):
+        try:
+            album = AlbumServices.add_genre_to_album(album_id, genre_name)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))

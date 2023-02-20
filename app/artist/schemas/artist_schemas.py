@@ -19,8 +19,6 @@ class ArtistSchema(BaseModel):
     engineer: Optional[bool]
     biography: Optional[str]
     country_name: str
-    genre_name: Optional[str]
-    award_id: Optional[UUID4]
     record_label_id: Optional[UUID4]
 
     country: CountrySchema
@@ -28,6 +26,8 @@ class ArtistSchema(BaseModel):
     songs = []
     albums = []
     comments = []
+    awards = []
+    genres = []
 
     class Config:
         orm_mode = True

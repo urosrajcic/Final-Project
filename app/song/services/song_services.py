@@ -50,12 +50,12 @@ class SongServices:
 
     @staticmethod
     def update_song(id: str, name=None, length=None, date_of_release=None, items_sold=None, lyrics=None,
-                    ratings=None, explicit=None, genre_name=None, award_name=None):
+                    ratings=None, explicit=None):
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
                 return song_repository.update_song(id, name, length, date_of_release, items_sold, lyrics, ratings,
-                                                   explicit, genre_name, award_name)
+                                                   explicit)
         except Exception as e:
             raise e
 
@@ -74,5 +74,23 @@ class SongServices:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
                 return song_repository.add_album_to_song(song_id, album_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_award_to_song(song_id: str, award_id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.add_award_to_song(song_id, award_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_genre_to_song(song_id: str, genre_name: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.add_genre_to_song(song_id, genre_name)
         except Exception as e:
             raise e

@@ -50,12 +50,12 @@ class AlbumServices:
 
     @staticmethod
     def update_album(id: str, name=None, length=None, date_of_release=None, items_sold=None, ratings=None,
-                     explicit=None, lp=None, ep=None, single=None, mixtape=None, genre_name=None, award_id=None):
+                     explicit=None, lp=None, ep=None, single=None, mixtape=None):
         try:
             with SessionLocal() as db:
                 album_repository = AlbumRepository(db)
                 return album_repository.update_album(id, name, length, date_of_release, items_sold, ratings,
-                                                     explicit, lp, ep, single, mixtape, genre_name, award_id)
+                                                     explicit, lp, ep, single, mixtape)
         except Exception as e:
             raise e
 
@@ -74,5 +74,23 @@ class AlbumServices:
             with SessionLocal() as db:
                 album_repository = AlbumRepository(db)
                 return album_repository.add_song_to_album(album_id, song_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_award_to_album(album_id: str, award_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.add_award_to_album(album_id, award_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_genre_to_album(album_id: str, genre_name: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.add_genre_to_album(album_id, genre_name)
         except Exception as e:
             raise e
