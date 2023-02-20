@@ -33,10 +33,10 @@ def delete_artist_by_id(id: str):
 
 
 @artist_router.put("/update-artist-by-id", response_model=ArtistSchema)
-def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, ratings=None, vocalist=None,
+def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
                   musician=None, producer=None, writer=None, engineer=None, biography=None,
                   genre_name=None, award_id=None, country_name=None, record_label_id=None):
-    return ArtistController.update_artist(id, name, date_of_birth, date_of_death, ratings, vocalist,
+    return ArtistController.update_artist(id, name, date_of_birth, date_of_death, vocalist,
                                           musician, producer, writer, engineer, biography,
                                           genre_name, award_id, country_name, record_label_id)
 
@@ -44,3 +44,8 @@ def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, ra
 @artist_router.put("/add-song-to-artist", response_model=ArtistSchema)
 def add_song_to_artist(artist_id: str, song_id: str):
     return ArtistController.add_song_to_artist(artist_id, song_id)
+
+
+@artist_router.put("/add-album-to-artist", response_model=ArtistSchema)
+def add_album_to_artist(artist_id: str, album_id: str):
+    return ArtistController.add_album_to_artist(artist_id, album_id)

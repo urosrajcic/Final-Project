@@ -1,14 +1,33 @@
 from fastapi import APIRouter
+
+from app.album.schemas import AlbumSchema
+from app.artist.schemas import ArtistSchema
 from app.comment.controller import CommentController
 from app.comment.schemas import *
+from app.song.schemas import SongSchema
 
 comment_router = APIRouter(tags=["comments"], prefix="/mdb/comments")
 
 
-@comment_router.post("/add-new-comment", response_model=CommentSchema)
-def create_comment(comment: CommentSchemaIn):
-    return CommentController.create_comment(header=comment.header, text=comment.text,
-                                            user_username=comment.user_username)
+@comment_router.post("/add-new-comment_to_artist", response_model=CommentSchema)
+def create_comment_about_artist(comment: CommentSchemaIn, artist: ArtistSchema):
+    return CommentController.create_comment_about_artist(header=comment.header, text=comment.text,
+                                                         user_username=comment.user_username,
+                                                         artist_id=artist.id)
+
+
+@comment_router.post("/add-new-comment_to_album", response_model=CommentSchema)
+def create_comment_about_album(comment: CommentSchemaIn, album: AlbumSchema):
+    return CommentController.create_comment_about_album(header=comment.header, text=comment.text,
+                                                        user_username=comment.user_username,
+                                                        album_id=album.id)
+
+
+@comment_router.post("/add-new-comment_to_song", response_model=CommentSchema)
+def create_comment_about_song(comment: CommentSchemaIn, song: SongSchema):
+    return CommentController.create_comment_about_song(header=comment.header, text=comment.text,
+                                                       user_username=comment.user_username,
+                                                       song_id=song.id)
 
 
 @comment_router.get("/get-comment-by-id", response_model=CommentSchema)
@@ -19,26 +38,6 @@ def get_comment_by_id(id: str):
 @comment_router.get("/get-all-comments", response_model=list[CommentSchema])
 def get_all_comments():
     return CommentController.get_all_comment()
-
-
-@comment_router.get("/get-all-comments-about-an-artist", response_model=list[CommentSchema])
-def get_all_about_artist(artist_id: str):
-    return CommentController.get_all_comments_about_artist(artist_id)
-
-
-@comment_router.get("/get-all-comments-about-an-album", response_model=list[CommentSchema])
-def get_all_comments_about_album(album_id: str):
-    return CommentController.get_all_comments_about_album(album_id)
-
-
-@comment_router.get("/get-all-comments-a-song", response_model=list[CommentSchema])
-def get_all_comments_about_song(song_id: str):
-    return CommentController.get_all_comments_about_song(song_id)
-
-
-@comment_router.get("/get-all-comments-a-record_label", response_model=list[CommentSchema])
-def get_all_comments_about_record_label(record_label_id: str):
-    return CommentController.get_all_comments_about_record_label(record_label_id)
 
 
 @comment_router.get("/get-all-comments-from-a-user", response_model=list[CommentSchema])
@@ -52,7 +51,5 @@ def delete_comment_by_id(id: str):
 
 
 @comment_router.put("/update-comment-by-id", response_model=CommentSchema)
-def update_comment(id: str, header=None, text=None, ratings=None, user_username=None,
-                   song_id=None, artist_id=None, album_id=None, record_label_id=None):
-    return CommentController.update_comment(id, header, text, ratings, user_username, song_id,
-                                            artist_id, album_id, record_label_id)
+def update_comment(id: str, header=None, text=None):
+    return CommentController.update_comment(id, header, text)

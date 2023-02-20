@@ -18,6 +18,8 @@ class SongSchema(BaseModel):
     award_id: Optional[str]
 
     artists = []
+    albums = []
+    comments = []
 
     class Config:
         orm_mode = True

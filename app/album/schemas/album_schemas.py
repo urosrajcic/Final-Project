@@ -1,12 +1,8 @@
+from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel, UUID4, validator
 from pydantic.datetime_parse import date
-
-from app.artist.schemas import ArtistSchema
-from app.award.schemas import AwardSchema
-from app.genre import GenreSchema
-from app.song.schemas import SongSchema
 
 
 class AlbumSchema(BaseModel):
@@ -14,21 +10,24 @@ class AlbumSchema(BaseModel):
     name: str
     length: int
     date_of_release: date
-    items_sold: Optional[int] = None
-    ratings: Optional[float] = None
-    explicit: Optional[bool] = False
-    lp: Optional[bool] = False
-    ep: Optional[bool] = False
-    single: Optional[bool] = False
-    mixtape: Optional[bool] = False
+    items_sold: Optional[int]
+    ratings: Optional[float]
+    explicit: Optional[bool]
+    lp: Optional[bool]
+    ep: Optional[bool]
+    single: Optional[bool]
+    mixtape: Optional[bool]
 
-    genre_name: Optional[str] = None
-    genre: GenreSchema
-    award_id: Optional[str] = None
-    award: AwardSchema
+    genre_name: Optional[str]
+    award_id: Optional[str]
+
+    artists = []
+    songs = []
+    comments = []
 
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 
 class AlbumSchemaIn(BaseModel):
@@ -36,5 +35,13 @@ class AlbumSchemaIn(BaseModel):
     length: int
     date_of_release: str
 
+    @validator('date_of_release')
+    def parse_date(cls, v):
+        try:
+            return datetime.strptime(v, "%Y-%m-%d").date()
+        except ValueError:
+            raise ValueError("Incorrect date format, should be YYYY-MM-DD")
+
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True

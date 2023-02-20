@@ -31,6 +31,8 @@ class Artist(Base):
     record_label = relationship("RecordLabel", lazy="subquery")
 
     songs = relationship("Song", secondary="artist_song_association", lazy="subquery")
+    albums = relationship("Album", secondary="artist_album_association", lazy="subquery")
+    comments = relationship("Comment", secondary="artist_comments", lazy="subquery")
 
     def __init__(self, name: str,
                  country_name: str,

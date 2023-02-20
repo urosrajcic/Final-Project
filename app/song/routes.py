@@ -10,11 +10,6 @@ def create_song(song: SongSchemaIn):
     return SongController.create_song(song.name, song.length, song.date_of_release)
 
 
-@song_router.post("/add-new-explicit-song", response_model=SongSchema)
-def create_explicit_song(song: SongSchemaIn):
-    return SongController.create_explicit_song(song.name, song.length, song.date_of_release)
-
-
 @song_router.get("/get-song-by-id", response_model=SongSchema)
 def get_song_by_id(id: str):
     return SongController.get_song_by_id(id)
@@ -45,3 +40,8 @@ def update_song(id: str, name=None, length=None, date_of_release=None, items_sol
 @song_router.put("/add-artist-to-song", response_model=SongSchema)
 def add_artist_to_song(song_id: str, artist_id: str):
     return SongController.add_artist_to_song(song_id, artist_id)
+
+
+@song_router.put("/add-album-to-song", response_model=SongSchema)
+def add_album_to_song(song_id: str, album_id: str):
+    return SongController.add_album_to_song(song_id, album_id)

@@ -2,6 +2,10 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.album.exceptions import AlbumNotFoundException
 from app.album.model import Album
+from app.artist import Artist
+from app.artist.exceptions import ArtistNotFoundException
+from app.song import Song
+from app.song.exceptions import SongNotFoundException
 
 
 class AlbumRepository:
@@ -61,16 +65,26 @@ class AlbumRepository:
                 album.items_sold = items_sold
             if ratings is not None:
                 album.ratings = ratings
-            if explicit is not None:
-                album.explicit = explicit
-            if lp is not None:
-                album.lp = lp
-            if ep is not None:
-                album.ep = ep
-            if single is not None:
-                album.single = single
-            if mixtape is not None:
-                album.mixtape = mixtape
+            if explicit is None:
+                album.explicit = False
+            else:
+                album.explicit = True
+            if lp is None:
+                album.lp = False
+            else:
+                album.lp = True
+            if ep is None:
+                album.ep = False
+            else:
+                album.ep = True
+            if single is None:
+                album.single = False
+            else:
+                album.single = True
+            if mixtape is None:
+                album.mixtape = False
+            else:
+                album.mixtape = True
             if genre_name is not None:
                 album.genre_name = genre_name
             if award_id is not None:
@@ -80,4 +94,38 @@ class AlbumRepository:
             self.db.refresh(album)
             return album
         except Exception as e:
+            raise e
+
+    def add_artist_to_album(self, album_id: str, artist_id: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artist with provided id: {artist_id} not found.", 400)
+
+            album.artists.append(artist)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
+            raise e
+
+    def add_song_to_album(self, album_id: str, song_id: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            song = self.db.query(Song).filter(Song.id == song_id).first()
+            if not song:
+                raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
+
+            album.artists.append(song)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
             raise e

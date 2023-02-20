@@ -15,16 +15,6 @@ class SongController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def create_explicit_song(name: str, length: int, date_of_release: str):
-        try:
-            song = SongServices.create_song(name, length, date_of_release)
-            return song
-        except SongNotFoundException as _e:
-            raise HTTPException(status_code=_e.code, detail=_e.message)
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
-
-    @staticmethod
     def get_song_by_id(id: str):
         try:
             song = SongServices.get_song_by_id(id)
@@ -79,6 +69,17 @@ class SongController:
     def add_artist_to_song(song_id: str, artist_id: str):
         try:
             song = SongServices.add_artist_to_song(song_id, artist_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_album_to_song(song_id: str, album_id: str):
+        try:
+            song = SongServices.add_album_to_song(song_id, album_id)
             if song:
                 return song
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "

@@ -3,10 +3,6 @@ from typing import Optional
 
 from pydantic import BaseModel, UUID4
 
-from app.album.schemas import AlbumSchema
-from app.artist.schemas import ArtistSchema
-from app.record_label.schemas import RecordLabelSchema
-from app.song.schemas import SongSchema
 from app.user.schemas import UserSchema
 
 
@@ -19,17 +15,14 @@ class CommentSchema(BaseModel):
 
     user_username: str
     user: UserSchema
-    song_id: Optional[UUID4]
-    song: SongSchema
-    artist_id: Optional[UUID4]
-    artist: ArtistSchema
-    album_id: Optional[UUID4]
-    album: AlbumSchema
-    record_label_id: Optional[UUID4]
-    record_label: RecordLabelSchema
+
+    artist: str
+    album: str
+    song: str
 
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 
 class CommentSchemaIn(BaseModel):
@@ -40,3 +33,4 @@ class CommentSchemaIn(BaseModel):
 
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True

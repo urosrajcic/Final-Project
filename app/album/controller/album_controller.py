@@ -63,3 +63,26 @@ class AlbumController:
             raise HTTPException(status_code=_e.code, detail=_e.message)
         except Exception as _e:
             raise _e
+
+    @staticmethod
+    def add_artist_to_album(album_id: str, artist_id: str):
+        try:
+            album = AlbumServices.add_artist_to_album(album_id, artist_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_song_to_album(album_id: str, song_id: str):
+        try:
+            album = AlbumServices.add_song_to_album(album_id, song_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
