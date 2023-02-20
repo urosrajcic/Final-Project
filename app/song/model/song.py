@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -24,26 +22,12 @@ class Song(Base):
     award_id = Column(String(50), ForeignKey("award.id"), nullable=True)
     award = relationship("Award", lazy="subquery")
 
-    artists = relationship("Song", secondary="artist_song_association")
+    artists = relationship("Artist", secondary="artist_song_association", lazy="subquery")
 
     def __init__(self, name: str,
                  length: int,
                  date_of_release: str,
-                 items_sold: Optional[int] = None,
-                 lyrics: Optional[str] = None,
-                 ratings: Optional[float] = None,
-                 explicit: Optional[bool] = False,
-                 genre_name: Optional[str] = None,
-                 award_id: Optional[str] = None,
-                 artist: Optional[list] = []
                  ):
         self.name = name
         self.length = length
         self.date_of_release = date_of_release.strftime("%Y-%m-%d")
-        self.items_sold = items_sold
-        self.lyrics = lyrics
-        self.ratings = ratings
-        self.explicit = explicit
-        self.genre_name = genre_name
-        self.award_id = award_id
-        self.artists = artist

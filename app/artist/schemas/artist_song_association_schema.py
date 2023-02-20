@@ -15,4 +15,3 @@ class ArtistSongAssociationSchema(BaseModel):
 
 
 artist_song_association: Optional[List[ArtistSongAssociationSchema]] = []
-

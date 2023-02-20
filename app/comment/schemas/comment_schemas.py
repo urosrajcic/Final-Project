@@ -1,7 +1,7 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, UUID4
-from pydantic.datetime_parse import datetime
 
 from app.album.schemas import AlbumSchema
 from app.artist.schemas import ArtistSchema

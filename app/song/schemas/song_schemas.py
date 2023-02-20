@@ -1,12 +1,8 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel, UUID4, validator
 from pydantic.datetime_parse import date
-
-from app.artist import Artist
-from app.award.schemas import AwardSchema
-from app.genre.schemas import GenreSchema
 
 
 class SongSchema(BaseModel):
@@ -14,17 +10,14 @@ class SongSchema(BaseModel):
     name: str
     length: int
     date_of_release: date
-    items_sold: Optional[int] = None
-    lyrics: Optional[str] = None
-    ratings: Optional[float] = None
-    explicit: Optional[bool] = False
-    genre_name: Optional[str] = None
-    award_id: Optional[str] = None
+    items_sold: Optional[int]
+    lyrics: Optional[str]
+    ratings: Optional[float]
+    explicit: Optional[bool]
+    genre_name: Optional[str]
+    award_id: Optional[str]
 
-    genre: GenreSchema
-    award: AwardSchema
-
-    artists: Optional[List[Artist]] = []
+    artists = []
 
     class Config:
         orm_mode = True

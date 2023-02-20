@@ -1,11 +1,9 @@
-from datetime import date
-from typing import Optional, List
-from sqlalchemy.orm import relationship
-from app.db.database import Base
-from sqlalchemy import Column, String, Date, Float, Boolean, ForeignKey, Text
 from uuid import uuid4
 
-from app.song import Song
+from sqlalchemy import Column, String, Date, Float, Boolean, Text, ForeignKey
+from sqlalchemy.orm import relationship
+
+from app.db import Base
 
 
 class Artist(Base):
@@ -32,36 +30,12 @@ class Artist(Base):
     record_label_id = Column(String(25), ForeignKey("record_label.id"), nullable=True)
     record_label = relationship("RecordLabel", lazy="subquery")
 
-    songs = relationship("Song", secondary="artist_song_association")
+    songs = relationship("Song", secondary="artist_song_association", lazy="subquery")
 
     def __init__(self, name: str,
                  country_name: str,
                  date_of_birth: str,
-                 date_of_death: Optional[date] = None,
-                 ratings: Optional[float] = None,
-                 vocalist: Optional[bool] = False,
-                 musician: Optional[bool] = False,
-                 producer: Optional[bool] = False,
-                 writer: Optional[bool] = False,
-                 engineer: Optional[bool] = False,
-                 biography: Optional[str] = None,
-                 genre_name: Optional[str] = None,
-                 award_id: Optional[str] = None,
-                 record_label_id: Optional[str] = None,
-                 songs: Optional[List[Song]] = list
                  ):
         self.name = name
         self.country_name = country_name
         self.date_of_birth = date_of_birth.strftime("%Y-%m-%d")
-        self.date_of_death = date_of_death
-        self.ratings = ratings
-        self.vocalist = vocalist
-        self.musician = musician
-        self.producer = producer
-        self.writer = writer
-        self.engineer = engineer
-        self.biography = biography
-        self.genre_name = genre_name
-        self.award_id = award_id
-        self.record_label_id = record_label_id
-        self.songs = songs
