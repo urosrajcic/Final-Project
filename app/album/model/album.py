@@ -1,7 +1,19 @@
+from app import db
 from app.db.database import Base
 from sqlalchemy import Column, String, Integer, Date, Float, Boolean, ForeignKey
 from uuid import uuid4
 from sqlalchemy.orm import relationship
+
+from app.user.model.user_ratings import UserRating
+
+
+def calculate_average_rating_for_album(album_id: str):
+    ratings = db.query(UserRating).filter_by(album_id=album_id).all()
+    if not ratings:
+        return 0.0
+    total_rating = sum(rating.rating for rating in ratings)
+    total_num_ratings = len(ratings)
+    return total_rating / total_num_ratings
 
 
 class Album(Base):
@@ -27,11 +39,13 @@ class Album(Base):
     comments = relationship("Comment", secondary="album_comments", lazy="subquery")
     awards = relationship("Award", secondary="album_awards", lazy="subquery")
     genres = relationship("Genre", secondary="album_genres", lazy="subquery")
-
+    
     def __init__(self, name: str,
                  length: int,
                  date_of_release: str,
+                 ratings: float = None
                  ):
         self.name = name
         self.length = length
         self.date_of_release = date_of_release.strftime("%Y-%m-%d")
+        self.ratings = ratings

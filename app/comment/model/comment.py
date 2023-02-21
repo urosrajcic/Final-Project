@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import uuid4
 from sqlalchemy.orm import relationship
 from app.db.database import Base
@@ -10,7 +11,7 @@ class Comment(Base):
     header = Column(String(25))
     text = Column(String(1000))
     date_time = Column(DateTime)
-    ratings = Column(Float)
+    ratings = Column(Float, nullable=True)
 
     user_username = Column(String(50), ForeignKey("user.username"), nullable=False)
     user = relationship("User", lazy="subquery")
@@ -21,9 +22,8 @@ class Comment(Base):
 
     def __init__(self, header: str,
                  text: str,
-                 date_time: date_time,
-                 user_username: str = user_username):
+                 user_username: str):
         self.header = header
         self.text = text
-        self.date_time = date_time.datetime.now()
+        self.date_time = datetime.now()
         self.user_username = user_username

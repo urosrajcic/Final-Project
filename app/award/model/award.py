@@ -16,7 +16,7 @@ class Award(Base):
     artist = relationship("Artist", secondary="artist_awards", lazy="subquery")
     album = relationship("Album", secondary="album_awards", lazy="subquery")
     song = relationship("Song", secondary="song_awards", lazy="subquery")
-    __table_args__ = UniqueConstraint("name", "category", "award_date", name="award_uc")
+    __table_args__ = (UniqueConstraint("name", "category", "award_date", name="award_uc"),)
 
     def __init__(self, name: str, category: str, award_date: str):
         self.name = name

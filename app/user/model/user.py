@@ -26,8 +26,7 @@ class User(Base):
                  date_of_birth: str,
                  country_name: str,
                  critic: bool = False,
-                 writer: bool = False,
-
+                 writer: bool = False
                  ):
         self.username = username
         self.email = email
@@ -38,3 +37,12 @@ class User(Base):
         self.country_name = country_name
         self.critic = critic
         self.writer = writer
+
+    def __repr__(self):
+        return f"username: {self.username}," \
+               f"name: {self.name}," \
+               f"surname: {self.surname}," \
+               f"country: {self.country_name}," \
+               f"date of birth: {self.date_of_birth}," \
+               f"critic: {self.critic}," \
+               f"writer: {self.writer}"

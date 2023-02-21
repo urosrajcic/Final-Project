@@ -3,8 +3,6 @@ from typing import Optional
 
 from pydantic import BaseModel, UUID4
 
-from app.user.schemas import UserSchema
-
 
 class CommentSchema(BaseModel):
     id: UUID4
@@ -14,7 +12,6 @@ class CommentSchema(BaseModel):
     ratings: Optional[float]
 
     user_username: str
-    user: UserSchema
 
     class Config:
         orm_mode = True

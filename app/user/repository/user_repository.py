@@ -1,7 +1,16 @@
+from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
+from app.album import Album
+from app.album.exceptions import AlbumNotFoundException
+from app.artist import Artist
+from app.artist.exceptions import ArtistNotFoundException
+from app.song import Song
+from app.song.exceptions import SongNotFoundException
 from app.user.exceptions import UserNotFoundException
 from app.user.model import User
+from app.user.model.user_ratings import UserRating
 
 
 class UserRepository:
@@ -93,7 +102,7 @@ class UserRepository:
         try:
             user = self.db.query(User).filter(User.username == username).first()
             if user is None:
-                raise UserNotFoundException(f"User with provided email: {username} not found.", 400)
+                raise UserNotFoundException(f"User with provided username: {username} not found.", 400)
             if password is not None:
                 user.password = password
             if name is not None:
@@ -109,4 +118,58 @@ class UserRepository:
             self.db.refresh(user)
             return user
         except Exception as e:
+            raise e
+
+    def rate_album(self, username: str, album_id: str, rating: int):
+        try:
+            user = self.db.query(User).filter(User.username == username).first()
+            if user is None:
+                raise UserNotFoundException(f"User with provided username: {username} not found.", 400)
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if album is None:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            if not 1 <= rating <= 10:
+                raise HTTPException(status_code=400, detail="Invalid rating")
+            user_rating = UserRating(user_username=username, rating=rating, album_id=album_id)
+            self.db.add(user_rating)
+            self.db.commit()
+            self.db.refresh(user_rating)
+            return user_rating
+        except IntegrityError as e:
+            raise e
+
+    def rate_artist(self, username: str, artist_id: str, rating: int):
+        try:
+            user = self.db.query(User).filter(User.username == username).first()
+            if user is None:
+                raise UserNotFoundException(f"User with provided username: {username} not found.", 400)
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if artist is None:
+                raise ArtistNotFoundException(f"Artist with provided id: {artist_id} not found.", 400)
+            if not 1 <= rating <= 10:
+                raise HTTPException(status_code=400, detail="Invalid rating")
+            user_rating = UserRating(user_username=username, rating=rating, artist_id=artist_id)
+            self.db.add(user_rating)
+            self.db.commit()
+            self.db.refresh(user_rating)
+            return user_rating
+        except IntegrityError as e:
+            raise e
+
+    def rate_song(self, username: str, song_id: str, rating: int):
+        try:
+            user = self.db.query(User).filter(User.username == username).first()
+            if user is None:
+                raise UserNotFoundException(f"User with provided username: {username} not found.", 400)
+            song = self.db.query(Song).filter(Song.id == song_id).first()
+            if song is None:
+                raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
+            if not 1 <= rating <= 10:
+                raise HTTPException(status_code=400, detail="Invalid rating")
+            user_rating = UserRating(user_username=username, rating=rating, song_id=song_id)
+            self.db.add(user_rating)
+            self.db.commit()
+            self.db.refresh(user_rating)
+            return user_rating
+        except IntegrityError as e:
             raise e

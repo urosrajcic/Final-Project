@@ -21,7 +21,7 @@ class Artist(Base):
     engineer = Column(Boolean, default=False, nullable=True)
     biography = Column(Text, nullable=True)
 
-    country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
+    country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
     country = relationship("Country", lazy="subquery")
     record_label_id = Column(String(25), ForeignKey("record_label.id"), nullable=True)
     record_label = relationship("RecordLabel", lazy="subquery")
@@ -35,7 +35,9 @@ class Artist(Base):
     def __init__(self, name: str,
                  country_name: str,
                  date_of_birth: str,
+                 ratings: float = None
                  ):
         self.name = name
         self.country_name = country_name
         self.date_of_birth = date_of_birth.strftime("%Y-%m-%d")
+        self.ratings = ratings

@@ -1,5 +1,3 @@
-import uuid
-
 from fastapi import HTTPException, Response, status
 from app.comment.exceptions import *
 from app.comment.services import CommentServices
@@ -7,29 +5,9 @@ from app.comment.services import CommentServices
 
 class CommentController:
     @staticmethod
-    def create_comment_about_artist(header: str, text: str, user_username: str, artist_id: uuid):
+    def create_comment(header: str, text: str, user_username: str):
         try:
-            comment = CommentServices.create_comment_about_artist(header, text, user_username, artist_id)
-            return comment
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=_e.code, detail=_e.message)
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
-
-    @staticmethod
-    def create_comment_about_album(header: str, text: str, user_username: str, album_id: uuid):
-        try:
-            comment = CommentServices.create_comment_about_album(header, text, user_username, album_id)
-            return comment
-        except CommentNotFoundException as _e:
-            raise HTTPException(status_code=_e.code, detail=_e.message)
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
-
-    @staticmethod
-    def create_comment_about_song(header: str, text: str, user_username: str, song_id: uuid):
-        try:
-            comment = CommentServices.create_comment_about_song(header, text, user_username, song_id)
+            comment = CommentServices.create_comment(header, text, user_username)
             return comment
         except CommentNotFoundException as _e:
             raise HTTPException(status_code=_e.code, detail=_e.message)

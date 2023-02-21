@@ -15,6 +15,16 @@ class AlbumController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
+    def calculate_average_rating_for_album(id: str):
+        try:
+            rating = AlbumServices.calculate_average_rating_for_album(id)
+            return rating
+        except AlbumNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
     def get_album_by_id(id: str):
         try:
             album = AlbumServices.get_album_by_id(id)
@@ -40,6 +50,11 @@ class AlbumController:
     @staticmethod
     def get_all_albums():
         albums = AlbumServices.get_all_albums()
+        return albums
+
+    @staticmethod
+    def get_albums_by_rating():
+        albums = AlbumServices.get_albums_by_rating()
         return albums
 
     @staticmethod
@@ -101,6 +116,72 @@ class AlbumController:
     def add_genre_to_album(album_id: str, genre_name: str):
         try:
             album = AlbumServices.add_genre_to_album(album_id, genre_name)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_comment_to_album(album_id: str, comment_id: str):
+        try:
+            album = AlbumServices.add_comment_to_album(album_id, comment_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_artist_from_album(album_id: str, artist_id: str):
+        try:
+            album = AlbumServices.remove_artist_from_album(album_id, artist_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_song_from_album(album_id: str, song_id: str):
+        try:
+            album = AlbumServices.remove_song_from_album(album_id, song_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_award_from_album(album_id: str, award_id: str):
+        try:
+            album = AlbumServices.remove_award_from_album(album_id, award_id)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_genre_from_album(album_id: str, genre_name: str):
+        try:
+            album = AlbumServices.remove_genre_from_album(album_id, genre_name)
+            if album:
+                return album
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
+                                                                                f"{album_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_comment_from_album(album_id: str, comment_id: str):
+        try:
+            album = AlbumServices.remove_comment_from_album(album_id, comment_id)
             if album:
                 return album
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Album with provided id: "
