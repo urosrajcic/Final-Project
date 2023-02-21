@@ -1,3 +1,4 @@
+from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -7,10 +8,13 @@ from app.artist.exceptions import ArtistNotFoundException
 from app.artist.model import Artist
 from app.award import Award
 from app.award.exceptions import AwardNotFoundException
+from app.comment import Comment
+from app.comment.exceptions import CommentNotFoundException
 from app.genre.exceptions import GenreNotFoundException
 from app.genre.model import Genre
 from app.song import Song
 from app.song.exceptions import SongNotFoundException
+from app.user.model.user_ratings import UserRating
 
 
 class ArtistRepository:
@@ -26,6 +30,14 @@ class ArtistRepository:
             return artist
         except IntegrityError as e:
             raise e
+
+    def calculate_average_rating_for_artist(self, artist_id: str):
+        ratings = self.db.query(UserRating).filter_by(artist_id=artist_id).all()
+        if not ratings:
+            return 0.0
+        total_rating = sum(rating.rating for rating in ratings)
+        total_num_ratings = len(ratings)
+        return total_rating / total_num_ratings
 
     def get_artist_by_id(self, id: str):
         artist = self.db.query(Artist).filter(Artist.id == id).first()
@@ -43,6 +55,12 @@ class ArtistRepository:
         artists = self.db.query(Artist).all()
         return artists
 
+    def get_artists_by_rating(self):
+        artists = self.db.query(Artist).order_by(desc(Artist.ratings)).all()
+        if artists is None:
+            raise ArtistNotFoundException("Artists not found.", 400)
+        return artists
+
     def delete_artis_by_id(self, id: str):
         try:
             artist = self.db.query(Artist).filter(Artist.id == id).first()
@@ -55,7 +73,7 @@ class ArtistRepository:
             raise e
 
     def update_artist(self, id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
-                      musician=None, producer=None, writer=None, engineer=None, biography=None,
+                      musician=None, producer=None, writer=None, engineer=None, biography=None, ratings=None,
                       country_name=None, record_label_id=None):
         try:
             artist = self.db.query(Artist).filter(Artist.id == id).first()
@@ -89,6 +107,8 @@ class ArtistRepository:
                 artist.engineer = True
             if biography is not None:
                 artist.biography = biography
+            if ratings is not None:
+                artist.ratings = ratings
             if country_name is not None:
                 artist.country_name = country_name
             if record_label_id is not None:
@@ -157,6 +177,102 @@ class ArtistRepository:
             if not genre:
                 raise GenreNotFoundException(f"Genre with provided name: {genre_name} not found.", 400)
             artist.genres.append(genre)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def add_comment_to_artist(self, artist_id: str, comment_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            comment = self.db.query(Comment).filter(Comment.id == comment_id).first()
+            if not comment:
+                raise CommentNotFoundException(f"Comment with provided id: {comment_id} not found.", 400)
+            artist.comments.append(comment)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_song_from_artist(self, artist_id: str, song_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            song = self.db.query(Song).filter(Song.id == song_id).first()
+            if not song:
+                raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
+            artist.songs.remove(song)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_album_from_artist(self, artist_id: str, album_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            artist.albums.remove(album)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_award_from_artist(self, artist_id: str, award_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            award = self.db.query(Award).filter(Award.id == award_id).first()
+            if not award:
+                raise AwardNotFoundException(f"Award with provided id: {award_id} not found.", 400)
+            artist.awards.remove(award)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_genre_from_artist(self, artist_id: str, genre_name: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            genre = self.db.query(Genre).filter(Genre.name == genre_name).first()
+            if not genre:
+                raise GenreNotFoundException(f"Genre with provided name: {genre_name} not found.", 400)
+            artist.genres.remove(genre)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_comment_from_artist(self, artist_id: str, comment_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            comment = self.db.query(Comment).filter(Comment.id == comment_id).first()
+            if not comment:
+                raise CommentNotFoundException(f"Comment with provided id: {comment_id} not found.", 400)
+            artist.comments.remove(comment)
             self.db.add(artist)
             self.db.commit()
             self.db.refresh(artist)

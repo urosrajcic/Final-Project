@@ -3,8 +3,6 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator
 from pydantic.datetime_parse import date
 
-from app.country.schemas import CountrySchema
-
 
 class UserSchema(BaseModel):
     username: str
@@ -13,11 +11,10 @@ class UserSchema(BaseModel):
     name: str
     surname: str
     date_of_birth: date
-    critic: bool = False
-    writer: bool = False
+    critic: bool
+    writer: bool
 
     country_name: str
-    country: CountrySchema
 
     class Config:
         orm_mode = True

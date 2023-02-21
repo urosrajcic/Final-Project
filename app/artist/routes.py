@@ -27,6 +27,11 @@ def get_all_artists():
     return ArtistController.get_all_artists()
 
 
+@artist_router.get("/get-artists-by-rating", response_model=list[ArtistSchema])
+def get_artists_by_rating():
+    return ArtistController.get_artists_by_rating()
+
+
 @artist_router.delete("/delete-artist-by-id")
 def delete_artist_by_id(id: str):
     return ArtistController.delete_artist_by_id(id)
@@ -34,10 +39,10 @@ def delete_artist_by_id(id: str):
 
 @artist_router.put("/update-artist-by-id", response_model=ArtistSchema)
 def update_artist(id: str, name=None, date_of_birth=None, date_of_death=None, vocalist=None,
-                  musician=None, producer=None, writer=None, engineer=None, biography=None,
+                  musician=None, producer=None, writer=None, engineer=None, biography=None, ratings=None,
                   country_name=None, record_label_id=None):
     return ArtistController.update_artist(id, name, date_of_birth, date_of_death, vocalist,
-                                          musician, producer, writer, engineer, biography,
+                                          musician, producer, writer, engineer, biography, ratings,
                                           country_name, record_label_id)
 
 
@@ -59,3 +64,33 @@ def add_award_to_artist(artist_id: str, award_id: str):
 @artist_router.put("/add-genre-to-artist", response_model=ArtistSchema)
 def add_genre_to_artist(artist_id: str, genre_name: str):
     return ArtistController.add_genre_to_artist(artist_id, genre_name)
+
+
+@artist_router.put("/add-comment-to-artist", response_model=ArtistSchema)
+def add_comment_to_artist(artist_id: str, comment_id: str):
+    return ArtistController.add_comment_to_artist(artist_id, comment_id)
+
+
+@artist_router.put("/remove-song-from-artist", response_model=ArtistSchema)
+def remove_song_from_artist(artist_id: str, song_id: str):
+    return ArtistController.remove_song_from_artist(artist_id, song_id)
+
+
+@artist_router.put("/remove-album-from-artist", response_model=ArtistSchema)
+def remove_album_from_artist(artist_id: str, album_id: str):
+    return ArtistController.remove_album_from_artist(artist_id, album_id)
+
+
+@artist_router.put("/remove-award-from-artist", response_model=ArtistSchema)
+def remove_award_from_artist(artist_id: str, award_id: str):
+    return ArtistController.remove_award_from_artist(artist_id, award_id)
+
+
+@artist_router.put("/remove-genre-from-artist", response_model=ArtistSchema)
+def remove_genre_from_artist(artist_id: str, genre_name: str):
+    return ArtistController.remove_genre_from_artist(artist_id, genre_name)
+
+
+@artist_router.put("/remove-comment-from-artist", response_model=ArtistSchema)
+def remove_comment_from_artist(artist_id: str, comment_id: str):
+    return ArtistController.remove_comment_from_artist(artist_id, comment_id)

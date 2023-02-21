@@ -21,8 +21,6 @@ class ArtistSchema(BaseModel):
     country_name: str
     record_label_id: Optional[UUID4]
 
-    country: CountrySchema
-
     songs = []
     albums = []
     comments = []

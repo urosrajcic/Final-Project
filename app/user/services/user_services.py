@@ -101,3 +101,30 @@ class UserServices:
                 return user_repository.update_user(username, password, name, surname, date_of_birth, country_name)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def rate_album(username: str, album_id: str, rating: int):
+        try:
+            with SessionLocal() as db:
+                user_repository = UserRepository(db)
+                return user_repository.rate_album(username, album_id, rating)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def rate_artist(username: str, artist_id: str, rating: int):
+        try:
+            with SessionLocal() as db:
+                user_repository = UserRepository(db)
+                return user_repository.rate_artist(username, artist_id, rating)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def rate_song(username: str, song_id: str, rating: int):
+        try:
+            with SessionLocal() as db:
+                user_repository = UserRepository(db)
+                return user_repository.rate_song(username, song_id, rating)
+        except Exception as e:
+            raise e

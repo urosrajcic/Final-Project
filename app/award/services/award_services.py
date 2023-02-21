@@ -1,4 +1,3 @@
-from datetime import date
 from app.db.database import SessionLocal
 from app.award.repository.award_repository import AwardRepository
 

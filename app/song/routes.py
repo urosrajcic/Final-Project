@@ -25,6 +25,11 @@ def get_all_songs():
     return SongController.get_all_songs()
 
 
+@song_router.get("/get-songs-by-rating", response_model=list[SongSchema])
+def get_songs_by_rating():
+    return SongController.get_songs_by_rating()
+
+
 @song_router.delete("/delete-song-by-id")
 def delete_song_by_id(id: str):
     return SongController.delete_song_by_id(id)
@@ -54,3 +59,33 @@ def add_award_to_song(song_id: str, award_id: str):
 @song_router.put("/add-genre-to-song", response_model=SongSchema)
 def add_genre_to_song(song_id: str, genre_name: str):
     return SongController.add_genre_to_song(song_id, genre_name)
+
+
+@song_router.put("/add-comment-to-song", response_model=SongSchema)
+def add_comment_to_song(song_id: str, comment_id: str):
+    return SongController.add_comment_to_song(song_id, comment_id)
+
+
+@song_router.put("/remove-artist-from-song", response_model=SongSchema)
+def remove_artist_to_song(song_id: str, artist_id: str):
+    return SongController.remove_artist_from_song(song_id, artist_id)
+
+
+@song_router.put("/remove-album-from-song", response_model=SongSchema)
+def remove_album_from_song(song_id: str, album_id: str):
+    return SongController.remove_album_from_song(song_id, album_id)
+
+
+@song_router.put("/remove-award-from-song", response_model=SongSchema)
+def remove_award_from_song(song_id: str, award_id: str):
+    return SongController.remove_award_from_song(song_id, award_id)
+
+
+@song_router.put("/remove-genre-from-song", response_model=SongSchema)
+def remove_genre_from_song(song_id: str, genre_name: str):
+    return SongController.remove_genre_from_song(song_id, genre_name)
+
+
+@song_router.put("/remove-comment-from-song", response_model=SongSchema)
+def remove_comment_from_song(song_id: str, comment_id: str):
+    return SongController.remove_comment_from_song(song_id, comment_id)

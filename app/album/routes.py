@@ -25,6 +25,11 @@ def get_all_albums():
     return AlbumController.get_all_albums()
 
 
+@album_router.get("/get-albums-by-rating", response_model=list[AlbumSchema])
+def get_albums_by_rating():
+    return AlbumController.get_albums_by_rating()
+
+
 @album_router.delete("/delete-album-by-id")
 def delete_album_by_id(id: str):
     return AlbumController.delete_album_by_id(id)
@@ -55,3 +60,33 @@ def add_award_to_album(album_id: str, award_id: str):
 @album_router.put("/add-genre-to-album", response_model=AlbumSchema)
 def add_genre_to_album(album_id: str, genre_name: str):
     return AlbumController.add_genre_to_album(album_id, genre_name)
+
+
+@album_router.put("/add-comment-to-album", response_model=AlbumSchema)
+def add_comment_to_album(album_id: str, comment_id: str):
+    return AlbumController.add_comment_to_album(album_id, comment_id)
+
+
+@album_router.put("/remove-artist-from-album", response_model=AlbumSchema)
+def remove_artist_from_album(album_id: str, artist_id: str):
+    return AlbumController.remove_artist_from_album(album_id, artist_id)
+
+
+@album_router.put("/remove-song-from-album", response_model=AlbumSchema)
+def remove_song_from_album(album_id: str, song_id: str):
+    return AlbumController.remove_song_from_album(album_id, song_id)
+
+
+@album_router.put("/remove-award-from-album", response_model=AlbumSchema)
+def remove_award_from_album(album_id: str, award_id: str):
+    return AlbumController.remove_award_from_album(album_id, award_id)
+
+
+@album_router.put("/remove-genre-from-album", response_model=AlbumSchema)
+def remove_genre_from_album(album_id: str, genre_name: str):
+    return AlbumController.remove_genre_from_album(album_id, genre_name)
+
+
+@album_router.put("/remove-comment-from-album", response_model=AlbumSchema)
+def remove_comment_from_album(album_id: str, comment_id: str):
+    return AlbumController.remove_comment_from_album(album_id, comment_id)

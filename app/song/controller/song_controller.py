@@ -15,6 +15,16 @@ class SongController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
+    def calculate_average_rating_for_song(id: str):
+        try:
+            rating = SongServices.calculate_average_rating_for_song(id)
+            return rating
+        except SongNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
     def get_song_by_id(id: str):
         try:
             song = SongServices.get_song_by_id(id)
@@ -41,6 +51,11 @@ class SongController:
     @staticmethod
     def get_all_songs():
         songs = SongServices.get_all_songs()
+        return songs
+
+    @staticmethod
+    def get_songs_by_rating():
+        songs = SongServices.get_songs_by_rating()
         return songs
 
     @staticmethod
@@ -102,6 +117,72 @@ class SongController:
     def add_genre_to_song(song_id: str, genre_name: str):
         try:
             song = SongServices.add_genre_to_song(song_id, genre_name)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_comment_to_song(song_id: str, comment_id: str):
+        try:
+            song = SongServices.add_comment_to_song(song_id, comment_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_artist_from_song(song_id: str, artist_id: str):
+        try:
+            song = SongServices.remove_artist_from_song(song_id, artist_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_album_from_song(song_id: str, album_id: str):
+        try:
+            song = SongServices.remove_album_from_song(song_id, album_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_award_from_song(song_id: str, award_id: str):
+        try:
+            song = SongServices.remove_award_from_song(song_id, award_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_genre_from_song(song_id: str, genre_name: str):
+        try:
+            song = SongServices.remove_genre_from_song(song_id, genre_name)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_comment_from_song(song_id: str, comment_id: str):
+        try:
+            song = SongServices.remove_comment_from_song(song_id, comment_id)
             if song:
                 return song
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "

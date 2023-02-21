@@ -1,4 +1,8 @@
 from fastapi import HTTPException, Response, status
+
+from app.album.services import AlbumServices
+from app.artist.services import ArtistServices
+from app.song.services import SongServices
 from app.user.exceptions import *
 from app.user.services import UserServices
 
@@ -112,3 +116,39 @@ class UserController:
             raise HTTPException(status_code=_e.code, detail=_e.message)
         except Exception as _e:
             raise _e
+
+    @staticmethod
+    def rate_album(username: str, album_id: str, rating: int):
+        try:
+            user_rating = UserServices.rate_album(username, album_id, rating)
+            ratings = AlbumServices.calculate_average_rating_for_album(id=album_id)
+            AlbumServices.update_album(id=album_id, ratings=ratings)
+            return user_rating
+        except UserNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def rate_artist(username: str, artist_id: str, rating: int):
+        try:
+            user_rating = UserServices.rate_artist(username, artist_id, rating)
+            ratings = ArtistServices.calculate_average_rating_for_artist(id=artist_id)
+            ArtistServices.update_artist(id=artist_id, ratings=ratings)
+            return user_rating
+        except UserNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def rate_song(username: str, song_id: str, rating: int):
+        try:
+            user_rating = UserServices.rate_song(username, song_id, rating)
+            ratings = SongServices.calculate_average_rating_for_song(id=song_id)
+            SongServices.update_song(id=song_id, ratings=ratings)
+            return user_rating
+        except UserNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
