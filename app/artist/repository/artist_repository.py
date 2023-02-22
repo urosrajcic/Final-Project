@@ -1,4 +1,4 @@
-from sqlalchemy import desc
+from sqlalchemy import desc, text, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -45,10 +45,8 @@ class ArtistRepository:
             raise ArtistNotFoundException(f"Artist with provided id: {id} not found.", 400)
         return artist
 
-    def get_artists_by_name(self, name: str):
-        artists = self.db.query(Artist).filter(Artist.name.like(name + "%")).all()
-        if artists is None:
-            raise ArtistNotFoundException(f"Artists with provided name: {name} not found.", 400)
+    def get_artists_by_characters(self, characters: str):
+        artists = self.db.query(Artist).filter(Artist.name.like(characters + "%")).all()
         return artists
 
     def get_all_artists(self):
@@ -57,9 +55,30 @@ class ArtistRepository:
 
     def get_artists_by_rating(self):
         artists = self.db.query(Artist).order_by(desc(Artist.ratings)).all()
-        if artists is None:
-            raise ArtistNotFoundException("Artists not found.", 400)
         return artists
+
+    def get_artist_with_most_awards(self):
+        artists = self.db.query(Artist).all()
+        if len(artists) == 0:
+            raise ArtistNotFoundException("There is no artist in database.", 500)
+        artist_max_awards = artists[0]
+        for artist in artists:
+            if len(artist.awards) > len(artist_max_awards.awards) > 0 or len(artist.awards) > 0:
+                artist_max_awards = artist
+            else:
+                raise AlbumNotFoundException(f"There is no artist with awards.", 500)
+        return artist_max_awards
+
+    def get_artists_by_genre(self, genre: str):
+        filter_expression = text(f"genre.name = '{genre}'")
+        artists = self.db.query(Artist).filter(Artist.genres.any(filter_expression)).all()
+        return artists
+
+    def get_all_comments_about_artist(self, id: str):
+        artist = self.db.query(Artist).filter(Artist.id == id).first()
+        if artist is None:
+            raise ArtistNotFoundException(f"Artist with provided id: {id} not found.", 400)
+        return artist.comments
 
     def delete_artis_by_id(self, id: str):
         try:

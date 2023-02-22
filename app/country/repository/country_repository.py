@@ -20,8 +20,6 @@ class CountryRepository:
 
     def get_countries_by_characters(self, characters: str):
         countries = self.db.query(Country).filter(Country.name.like(characters + "%")).all()
-        if countries is None:
-            raise CountryNotFoundException(f"Country with provided characters: {characters} not found.", 400)
         return countries
 
     def get_all_countries(self):

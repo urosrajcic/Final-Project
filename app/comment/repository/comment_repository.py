@@ -32,7 +32,7 @@ class CommentRepository:
     def get_all_comments_from_user(self, user_username: str):
         comments = self.db.query(Comment).filter(Comment.user_username.like(user_username)).all()
         if comments is None:
-            raise CommentNotFoundException(f"Comments with provided artist id: {user_username} not found.", 500)
+            raise CommentNotFoundException(f"Comments with provided user username: {user_username} not found.", 500)
 
     def delete_comment_by_id(self, id: str):
         try:

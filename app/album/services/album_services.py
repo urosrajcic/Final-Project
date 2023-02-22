@@ -31,11 +31,11 @@ class AlbumServices:
             raise e
 
     @staticmethod
-    def get_album_by_name(name: str):
+    def get_albums_by_characters(characters: str):
         try:
             with SessionLocal() as db:
                 album_repository = AlbumRepository(db)
-                return album_repository.get_album_by_name(name)
+                return album_repository.get_albums_by_characters(characters)
         except Exception as e:
             raise e
 
@@ -54,6 +54,42 @@ class AlbumServices:
             with SessionLocal() as db:
                 album_repository = AlbumRepository(db)
                 return album_repository.get_albums_by_rating()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_best_albums_from_year(year: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.get_best_albums_from_year(year)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_album_with_most_awards():
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.get_album_with_most_awards()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_albums_by_genre(genre: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.get_albums_by_genre(genre)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_all_comments_about_album(id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.get_all_comments_about_album(id)
         except Exception as e:
             raise e
 

@@ -3,8 +3,6 @@ from typing import Optional
 from pydantic import BaseModel, UUID4, validator
 from pydantic.datetime_parse import date
 
-from app.country.schemas import CountrySchema
-
 
 class RecordLabelSchema(BaseModel):
     id: UUID4
@@ -14,7 +12,6 @@ class RecordLabelSchema(BaseModel):
     ceo: str
 
     country_name: str
-    country: CountrySchema
 
     ratings: Optional[float]
     biography: Optional[str]

@@ -58,6 +58,42 @@ class SongServices:
             raise e
 
     @staticmethod
+    def get_best_songs_from_year(year: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.get_best_songs_from_year(year)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_song_with_most_awards():
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.get_song_with_most_awards()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_songs_by_genre(genre: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.get_songs_by_genre(genre)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_all_comments_about_song(id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.get_all_comments_about_song(id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def delete_song_by_id(id: str):
         try:
             with SessionLocal() as db:

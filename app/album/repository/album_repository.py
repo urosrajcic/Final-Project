@@ -1,6 +1,7 @@
-from sqlalchemy import desc
+from sqlalchemy import desc, text, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+
 from app.album.exceptions import AlbumNotFoundException
 from app.album.model import Album
 from app.artist import Artist
@@ -44,10 +45,8 @@ class AlbumRepository:
             raise AlbumNotFoundException(f"Album with provided id: {id} not found.", 400)
         return album
 
-    def get_album_by_name(self, name: str):
-        albums = self.db.query(Album).filter(Album.name.like(name + "%")).all()
-        if albums is None:
-            raise AlbumNotFoundException(f"Album with provided name: {name} not found.", 400)
+    def get_albums_by_characters(self, characters: str):
+        albums = self.db.query(Album).filter(Album.name.like(characters + "%")).all()
         return albums
 
     def get_all_albums(self):
@@ -56,9 +55,35 @@ class AlbumRepository:
 
     def get_albums_by_rating(self):
         albums = self.db.query(Album).order_by(desc(Album.ratings)).all()
-        if albums is None:
-            raise AlbumNotFoundException("Albums not found.", 400)
         return albums
+
+    def get_best_albums_from_year(self, year: str):
+        albums = self.db.query(Album).filter(and_(Album.date_of_release.like(f"{year}%"))).\
+            order_by(desc(Album.ratings)).all()
+        return albums
+
+    def get_album_with_most_awards(self):
+        albums = self.db.query(Album).all()
+        if len(albums) == 0:
+            raise AlbumNotFoundException("There is no album in database.", 500)
+        album_max_awards = albums[0]
+        for album in albums:
+            if len(album.awards) > len(album_max_awards.awards) > 0 or len(album.awards) > 0:
+                album_max_awards = album
+            else:
+                raise AlbumNotFoundException(f"There is no album with awards.", 500)
+        return album_max_awards
+
+    def get_albums_by_genre(self, genre: str):
+        filter_expression = text(f"genre.name = '{genre}'")
+        albums = self.db.query(Album).filter(Album.genres.any(filter_expression)).all()
+        return albums
+
+    def get_all_comments_about_album(self, id: str):
+        album = self.db.query(Album).filter(Album.id == id).first()
+        if album is None:
+            raise AlbumNotFoundException(f"Album with provided id: {id} not found.", 400)
+        return album.comments
 
     def delete_album_by_id(self, id: str):
         try:

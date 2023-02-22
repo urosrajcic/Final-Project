@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
+
 from app.db.database import Base, engine
 
 from app.album.routes import album_router

@@ -26,8 +26,6 @@ class RecordLabelRepository:
 
     def get_record_labels_by_characters(self, characters: str):
         record_labels = self.db.query(RecordLabel).filter(RecordLabel.name.like(characters + "%")).all()
-        if record_labels is None:
-            raise RecordLabelNotFoundException(f"Record label with provided id: {id} not found.", 400)
         return record_labels
 
     def get_all_record_labels(self):

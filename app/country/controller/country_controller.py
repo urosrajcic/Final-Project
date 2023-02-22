@@ -16,15 +16,8 @@ class CountryController:
 
     @staticmethod
     def get_countries_by_characters(characters: str):
-        try:
-            countries = CountryServices.get_countries_by_characters(characters)
-            if countries:
-                return countries
-        except CountryNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Countries with provided characters: "
-                                                                                f"{characters}, does not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+        countries = CountryServices.get_countries_by_characters(characters)
+        return countries
 
     @staticmethod
     def get_all_countries():
