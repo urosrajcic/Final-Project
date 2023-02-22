@@ -52,6 +52,11 @@ class ArtistController:
         return artists
 
     @staticmethod
+    def get_artists_from_country(country: str):
+        artists = ArtistServices.get_artists_from_country(country)
+        return artists
+
+    @staticmethod
     def get_artist_with_most_awards():
         try:
             artist = ArtistServices.get_artist_with_most_awards()

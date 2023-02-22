@@ -4,10 +4,27 @@ from app.album.services import AlbumServices
 from app.artist.services import ArtistServices
 from app.song.services import SongServices
 from app.user.exceptions import *
-from app.user.services import UserServices
+from app.user.services import UserServices, signJWT
 
 
 class UserController:
+
+    @staticmethod
+    def login_user(email, password):
+        try:
+            user = UserServices.login_user(email, password)
+            if user.super_user:
+                return signJWT(user.username, "super_user")
+            if user.writer:
+                return signJWT(user.username, "writer")
+            if user.critic:
+                return signJWT(user.username, "critic")
+            return signJWT(user.username, "classic_user")
+        except UserInvalidPassword as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
     @staticmethod
     def create_user(username: str, email: str, password: str, name: str, surname: str,
                     date_of_birth: str, country_name: str):
@@ -57,13 +74,14 @@ class UserController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def get_user_by_username(username: str):
+    def create_super_user(username: str, email: str, password: str, name: str, surname: str,
+                          date_of_birth: str, country_name: str):
         try:
-            user = UserServices.get_user_by_username(username)
-            if user:
-                return user
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"User with provided username: "
-                                                                                f"{username}, does not exist.")
+            super_user = UserServices.create_super_user(username, email, password, name, surname, date_of_birth,
+                                                        country_name)
+            return super_user
+        except UserNotFoundException as _e:
+            raise HTTPException(status_code=_e.code, detail=_e.message)
         except Exception as _e:
             raise HTTPException(status_code=500, detail=str(_e))
 

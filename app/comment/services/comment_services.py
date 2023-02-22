@@ -32,6 +32,42 @@ class CommentServices:
             raise e
 
     @staticmethod
+    def get_news():
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.get_news()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_album_reviews(album_id: str):
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.get_album_reviews(album_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_artist_reviews(artists_id: str):
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.get_artist_reviews(artists_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_song_reviews(song_id: str):
+        try:
+            with SessionLocal() as db:
+                comment_repository = CommentRepository(db)
+                return comment_repository.get_song_reviews(song_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def get_all_comments_from_user(user_username: str):
         try:
             with SessionLocal() as db:

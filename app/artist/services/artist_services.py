@@ -58,6 +58,15 @@ class ArtistServices:
             raise e
 
     @staticmethod
+    def get_artists_from_country(country: str):
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.get_artists_from_country(country)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def get_artist_with_most_awards():
         try:
             with SessionLocal() as db:

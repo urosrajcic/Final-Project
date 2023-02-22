@@ -64,6 +64,18 @@ class UserRepository:
         except IntegrityError as e:
             raise e
 
+    def create_super_user(self, username: str, email: str, password: str, name: str, surname: str,
+                          date_of_birth: str, country_name: str):
+        try:
+            super_user = User(username=username, email=email, password=password, name=name, surname=surname,
+                              date_of_birth=date_of_birth, country_name=country_name, supper_user=True)
+            self.db.add(super_user)
+            self.db.commit()
+            self.db.refresh(super_user)
+            return super_user
+        except IntegrityError as e:
+            raise e
+
     def get_user_by_username(self, username: str):
         user = self.db.query(User).filter(User.username == username).first()
         if user is None:

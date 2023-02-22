@@ -57,6 +57,10 @@ class ArtistRepository:
         artists = self.db.query(Artist).order_by(desc(Artist.ratings)).all()
         return artists
 
+    def get_artists_from_country(self, country: str):
+        artists = self.db.query(Artist).filter(Artist.country_name == country).order_by(desc(Artist.ratings)).all()
+        return artists
+
     def get_artist_with_most_awards(self):
         artists = self.db.query(Artist).all()
         if len(artists) == 0:

@@ -18,11 +18,11 @@ class AlbumSchema(BaseModel):
     single: Optional[bool]
     mixtape: Optional[bool]
 
-    artists = []
-    songs = []
-    comments = []
-    awards = []
-    genres = []
+    artists: list = []
+    songs: dict = {}
+    comments: list = []
+    awards: list = []
+    genres: list = []
 
     class Config:
         orm_mode = True

@@ -14,6 +14,7 @@ class User(Base):
     date_of_birth = Column(Date)
     critic = Column(Boolean, default=False)
     writer = Column(Boolean, default=False)
+    super_user = Column(Boolean, default=False)
 
     country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
     country = relationship("Country", lazy="subquery")
@@ -26,7 +27,8 @@ class User(Base):
                  date_of_birth: str,
                  country_name: str,
                  critic: bool = False,
-                 writer: bool = False
+                 writer: bool = False,
+                 supper_user: bool = False
                  ):
         self.username = username
         self.email = email
@@ -37,3 +39,4 @@ class User(Base):
         self.country_name = country_name
         self.critic = critic
         self.writer = writer
+        self.super_user = supper_user

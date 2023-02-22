@@ -13,6 +13,7 @@ class UserSchema(BaseModel):
     date_of_birth: date
     critic: bool
     writer: bool
+    super_user: bool
 
     country_name: str
 
@@ -45,6 +46,14 @@ class UserSchemaOut(BaseModel):
     name: str
     surname: str
     country_name: str
+
+    class Config:
+        orm_mode = True
+
+
+class UserSchemaLogin(BaseModel):
+    email: str
+    password: str
 
     class Config:
         orm_mode = True

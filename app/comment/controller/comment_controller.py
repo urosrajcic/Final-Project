@@ -31,6 +31,26 @@ class CommentController:
         return comments
 
     @staticmethod
+    def get_album_reviews(album_id: str):
+        news = CommentServices.get_album_reviews(album_id)
+        return news
+
+    @staticmethod
+    def get_artist_reviews(artist_id: str):
+        news = CommentServices.get_artist_reviews(artist_id)
+        return news
+
+    @staticmethod
+    def get_song_reviews(song_id: str):
+        news = CommentServices.get_song_reviews(song_id)
+        return news
+
+    @staticmethod
+    def get_news():
+        news = CommentServices.get_news()
+        return news
+
+    @staticmethod
     def get_all_comments_from_user(user_username: str):
         try:
             comments = CommentServices.get_all_comments_from_user(user_username)
