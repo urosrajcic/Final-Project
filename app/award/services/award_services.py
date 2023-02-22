@@ -22,11 +22,11 @@ class AwardServices:
             raise e
 
     @staticmethod
-    def get_awards_by_name(name: str):
+    def get_awards_by_characters(characters: str):
         try:
             with SessionLocal() as db:
                 award_repository = AwardRepository(db)
-                return award_repository.get_awards_by_name(name)
+                return award_repository.get_awards_by_characters(characters)
         except Exception as e:
             raise e
 

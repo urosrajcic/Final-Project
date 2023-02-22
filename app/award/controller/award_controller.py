@@ -26,16 +26,9 @@ class AwardController:
             raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
-    def get_award_by_name(name: str):
-        try:
-            award = AwardServices.get_awards_by_name(name)
-            if award:
-                return award
-        except AwardNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Award with provided name: "
-                                                                                f"{name}, does not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+    def get_award_by_characters(characters: str):
+        award = AwardServices.get_awards_by_characters(characters)
+        return award
 
     @staticmethod
     def get_all_awards():

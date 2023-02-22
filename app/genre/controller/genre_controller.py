@@ -16,15 +16,8 @@ class GenreController:
 
     @staticmethod
     def get_genres_by_characters(characters: str):
-        try:
-            genres = GenreServices.get_genre_by_characters(characters)
-            if genres:
-                return genres
-        except GenreNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Genres with provided characters: "
-                                                                                f"{characters}, does not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+        genres = GenreServices.get_genre_by_characters(characters)
+        return genres
 
     @staticmethod
     def get_all_genres():

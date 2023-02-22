@@ -37,16 +37,8 @@ class SongController:
 
     @staticmethod
     def get_songs_by_characters(characters: str):
-        try:
-            songs = SongServices.get_songs_by_characters(characters)
-            if songs:
-                return songs
-        except SongNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Songs with provided "
-                                                                                f"characters: {characters},"
-                                                                                f" do not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+        songs = SongServices.get_songs_by_characters(characters)
+        return songs
 
     @staticmethod
     def get_all_songs():
@@ -57,6 +49,37 @@ class SongController:
     def get_songs_by_rating():
         songs = SongServices.get_songs_by_rating()
         return songs
+
+    @staticmethod
+    def get_best_songs_from_year(year: str):
+        songs = SongServices.get_best_songs_from_year(year)
+        return songs
+
+    @staticmethod
+    def get_song_with_most_awards():
+        try:
+            song = SongServices.get_song_with_most_awards()
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="There is no song in database.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def get_songs_by_genre(genre: str):
+        songs = SongServices.get_songs_by_genre(genre)
+        return songs
+
+    @staticmethod
+    def get_all_comments_about_song(id: str):
+        try:
+            comments = SongServices.get_all_comments_about_song(id)
+            if comments:
+                return comments
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
 
     @staticmethod
     def delete_song_by_id(id: str):

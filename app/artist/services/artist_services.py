@@ -31,11 +31,11 @@ class ArtistServices:
             raise e
 
     @staticmethod
-    def get_artist_by_name(name: str):
+    def get_artist_by_characters(characters: str):
         try:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
-                return artist_repository.get_artists_by_name(name)
+                return artist_repository.get_artists_by_characters(characters)
         except Exception as e:
             raise e
 
@@ -54,6 +54,33 @@ class ArtistServices:
             with SessionLocal() as db:
                 artist_repository = ArtistRepository(db)
                 return artist_repository.get_artists_by_rating()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_artist_with_most_awards():
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.get_artist_with_most_awards()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_artists_by_genre(genre: str):
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.get_artists_by_genre(genre)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def get_all_comments_about_artist(id: str):
+        try:
+            with SessionLocal() as db:
+                artist_repository = ArtistRepository(db)
+                return artist_repository.get_all_comments_about_artist(id)
         except Exception as e:
             raise e
 

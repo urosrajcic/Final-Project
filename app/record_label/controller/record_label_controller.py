@@ -27,16 +27,8 @@ class RecordLabelController:
 
     @staticmethod
     def get_record_labels_by_characters(characters: str):
-        try:
-            record_labels = RecordLabelServices.get_record_labels_by_characters(characters)
-            if record_labels:
-                return record_labels
-        except RecordLabelNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Record labels with provided "
-                                                                                f"characters: {characters},"
-                                                                                f" do not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+        record_labels = RecordLabelServices.get_record_labels_by_characters(characters)
+        return record_labels
 
     @staticmethod
     def get_all_record_labels():

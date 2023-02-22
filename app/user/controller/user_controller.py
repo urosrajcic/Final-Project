@@ -80,16 +80,8 @@ class UserController:
 
     @staticmethod
     def get_users_by_characters(characters: str):
-        try:
-            users = UserServices.get_users_by_characters(characters)
-            if users:
-                return users
-        except UserNotFoundException as _e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Users with provided "
-                                                                                f"characters: {characters},"
-                                                                                f" do not exist.")
-        except Exception as _e:
-            raise HTTPException(status_code=500, detail=str(_e))
+        users = UserServices.get_users_by_characters(characters)
+        return users
 
     @staticmethod
     def get_all_users():

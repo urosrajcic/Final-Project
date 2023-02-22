@@ -1,4 +1,4 @@
-from sqlalchemy import desc
+from sqlalchemy import desc, text, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -47,8 +47,6 @@ class SongRepository:
 
     def get_songs_by_characters(self, characters: str):
         songs = self.db.query(Song).filter(Song.name.like(characters + "%")).all()
-        if songs is None:
-            raise SongNotFoundException(f"Song with provided characters: {characters} not found.", 400)
         return songs
 
     def get_all_songs(self):
@@ -57,9 +55,35 @@ class SongRepository:
 
     def get_songs_by_rating(self):
         songs = self.db.query(Song).order_by(desc(Song.ratings)).all()
-        if songs is None:
-            raise SongNotFoundException("Songs not found.", 400)
         return songs
+
+    def get_best_songs_from_year(self, year: str):
+        songs = self.db.query(Song).filter(and_(Song.date_of_release.like(f"{year}%"))).\
+            order_by(desc(Song.ratings)).all()
+        return songs
+
+    def get_song_with_most_awards(self):
+        songs = self.db.query(Song).all()
+        if len(songs) == 0:
+            raise SongNotFoundException("There is no song in database.", 500)
+        song_max_awards = songs[0]
+        for song in songs:
+            if len(song.awards) > len(song_max_awards.awards) > 0 or len(song.awards) > 0:
+                song_max_awards = song
+            else:
+                raise AlbumNotFoundException(f"There is no song with awards.", 500)
+        return song_max_awards
+
+    def get_songs_by_genre(self, genre: str):
+        filter_expression = text(f"genre.name = '{genre}'")
+        songs = self.db.query(Song).filter(Song.genres.any(filter_expression)).all()
+        return songs
+
+    def get_all_comments_about_song(self, id: str):
+        song = self.db.query(Song).filter(Song.id == id).first()
+        if song is None:
+            raise SongNotFoundException(f"Song with provided id: {id} not found.", 400)
+        return song.comments
 
     def delete_song_by_id(self, id: str):
         try:

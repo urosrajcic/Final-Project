@@ -20,8 +20,6 @@ class GenreRepository:
 
     def get_genre_by_characters(self, characters: str):
         genre = self.db.query(Genre).filter(Genre.name.like(characters + "%")).all()
-        if genre is None:
-            raise GenreNotFoundException(f"Genre with provided characters: {characters} not found.", 400)
         return genre
 
     def get_all_genres(self):

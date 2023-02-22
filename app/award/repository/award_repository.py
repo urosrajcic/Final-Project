@@ -25,10 +25,8 @@ class AwardRepository:
             raise AwardNotFoundException(f"Award with provided id: {id} not found.", 400)
         return award
 
-    def get_awards_by_name(self, name: str):
-        awards = self.db.query(Award).filter(Award.name.like(name + "%")).all()
-        if awards is None:
-            raise AwardNotFoundException(f"Awards with provided name: {name} not found.", 400)
+    def get_awards_by_characters(self, characters: str):
+        awards = self.db.query(Award).filter(Award.name.like(characters + "%")).all()
         return awards
 
     def get_all_awards(self):

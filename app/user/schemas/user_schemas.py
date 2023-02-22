@@ -38,3 +38,13 @@ class UserSchemaIn(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserSchemaOut(BaseModel):
+    username: str
+    name: str
+    surname: str
+    country_name: str
+
+    class Config:
+        orm_mode = True
