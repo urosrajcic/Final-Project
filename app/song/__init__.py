@@ -1,1 +1,1 @@
-from .model import Song
+from .model import *

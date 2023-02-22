@@ -1,25 +1,34 @@
+from typing import Optional
 from uuid import uuid4
+from sqlalchemy.orm import relationship
 from app.db.database import Base
-from sqlalchemy import Column, String, ForeignKey, Date, Integer
+from sqlalchemy import Column, String, ForeignKey, Date, Float, Text
 
 
 class RecordLabel(Base):
-    __table_name__ = "record_label"
+    __tablename__ = "record_label"
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     name = Column(String(50))
     address = Column(String(50))
     date_founded = Column(Date)
-    ratings = Column(Integer)
-    biography = Column(String(500))
+    ceo = Column(String(50))
+    ratings = Column(Float, nullable=True)
+    biography = Column(Text, nullable=True)
 
-    country_name = Column(String(25), ForeignKey("country.name"), nullable=False)
-    ceo_id = Column(String(50), ForeignKey("ceo.id"), nullable=False)
+    country_name = Column(String(25), ForeignKey("country.name"), nullable=False, index=True)
+    country = relationship("Country", lazy="subquery")
 
-    def __init__(self, name, address, date_founded, ratings, biography, country_name, ceo_id):
+    def __init__(self, name: str,
+                 address: str,
+                 date_founded: str,
+                 ceo: str = ceo,
+                 country_name: str = country_name,
+                 ratings: Optional[float] = 0,
+                 biography: Optional[str] = ""):
         self.name = name
         self.address = address
-        self.date_founded = date_founded
+        self.date_founded = date_founded.strftime("%Y-%m-%d")
+        self.ceo = ceo
+        self.country_name = country_name
         self.ratings = ratings
         self.biography = biography
-        self.country_name = country_name
-        self.ceo_id = ceo_id

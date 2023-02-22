@@ -1,30 +1,29 @@
+from datetime import datetime
 from uuid import uuid4
+from sqlalchemy.orm import relationship
 from app.db.database import Base
-from sqlalchemy import Column, String, ForeignKey, DateTime, Integer
+from sqlalchemy import Column, String, ForeignKey, DateTime, Float
 
 
 class Comment(Base):
-    __table_name__ = "comment"
+    __tablename__ = "comment"
     id = Column(String(50), primary_key=True, default=uuid4, autoincrement=False)
     header = Column(String(25))
     text = Column(String(1000))
-    datetime = Column(DateTime)
-    ratings = Column(Integer)
+    date_time = Column(DateTime)
+    ratings = Column(Float, nullable=True)
 
     user_username = Column(String(50), ForeignKey("user.username"), nullable=False)
-    song_id = Column(String(50), ForeignKey("song.id"), nullable=True)
-    artist_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
-    album_id = Column(String(50), ForeignKey("artist.id"), nullable=True)
-    record_label_id = Column(String(50), ForeignKey("record_label.id"), nullable=True)
+    user = relationship("User", lazy="subquery")
 
-    def __init__(self, header, text, datetime, ratings, user_username, song_id,
-                 artist_id, album_id, record_label_id):
+    artist = relationship("Artist", secondary="artist_comments", lazy="subquery")
+    album = relationship("Album", secondary="album_comments", lazy="subquery")
+    song = relationship("Song", secondary="song_comments", lazy="subquery")
+
+    def __init__(self, header: str,
+                 text: str,
+                 user_username: str):
         self.header = header
         self.text = text
-        self.datetime = datetime
-        self.ratings = ratings
+        self.date_time = datetime.now()
         self.user_username = user_username
-        self.song_id = song_id
-        self.artist_id = artist_id
-        self.album_id = album_id
-        self.record_label_id = record_label_id

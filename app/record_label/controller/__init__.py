@@ -1,0 +1,1 @@
+from .record_label_controller import RecordLabelController

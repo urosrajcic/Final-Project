@@ -3,8 +3,8 @@ from sqlalchemy import Column, String
 
 
 class Country(Base):
-    __table_name__ = "country"
-    name = Column(String(50), primary_key=True, autoincrement=False)
+    __tablename__ = "country"
+    name = Column(String(50), primary_key=True, autoincrement=False, index=True)
 
-    def __init__(self):
-        pass
+    def __init__(self, name: str):
+        self.name = name
