@@ -16,6 +16,7 @@ class SongSchema(BaseModel):
     explicit: Optional[bool]
 
     artists = []
+    groups = []
     albums = []
     comments = []
     awards = []
@@ -37,6 +38,24 @@ class SongSchemaIn(BaseModel):
             return datetime.strptime(v, "%Y-%m-%d").date()
         except ValueError:
             raise ValueError("Incorrect date format, should be YYYY-MM-DD")
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True
+
+
+class SongSchemaOut(BaseModel):
+    id: UUID4
+    name: str
+    length: int
+    date_of_release: date
+    items_sold: Optional[int]
+    lyrics: Optional[str]
+    ratings: Optional[float]
+    explicit: Optional[bool]
+    genres: Optional[list]
+    artists: Optional[list]
+    groups: Optional[list]
 
     class Config:
         orm_mode = True

@@ -1,1 +1,1 @@
-from .album_exceptions import AlbumNotFoundException
+from .album_exceptions import *

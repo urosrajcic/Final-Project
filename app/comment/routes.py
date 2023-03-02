@@ -4,7 +4,7 @@ from app.comment.controller import CommentController
 from app.comment.schemas import *
 from app.user.controller import JWTBearer
 
-comment_router = APIRouter(tags=["Comments"], prefix="/mdb/comments")
+comment_router = APIRouter(tags=["Comments"], prefix="/api/comments")
 
 
 @comment_router.post("/create-comment", response_model=CommentSchema)

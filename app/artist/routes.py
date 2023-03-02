@@ -1,15 +1,13 @@
 from fastapi import APIRouter, Depends
 
-from app.album.schemas import AlbumSchema
+from app.album.schemas import *
 from app.artist.controller import ArtistController
-from app.artist.schemas import ArtistSchema, ArtistSchemaIn
-from app.award.schemas import AwardSchema
-from app.comment.schemas import CommentSchema
-from app.genre.schemas import GenreSchema
-from app.song.schemas import SongSchema
+from app.artist.schemas import *
+from app.group.schemas import GroupSchemaOut
+from app.song.schemas import *
 from app.user.controller import JWTBearer
 
-artist_router = APIRouter(tags=["Artists"], prefix="/mdb/artists")
+artist_router = APIRouter(tags=["Artists"], prefix="/api/artists")
 
 
 @artist_router.post("/add-new-artist", response_model=ArtistSchema, dependencies=[Depends(JWTBearer("super_user"))])
@@ -23,22 +21,22 @@ def get_artist_by_id(id: str):
     return ArtistController.get_artist_by_id(id=id)
 
 
-@artist_router.get("/get-artists-by-characters", response_model=list[ArtistSchema])
+@artist_router.get("/get-artists-by-characters", response_model=list[ArtistSchemaOut])
 def get_artists_by_characters(characters: str):
     return ArtistController.get_artist_by_characters(characters=characters)
 
 
-@artist_router.get("/get-all-artists", response_model=list[ArtistSchema])
+@artist_router.get("/get-all-artists", response_model=list[ArtistSchemaOut])
 def get_all_artists():
     return ArtistController.get_all_artists()
 
 
-@artist_router.get("/get-artists-by-rating", response_model=list[ArtistSchema])
+@artist_router.get("/get-artists-by-rating", response_model=list[ArtistSchemaOut])
 def get_artists_by_rating():
     return ArtistController.get_artists_by_rating()
 
 
-@artist_router.get("/get-artists-from-country", response_model=list[ArtistSchema])
+@artist_router.get("/get-artists-from-country", response_model=list[ArtistSchemaOut])
 def get_artists_from_country(country: str):
     return ArtistController.get_artists_from_country(country=country)
 
@@ -48,7 +46,7 @@ def get_artist_with_most_awards():
     return ArtistController.get_artist_with_most_awards()
 
 
-@artist_router.get("/get-artists-by-genre", response_model=list[ArtistSchema])
+@artist_router.get("/get-artists-by-genre", response_model=list[ArtistSchemaOut])
 def get_artists_by_genre(genre: str):
     return ArtistController.get_artist_by_genre(genre=genre)
 
@@ -73,12 +71,17 @@ def update_artist(artist: ArtistSchema):
 
 
 @artist_router.put("/add-song-to-artist", response_model=ArtistSchema, dependencies=[Depends(JWTBearer("super_user"))])
-def add_song_to_artist(artist: ArtistSchema, song: SongSchema):
-    return ArtistController.add_song_to_artist(artist_id=artist.id.__str__(), song_id=song.id.__str__())
+def add_song_to_artist(artist: ArtistSchema, song: SongSchemaOut):
+    return ArtistController.add_group_to_artist(artist_id=artist.id.__str__(), group_id=song.id.__str__())
+
+
+@artist_router.put("/add-group-to-artist", response_model=ArtistSchema, dependencies=[Depends(JWTBearer("super_user"))])
+def add_group_to_artist(artist: ArtistSchema, group: GroupSchemaOut):
+    return ArtistController.add_group_to_artist(artist_id=artist.id.__str__(), group_id=group.id.__str__())
 
 
 @artist_router.put("/add-album-to-artist", response_model=ArtistSchema, dependencies=[Depends(JWTBearer("super_user"))])
-def add_album_to_artist(artist: ArtistSchema, album: AlbumSchema):
+def add_album_to_artist(artist: ArtistSchema, album: AlbumSchemaOut):
     return ArtistController.add_album_to_artist(artist_id=artist.id.__str__(), album_id=album.id.__str__())
 
 
@@ -93,21 +96,26 @@ def add_genre_to_artist(artist: ArtistSchema, genre: GenreSchema):
 
 
 @artist_router.put("/add-comment-to-artist", response_model=ArtistSchema,
-                   dependencies=[Depends(JWTBearer("super_user")), Depends(JWTBearer("classic_user")),
-                                 Depends(JWTBearer("critic")), Depends(JWTBearer("writer"))])
+                   dependencies=[Depends(JWTBearer("classic_user"))])
 def add_comment_to_artist(artist: ArtistSchema, comment: CommentSchema):
     return ArtistController.add_comment_to_artist(artist_id=artist.id.__str__(), comment_id=comment.id.__str__())
 
 
 @artist_router.put("/remove-song-from-artist", response_model=ArtistSchema,
                    dependencies=[Depends(JWTBearer("super_user"))])
-def remove_song_from_artist(artist: ArtistSchema, song: SongSchema):
-    return ArtistController.remove_song_from_artist(artist_id=artist.id.__str__(), song_id=song.id.__str__())
+def remove_song_from_artist(artist: ArtistSchema, song: SongSchemaOut):
+    return ArtistController.remove_group_from_artist(artist_id=artist.id.__str__(), group_id=song.id.__str__())
+
+
+@artist_router.put("/remove-group-from-artist", response_model=ArtistSchema,
+                   dependencies=[Depends(JWTBearer("super_user"))])
+def remove_group_from_artist(artist: ArtistSchema, group: GroupSchemaOut):
+    return ArtistController.remove_group_from_artist(artist_id=artist.id.__str__(), group_id=group.id.__str__())
 
 
 @artist_router.put("/remove-album-from-artist", response_model=ArtistSchema,
                    dependencies=[Depends(JWTBearer("super_user"))])
-def remove_album_from_artist(artist: ArtistSchema, album: AlbumSchema):
+def remove_album_from_artist(artist: ArtistSchema, album: AlbumSchemaOut):
     return ArtistController.remove_album_from_artist(artist_id=artist.id.__str__(), album_id=album.id.__str__())
 
 

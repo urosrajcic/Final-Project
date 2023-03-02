@@ -12,6 +12,8 @@ from app.comment import Comment
 from app.comment.exceptions import CommentNotFoundException
 from app.genre.exceptions import GenreNotFoundException
 from app.genre.model import Genre
+from app.group import Group
+from app.group.exceptions import GroupNotFoundException
 from app.song import Song
 from app.song.exceptions import SongNotFoundException
 from app.user.model.user_ratings import UserRating
@@ -37,7 +39,7 @@ class AlbumRepository:
             return 0.0
         total_rating = sum(rating.rating for rating in ratings)
         total_num_ratings = len(ratings)
-        return total_rating / total_num_ratings
+        return round(total_rating / total_num_ratings, 2)
 
     def get_album_by_id(self, id: str):
         album = self.db.query(Album).filter(Album.id == id).first()
@@ -155,6 +157,22 @@ class AlbumRepository:
         except IntegrityError as e:
             raise e
 
+    def add_group_to_album(self, album_id: str, group_id: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            group = self.db.query(Group).filter(Group.id == group_id).first()
+            if not group:
+                raise GroupNotFoundException(f"Group with provided id: {group_id} not found.", 400)
+            album.groups.append(group)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
+            raise e
+
     def add_song_to_album(self, album_id: str, song_id: str):
         try:
             album = self.db.query(Album).filter(Album.id == album_id).first()
@@ -229,6 +247,22 @@ class AlbumRepository:
             if not artist:
                 raise ArtistNotFoundException(f"Artist with provided id: {artist_id} not found.", 400)
             album.artists.remove(artist)
+            self.db.add(album)
+            self.db.commit()
+            self.db.refresh(album)
+            return album
+        except IntegrityError as e:
+            raise e
+
+    def remove_group_from_album(self, album_id: str, group_id: str):
+        try:
+            album = self.db.query(Album).filter(Album.id == album_id).first()
+            if not album:
+                raise AlbumNotFoundException(f"Album with provided id: {album_id} not found.", 400)
+            group = self.db.query(Group).filter(Group.id == group_id).first()
+            if not group:
+                raise GroupNotFoundException(f"Group with provided id: {group_id} not found.", 400)
+            album.groups.remove(group)
             self.db.add(album)
             self.db.commit()
             self.db.refresh(album)

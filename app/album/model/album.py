@@ -22,6 +22,7 @@ class Album(Base):
     mixtape = Column(Boolean, default=False)
 
     artists = relationship("Artist", secondary="artist_album_association", lazy="subquery")
+    groups = relationship("Group", secondary="group_album_association", lazy="subquery")
     songs = relationship("Song", secondary="album_song_association", lazy="subquery")
     comments = relationship("Comment", secondary="album_comments", lazy="subquery")
     awards = relationship("Award", secondary="album_awards", lazy="subquery")

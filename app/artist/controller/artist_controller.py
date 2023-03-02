@@ -31,8 +31,8 @@ class ArtistController:
             artist = ArtistServices.get_artist_by_id(id)
             if artist:
                 return artist
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
-                                                                                f"{id}, does not exist.")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Artist with provided id: "
+                                                                              f"{id}, does not exist.")
         except Exception as _e:
             raise HTTPException(status_code=500, detail=str(_e))
 
@@ -109,7 +109,18 @@ class ArtistController:
     @staticmethod
     def add_song_to_artist(artist_id: str, song_id: str):
         try:
-            artist = ArtistServices.add_song_to_artist(artist_id, song_id)
+            artist = ArtistServices.add_group_to_artist(artist_id, song_id)
+            if artist:
+                return artist
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
+                                                                                f"{artist_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_group_to_artist(artist_id: str, group_id: str):
+        try:
+            artist = ArtistServices.add_group_to_artist(artist_id, group_id)
             if artist:
                 return artist
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
@@ -164,7 +175,18 @@ class ArtistController:
     @staticmethod
     def remove_song_from_artist(artist_id: str, song_id: str):
         try:
-            artist = ArtistServices.remove_song_from_artist(artist_id, song_id)
+            artist = ArtistServices.remove_group_from_artist(artist_id, song_id)
+            if artist:
+                return artist
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "
+                                                                                f"{artist_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_group_from_artist(artist_id: str, group_id: str):
+        try:
+            artist = ArtistServices.remove_group_from_artist(artist_id, group_id)
             if artist:
                 return artist
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Artist with provided id: "

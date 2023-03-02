@@ -1,4 +1,4 @@
-from sqlalchemy import desc, text, and_
+from sqlalchemy import desc, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -12,6 +12,8 @@ from app.comment import Comment
 from app.comment.exceptions import CommentNotFoundException
 from app.genre.exceptions import GenreNotFoundException
 from app.genre.model import Genre
+from app.group import Group
+from app.group.exceptions import GroupNotFoundException
 from app.song import Song
 from app.song.exceptions import SongNotFoundException
 from app.user.model.user_ratings import UserRating
@@ -70,7 +72,7 @@ class ArtistRepository:
             if len(artist.awards) > len(artist_max_awards.awards) > 0 or len(artist.awards) > 0:
                 artist_max_awards = artist
             else:
-                raise AlbumNotFoundException(f"There is no artist with awards.", 500)
+                raise ArtistNotFoundException(f"There is no artist with awards.", 500)
         return artist_max_awards
 
     def get_artists_by_genre(self, genre: str):
@@ -159,6 +161,22 @@ class ArtistRepository:
         except IntegrityError as e:
             raise e
 
+    def add_group_to_artist(self, artist_id: str, group_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            group = self.db.query(Group).filter(Group.id == group_id).first()
+            if not group:
+                raise GroupNotFoundException(f"Group with provided id: {group_id} not found.", 400)
+            artist.groups.append(group)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
     def add_album_to_artist(self, artist_id: str, album_id: str):
         try:
             artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
@@ -232,6 +250,22 @@ class ArtistRepository:
             if not song:
                 raise SongNotFoundException(f"Song with provided id: {song_id} not found.", 400)
             artist.songs.remove(song)
+            self.db.add(artist)
+            self.db.commit()
+            self.db.refresh(artist)
+            return artist
+        except IntegrityError as e:
+            raise e
+
+    def remove_group_from_artist(self, artist_id: str, group_id: str):
+        try:
+            artist = self.db.query(Artist).filter(Artist.id == artist_id).first()
+            if not artist:
+                raise ArtistNotFoundException(f"Artists with provided id: {artist_id} not found.", 400)
+            group = self.db.query(Group).filter(Group.id == group_id).first()
+            if not group:
+                raise GroupNotFoundException(f"Group with provided id: {group_id} not found.", 400)
+            artist.groups.remove(group)
             self.db.add(artist)
             self.db.commit()
             self.db.refresh(artist)

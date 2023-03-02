@@ -19,6 +19,7 @@ class AlbumSchema(BaseModel):
     mixtape: Optional[bool]
 
     artists: list = []
+    groups: list = []
     songs: dict = {}
     comments: list = []
     awards: list = []
@@ -40,6 +41,20 @@ class AlbumSchemaIn(BaseModel):
             return datetime.strptime(v, "%Y-%m-%d").date()
         except ValueError:
             raise ValueError("Incorrect date format, should be YYYY-MM-DD")
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True
+
+
+class AlbumSchemaOut(BaseModel):
+    id: UUID4
+    name: str
+    length: int
+    date_of_release: date
+    items_sold: Optional[int]
+    ratings: Optional[float]
+    genres: list = []
 
     class Config:
         orm_mode = True

@@ -118,7 +118,16 @@ class SongServices:
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.add_artist_to_song(song_id, artist_id)
+                return song_repository.add_group_to_song(song_id, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def add_group_to_song(song_id: str, group_id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.add_group_to_song(song_id, group_id)
         except Exception as e:
             raise e
 
@@ -163,7 +172,16 @@ class SongServices:
         try:
             with SessionLocal() as db:
                 song_repository = SongRepository(db)
-                return song_repository.remove_artist_from_song(song_id, artist_id)
+                return song_repository.remove_group_from_song(song_id, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def remove_group_from_song(song_id: str, group_id: str):
+        try:
+            with SessionLocal() as db:
+                song_repository = SongRepository(db)
+                return song_repository.remove_group_from_song(song_id, group_id)
         except Exception as e:
             raise e
 
