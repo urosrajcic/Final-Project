@@ -5,7 +5,7 @@ from app.user.schemas import *
 from app.user.schemas.user_ratings_schemas import *
 from app.user.controller.user_auth_controller import JWTBearer
 
-user_router = APIRouter(tags=["Users"], prefix="/mdb/users")
+user_router = APIRouter(tags=["Users"], prefix="/api/users")
 
 
 @user_router.post("/login")

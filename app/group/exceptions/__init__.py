@@ -1,1 +1,1 @@
-from .artist_exceptions import ArtistNotFoundException
+from .group_exceptions import GroupNotFoundException

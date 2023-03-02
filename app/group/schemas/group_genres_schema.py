@@ -2,16 +2,16 @@ from typing import Optional, List
 
 from pydantic import BaseModel, UUID4
 
-from app.artist.schemas import ArtistSchema
+from app.group.schemas import GroupSchema
 from app.genre.schemas import GenreSchema
 
 
-class ArtistGenresSchema(BaseModel):
-    artist_id = UUID4
+class GroupGenresSchema(BaseModel):
+    group_id = UUID4
     genre_name = str
 
-    artist = ArtistSchema
+    group = GroupSchema
     genre = GenreSchema
 
 
-artist_genres: Optional[List[ArtistGenresSchema]] = []
+group_genres: Optional[List[GroupGenresSchema]] = []

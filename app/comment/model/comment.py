@@ -17,6 +17,7 @@ class Comment(Base):
     user = relationship("User", lazy="subquery")
 
     artist = relationship("Artist", secondary="artist_comments", lazy="subquery")
+    group = relationship("Group", secondary="group_comments", lazy="subquery")
     album = relationship("Album", secondary="album_comments", lazy="subquery")
     song = relationship("Song", secondary="song_comments", lazy="subquery")
 

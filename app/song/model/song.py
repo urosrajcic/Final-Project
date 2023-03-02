@@ -18,6 +18,7 @@ class Song(Base):
     explicit = Column(Boolean, default=False)
 
     artists = relationship("Artist", secondary="artist_song_association", lazy="subquery")
+    groups = relationship("Group", secondary="group_song_association", lazy="subquery")
     albums = relationship("Album", secondary="album_song_association", lazy="subquery")
     comments = relationship("Comment", secondary="song_comments", lazy="subquery")
     awards = relationship("Award", secondary="song_awards", lazy="subquery")

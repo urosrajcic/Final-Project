@@ -1,1 +1,1 @@
-from .artist_controller import ArtistController
+from .group_controller import GroupController

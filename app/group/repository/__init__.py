@@ -1,1 +1,1 @@
-from .artist_repository import ArtistRepository
+from .group_repository import GroupRepository

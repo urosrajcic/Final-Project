@@ -4,11 +4,11 @@ from typing import Optional
 from pydantic import BaseModel, UUID4, validator
 
 
-class ArtistSchema(BaseModel):
+class GroupSchema(BaseModel):
     id: UUID4
     name: str
-    date_of_birth: Optional[date]
-    date_of_death: Optional[date]
+    date_of_forming: Optional[date]
+    date_of_disband: Optional[date]
     ratings: Optional[float]
     vocalist: Optional[bool]
     musician: Optional[bool]
@@ -19,6 +19,7 @@ class ArtistSchema(BaseModel):
     country_name: str
     record_label_id: Optional[UUID4]
 
+    artists = []
     songs = []
     albums = []
     comments = []
@@ -30,20 +31,15 @@ class ArtistSchema(BaseModel):
         arbitrary_types_allowed = True
 
 
-class ArtistSchemaIn(BaseModel):
+class GroupSchemaIn(BaseModel):
     name: str
     country_name: str
-    date_of_birth: Optional[str]
-    date_of_death: Optional[str]
-    vocalist: Optional[bool]
-    musician: Optional[bool]
-    producer: Optional[bool]
-    writer: Optional[bool]
-    engineer: Optional[bool]
+    date_of_forming: Optional[str]
+    date_of_disband: Optional[str]
     biography: Optional[str]
     record_label_id: Optional[UUID4]
 
-    @validator('date_of_birth')
+    @validator('date_of_forming')
     def parse_date(cls, v):
         try:
             return datetime.strptime(v, "%Y-%m-%d").date()
@@ -55,21 +51,18 @@ class ArtistSchemaIn(BaseModel):
         arbitrary_types_allowed = True
 
 
-class ArtistSchemaOut(BaseModel):
+class GroupSchemaOut(BaseModel):
     id: UUID4
     name: str
-    date_of_birth: Optional[date]
-    date_of_death: Optional[date]
+    date_of_forming: Optional[date]
+    date_of_disband: Optional[date]
     ratings: Optional[float]
-    vocalist: Optional[bool]
-    musician: Optional[bool]
-    producer: Optional[bool]
-    writer: Optional[bool]
-    engineer: Optional[bool]
     biography: Optional[str]
     country_name: str
     record_label_id: Optional[UUID4]
-    genres: list = []
+
+    genres: list
+    artists: list
 
     class Config:
         orm_mode = True

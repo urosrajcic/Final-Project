@@ -2,16 +2,16 @@ from typing import Optional, List
 
 from pydantic import BaseModel, UUID4
 
-from app.artist.schemas import ArtistSchema
+from app.group.schemas import GroupSchema
 from app.song.schemas import SongSchema
 
 
-class ArtistSongAssociationSchema(BaseModel):
-    artist_id = UUID4
+class GroupSongAssociationSchema(BaseModel):
+    group_id = UUID4
     song_id = UUID4
 
-    artist = ArtistSchema
+    group = GroupSchema
     song = SongSchema
 
 
-artist_song_association: Optional[List[ArtistSongAssociationSchema]] = []
+group_song_association: Optional[List[GroupSongAssociationSchema]] = []

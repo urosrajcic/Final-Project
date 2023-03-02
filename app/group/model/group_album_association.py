@@ -4,11 +4,11 @@ from sqlalchemy.orm import relationship
 from app.db import Base
 
 
-class ArtistAlbumAssociation(Base):
-    __tablename__ = "artist_album_association"
+class GroupAlbumAssociation(Base):
+    __tablename__ = "group_album_association"
 
-    artist_id = Column(String(50), ForeignKey("artist.id"), primary_key=True)
+    group_id = Column(String(50), ForeignKey("group.id"), primary_key=True)
     album_id = Column(String(50), ForeignKey("album.id"), primary_key=True)
 
-    artist = relationship("Artist", backref="artist_album_association")
-    album = relationship("Album", backref="artist_album_association")
+    group = relationship("Group", backref="group_album_association")
+    album = relationship("Album", backref="group_album_association")

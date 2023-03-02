@@ -14,6 +14,7 @@ class Award(Base):
     award_date = Column(Date, nullable=True)
 
     artist = relationship("Artist", secondary="artist_awards", lazy="subquery")
+    group = relationship("Group", secondary="group_awards", lazy="subquery")
     album = relationship("Album", secondary="album_awards", lazy="subquery")
     song = relationship("Song", secondary="song_awards", lazy="subquery")
     __table_args__ = (UniqueConstraint("name", "category", "award_date", name="award_uc"),)

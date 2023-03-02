@@ -21,6 +21,7 @@ class ArtistSchema(BaseModel):
 
     songs = []
     albums = []
+    groups = []
     comments = []
     awards = []
     genres = []
@@ -53,3 +54,24 @@ class ArtistSchemaIn(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
+
+class ArtistSchemaOut(BaseModel):
+    id: UUID4
+    name: str
+    date_of_birth: Optional[date]
+    date_of_death: Optional[date]
+    ratings: Optional[float]
+    vocalist: Optional[bool]
+    musician: Optional[bool]
+    producer: Optional[bool]
+    writer: Optional[bool]
+    engineer: Optional[bool]
+    biography: Optional[str]
+    country_name: str
+    record_label_id: Optional[UUID4]
+    genres: list
+    groups: list
+
+    class Config:
+        orm_mode = True

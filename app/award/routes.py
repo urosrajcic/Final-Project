@@ -4,7 +4,7 @@ from app.award.controller import AwardController
 from app.award.schemas import *
 from app.user.controller import JWTBearer
 
-award_router = APIRouter(tags=["Awards"], prefix="/mdb/awards")
+award_router = APIRouter(tags=["Awards"], prefix="/api/awards")
 
 
 @award_router.post("/add-new-award", response_model=AwardSchema, dependencies=[Depends(JWTBearer("super_user"))])

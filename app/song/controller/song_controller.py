@@ -106,7 +106,18 @@ class SongController:
     @staticmethod
     def add_artist_to_song(song_id: str, artist_id: str):
         try:
-            song = SongServices.add_artist_to_song(song_id, artist_id)
+            song = SongServices.add_group_to_song(song_id, artist_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def add_group_to_song(song_id: str, group_id: str):
+        try:
+            song = SongServices.add_group_to_song(song_id, group_id)
             if song:
                 return song
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
@@ -161,7 +172,18 @@ class SongController:
     @staticmethod
     def remove_artist_from_song(song_id: str, artist_id: str):
         try:
-            song = SongServices.remove_artist_from_song(song_id, artist_id)
+            song = SongServices.remove_group_from_song(song_id, artist_id)
+            if song:
+                return song
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "
+                                                                                f"{song_id}, does not exist.")
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=str(_e))
+
+    @staticmethod
+    def remove_group_from_song(song_id: str, group_id: str):
+        try:
+            song = SongServices.remove_group_from_song(song_id, group_id)
             if song:
                 return song
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Song with provided id: "

@@ -3,7 +3,7 @@ from app.genre.controller import GenreController
 from app.genre.schemas import *
 from app.user.controller import JWTBearer
 
-genre_router = APIRouter(tags=["Genres"], prefix="/mdb/genres")
+genre_router = APIRouter(tags=["Genres"], prefix="/api/genres")
 
 
 @genre_router.post("/add-new-genre", response_model=GenreSchema, dependencies=[Depends(JWTBearer("super_user"))])

@@ -3,7 +3,7 @@ from app.record_label.controller import RecordLabelController
 from app.record_label.schemas import *
 from app.user.controller import JWTBearer
 
-record_label_router = APIRouter(tags=["Record Labels"], prefix="/mdb/record labels")
+record_label_router = APIRouter(tags=["Record Labels"], prefix="/api/record labels")
 
 
 @record_label_router.post("/add-new-record-label", response_model=RecordLabelSchema,

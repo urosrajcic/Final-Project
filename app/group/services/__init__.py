@@ -1,1 +1,1 @@
-from .artist_services import ArtistServices
+from .group_services import GroupServices

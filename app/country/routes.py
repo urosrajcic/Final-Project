@@ -3,7 +3,7 @@ from app.country.controller import CountryController
 from app.country.schemas import CountrySchema
 from app.user.controller import JWTBearer
 
-country_router = APIRouter(tags=["Countries"], prefix="/mdb/countries")
+country_router = APIRouter(tags=["Countries"], prefix="/api/countries")
 
 
 @country_router.post("/add-new-country", response_model=CountrySchema)

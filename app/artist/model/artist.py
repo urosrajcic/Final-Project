@@ -28,6 +28,7 @@ class Artist(Base):
 
     songs = relationship("Song", secondary="artist_song_association", lazy="subquery")
     albums = relationship("Album", secondary="artist_album_association", lazy="subquery")
+    groups = relationship("Group", secondary="group_artists", lazy="subquery")
     comments = relationship("Comment", secondary="artist_comments", lazy="subquery")
     awards = relationship("Award", secondary="artist_awards", lazy="subquery")
     genres = relationship("Genre", secondary="artist_genres", lazy="subquery")

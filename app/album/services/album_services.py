@@ -123,6 +123,15 @@ class AlbumServices:
             raise e
 
     @staticmethod
+    def add_group_to_album(album_id: str, group_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.add_group_to_album(album_id, group_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def add_song_to_album(album_id: str, song_id: str):
         try:
             with SessionLocal() as db:
@@ -163,7 +172,16 @@ class AlbumServices:
         try:
             with SessionLocal() as db:
                 album_repository = AlbumRepository(db)
-                return album_repository.remove_artist_from_album(album_id, artist_id)
+                return album_repository.remove_group_from_album(album_id, artist_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def remove_group_from_album(album_id: str, group_id: str):
+        try:
+            with SessionLocal() as db:
+                album_repository = AlbumRepository(db)
+                return album_repository.remove_group_from_album(album_id, group_id)
         except Exception as e:
             raise e
 
